@@ -1,0 +1,31 @@
+@charset "utf-8";
+/* CSS Document */
+section{
+	width:80%;
+	margin:auto;
+	height:auto;
+	margin-bottom:2%;
+	text-align:center;
+}
+section table{
+	width:70%;
+}
+section input[type=file]{
+	width:4%;
+	font-size:14px;
+	cursor:pointer;
+}
+section input[type=submit]{
+	margin-top:10px;
+	width:50%;
+	font-size:14px;
+	cursor:pointer;
+	color:#F7F7F7;
+	background-color:#0174DF;
+	padding-top:5%;
+	padding-bottom:5%;
+	border:1px solid #CACACA;
+}
+section input[type=submit]:hover{
+	background-color:#0489B1;
+}

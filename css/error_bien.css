@@ -1,0 +1,52 @@
+.bien{
+	background-color:#3CBE34;
+	text-align:center;
+	font-size:14px;
+	color:#FFF;
+	padding:5px;
+    border-radius: 6px;	
+	border:0;
+    outline:0;
+}
+
+
+.error{
+	background-color:#D22023;
+	text-align:center;
+	font-size:14px;
+	color:#FFF;
+	padding:5px;
+    border-radius: 6px;	
+	border:0;
+    outline:0;
+}
+
+.alerta{
+	background-color:#F2FA7E;
+	text-align:center;
+	font-size:14px;
+	color:#131313;
+	padding:5px;
+    border-radius: 6px;	
+	border:0;
+    outline:0;
+}
+
+.bien_email{
+	text-align:center;
+	font-size:14px;
+	color:#3CBE34;
+	padding:5px;
+    border-radius: 6px;	
+	border:0;
+    outline:0;
+}
+
+.error_email{
+	text-align:center;
+	font-size:14px;
+	color:#D22023;
+	padding:5px;
+    border-radius: 6px;	
+    outline:0;
+}
