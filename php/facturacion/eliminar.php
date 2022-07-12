@@ -18,6 +18,10 @@ $query = $mysqli->query($delete_factura);
 
 if($query){
 	echo 1;//REGISTRO ELIMINADO CORRECTAMENTE
+	
+	//ELIMINAMOS LOS PRODUCTOS DE LA FACTURA SI ES QUE EXISTEN
+	$delete_detalles = "DELETE FROM facturas_detalle WHERE facturas_id = '$facturas_id'";
+	$mysqli->query($delete_detalles);
 }else{
 	echo 2;//NO SE PUEDO ELIMINAR EL REGISTRO
 }
