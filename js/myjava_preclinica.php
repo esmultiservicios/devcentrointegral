@@ -109,7 +109,6 @@ $(document).ready(function(){
 $(document).ready(function(e) {
     pagination(1);		 					
 	limpiarFormularioMain();
-	evaluarRegistrosPendientes();
 	getProfesionales();
 });
 
@@ -517,8 +516,6 @@ function convertDate(inputFormat) {
 
 $(document).ready(function() {
 	setInterval('pagination(1)',22000); //CADA 8 SEGUNDOS
-	setInterval('evaluarRegistrosPendientes()',1800000); //CADA MEDIA HORA
-	//setInterval('evaluarRegistrosPendientesEmailPreclinica()',1800000); //CADA MEDIA HORA
 });
 
 function getMes(fecha){
@@ -616,10 +613,6 @@ function getIdentidad(pacientes_id){
 	});
 	return resp;
 }
-
-$(document).ready(function() {
-	//evaluarRegistrosPendientesEmailPreclinica(); //AL INGRESAR AL SISTEMA ENVIARA UN CORREO CON LA CANTIDAD DE REGISTROS PENDIENTES
-});
 
 function evaluarRegistrosPendientesEmailPreclinica(){
     var url = '<?php echo SERVERURL; ?>php/mail/evaluarPendientes_preclinica.php';

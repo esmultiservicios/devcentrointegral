@@ -1,10 +1,6 @@
 <script>
 $(document).ready(function() {
-	evaluarRegistrosPendientes();
-	evaluarRegistrosPendientesEmail();
 	setInterval('pagination(1)',22000); 	
-	setInterval('evaluarRegistrosPendientes()',1800000 ); //CADA MEDIA HORA
-	setInterval('evaluarRegistrosPendientesEmail()',1800000 ); //CADA MEDIA HORA
 	getColaborador();
 	getAseguradora();
 });
