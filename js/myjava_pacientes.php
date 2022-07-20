@@ -588,11 +588,15 @@ function editarRegistro(pacientes_id){
 					$('#formulario_pacientes #sexo').val(datos[4]);					
 					$('#formulario_pacientes #correo').val(datos[5]);
 					$('#formulario_pacientes #edad').val(datos[6]);	
-					$('#formulario_pacientes #expediente').val(datos[7]);
+					$('#formulario_pacientes #expediente').val(datos[7]);					
 					$('#formulario_pacientes #direccion').val(datos[8]);
 					$('#formulario_pacientes #responsable').val(datos[9]);
 					$('#formulario_pacientes #responsable_id').val(datos[10]);
 					$('#formulario_pacientes #fecha_nac').val(datos[11]);
+					$('#formulario_pacientes #identidad').val(datos[12]);
+					$('#formulario_pacientes #departamento_id').val(datos[13]);
+					$('#formulario_pacientes #municipio_id').val(datos[14]);
+					getMunicipioEditar(datos[13], datos[14]);									
 					$("#formulario_pacientes #fecha").attr('readonly', true);
 					$("#formulario_pacientes #expediente").attr('readonly', true);
 					$("#formulario_pacientes #identidad").attr('readonly', true);

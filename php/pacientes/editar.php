@@ -11,7 +11,7 @@ $fecha_registro = date("Y-m-d H:i:s");
 $usuario = $_SESSION['colaborador_id'];	
 
 $consulta_expediente = "SELECT pacientes_id,  nombre, apellido, identidad, telefono1, telefono2, fecha_nacimiento, fecha, email, genero, localidad, responsable, responsable_id,
-(CASE WHEN estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado',
+(CASE WHEN estado = '1' THEN 'Activo' ELSE 'Inactivo' END) AS 'estado', departamento_id, municipio_id,
 (CASE WHEN expediente = '0' THEN 'TEMP' ELSE expediente END) AS 'expediente'
 	FROM pacientes
 	WHERE pacientes_id = '$pacientes_id'";
@@ -29,6 +29,9 @@ $fecha = "";
 $localidad = "";
 $responsable = "";
 $responsable_id = "";
+$identidad = "";
+$departamento_id = "";
+$municipio_id = "";
 	
 if($result->num_rows>0){
 	$consulta_expediente1 = $result->fetch_assoc();
@@ -43,7 +46,10 @@ if($result->num_rows>0){
 	$fecha = $consulta_expediente1['fecha'];
 	$localidad = $consulta_expediente1['localidad'];	
 	$responsable = $consulta_expediente1['responsable'];	
-	$responsable_id = $consulta_expediente1['responsable_id'];		
+	$responsable_id = $consulta_expediente1['responsable_id'];
+	$identidad = $consulta_expediente1['identidad'];
+	$departamento_id = $consulta_expediente1['departamento_id'];
+	$municipio_id = $consulta_expediente1['municipio_id'];			
 }
 
 //OBTENER LA EDAD DEL USUARIO 
@@ -83,7 +89,10 @@ $datos = array(
 	8 => $localidad,
 	9 => $responsable,
 	10 => $responsable_id,
-	11 => $fecha_nacimiento,	
+	11 => $fecha_nacimiento,
+	12 => $identidad,	
+	13 => $departamento_id,	
+	14 => $municipio_id,				
 );
 echo json_encode($datos);
 ?>
