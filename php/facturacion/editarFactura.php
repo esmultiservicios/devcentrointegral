@@ -18,7 +18,8 @@ $query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') 
 	ON f.colaborador_id = c.colaborador_id
 	LEFT JOIN fact_empresas AS fact
 	ON fact.fact_empresas_id = fact.fact_empresas_id
-	WHERE facturas_id = '$facturas_id'";
+	WHERE facturas_id = '$facturas_id'
+	GROUP BY f.pacientes_id";
 $result = $mysqli->query($query) or die($mysqli->error);
 $consulta_registro = $result->fetch_assoc();   
      
