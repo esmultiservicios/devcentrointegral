@@ -202,13 +202,14 @@
 	  </div>
 	  
 	  <div class="form-group row">
-		<label for="inputCliente" class="col-sm-1 col-form-label-md">Empresa</label>
+		<label for="inputCliente" class="col-sm-1 col-form-label-md">Empresas </label>
 		<div class="col-sm-5">
-			<input type="text" class="form-control" placeholder="Empresa" id="empresa_nombre" name="empresa_nombre">	
-		</div>
-		<label for="inputCliente" class="col-sm-1 col-form-label-md">RTN </label>
-		<div class="col-sm-5">
-			<input type="text" class="form-control" id="empresa_rtn" name="empresa_rtn" maxlength="14">
+		<div class="input-group mb-3">
+			  <select id="fact_empresas_id" name="fact_empresas_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Empresas"></select>
+			  <div class="input-group-append">				
+				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_aseguradora"><div class="sb-nav-link-icon"></div><i class="fab fa-servicestack fa-lg"></i></a>
+			  </div>
+			</div>
 		</div>		
 	  </div>
 

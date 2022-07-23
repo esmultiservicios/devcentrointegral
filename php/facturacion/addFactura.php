@@ -30,6 +30,16 @@ if(isset($_POST['aseguradora_id'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 	$aseguradora_id = 0;
 }
 
+if(isset($_POST['fact_empresas_id'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
+	if($_POST['fact_empresas_id'] == ""){
+		$fact_empresas_id = 0;
+	}else{
+		$fact_empresas_id = $_POST['fact_empresas_id'];
+	}
+}else{
+	$fact_empresas_id = 0;
+}
+
 if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 	if($_POST['facturas_activo'] == ""){
 		$tipo_factura = 2;
@@ -42,9 +52,6 @@ if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 	$tipo_factura = 2;
 	$tipo = "FacturacionCredito";
 }
-
-$empresa_nombre = $_POST['empresa_nombre'];
-$empresa_rtn = $_POST['empresa_rtn'];
 
 //CONSULTAR DATOS DE LA SECUENCIA DE FACTURACION
 $query_secuencia = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
@@ -76,7 +83,7 @@ if($pacientes_id != "" && $colaborador_id != "" && $servicio_id != ""){
 		if($facturas_id == ""){
 			$facturas_id = correlativo("facturas_id","facturas");
 			$insert = "INSERT INTO facturas 
-				VALUES('$facturas_id','$secuencia_facturacion_id','$numero','$tipo_factura','$pacientes_id','$colaborador_id','$servicio_id','$importe','$notes','$fecha','$estado_factura','$cierre','$empresa_nombre','$empresa_rtn','$usuario','$empresa_id','$fecha_registro','$aseguradora_id')";
+				VALUES('$facturas_id','$secuencia_facturacion_id','$numero','$tipo_factura','$pacientes_id','$colaborador_id','$servicio_id','$importe','$notes','$fecha','$estado_factura','$cierre','$fact_empresas_id','$usuario','$empresa_id','$fecha_registro','$aseguradora_id')";
 			$query = $mysqli->query($insert);
 		}
 		

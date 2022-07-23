@@ -429,15 +429,38 @@ function eliminarRegistro(id){
 		url:url,
 		data:'id='+id,
 		success: function(registro){
-		    pagination(1);
-			$('#bs-regis').val("");		
-			swal({
-				title: "Success", 
-				text: "Registro eliminado correctamente",
-				type: "success",
-				timer: 3000, //timeOut for auto-close
-			});				
-			return false;			
+			if(registro == 1){
+				pagination(1);
+				$('#bs-regis').val("");		
+				swal({
+					title: "Success", 
+					text: "Registro eliminado correctamente",
+					type: "success",
+					timer: 3000, //timeOut for auto-close
+				});				
+				return false;
+			}else if(registro == 2){
+				swal({
+					title: "Error", 
+					text: "No se puede procesar su solicitud",
+					type: "error", 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}else if(registro == 3){
+				swal({
+					title: "Error", 
+					text: "Lo sentimos el colaborador tiene asignado un usuario, no se puede eliminar",
+					type: "error", 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}else{
+				swal({
+					title: "Error", 
+					text: "No se puede procesar su solicitud",
+					type: "error", 
+					confirmButtonClass: 'btn-danger'
+				});	
+			}
 		}
 	});
 	return false;

@@ -21,11 +21,11 @@ $(document).ready(function() {
 			 $('#reg').show();
 			 $('#edi').hide();
 
-			 $('#formularioAseguradora').attr({ 'data-form': 'save' });
-			 $('#formularioAseguradora').attr({ 'action': '<?php echo SERVERURL; ?>php/aseguradora/agregarAseguradora.php' });			
+			 $('#formularioEmpresa').attr({ 'data-form': 'save' });
+			 $('#formularioEmpresa').attr({ 'action': '<?php echo SERVERURL; ?>php/reg_empresas/agregarRegistro.php' });			
 
-             $('#formularioAseguradora #pro').val("Registro");			 
-			 $('#modalAseguradora').modal({
+             $('#formularioEmpresa #pro').val("Registro");			 
+			 $('#modalEmpresas').modal({
 				show:true,
 				keyboard: false,
 				backdrop:'static'
@@ -58,7 +58,7 @@ $(document).ready(function() {
 
 /***************************************************************************************************************************************************************************/
 //INICIO FUNCIONES
-function modal_eliminar(aseguradora_id){
+function modal_eliminar(fact_empresas_id){
 	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){	
 		swal({
 		  title: "¿Esta seguro?",
@@ -76,7 +76,7 @@ function modal_eliminar(aseguradora_id){
 			swal.showInputError("¡Necesita escribir algo!");
 			return false
 		  }
-			eliminarRegistro(aseguradora_id, inputValue);
+			eliminarRegistro(fact_empresas_id, inputValue);
 		});	
 	}else{
 		swal({
@@ -88,13 +88,13 @@ function modal_eliminar(aseguradora_id){
 	}		
 }
 
-function eliminarRegistro(aseguradora_id, inputValue){
-	var url = '<?php echo SERVERURL; ?>php/aseguradora/eliminar.php';
+function eliminarRegistro(fact_empresas_id, inputValue){
+	var url = '<?php echo SERVERURL; ?>php/reg_empresas/eliminar.php';
 		
 	$.ajax({
 		type:'POST',
 		url:url,
-		data:'aseguradora_id='+aseguradora_id+'&comentario='+inputValue,
+		data:'fact_empresas_id='+fact_empresas_id+'&comentario='+inputValue,
 		success: function(registro){
 			if(registro == 1){ 			   
 				swal({
@@ -137,28 +137,28 @@ function eliminarRegistro(aseguradora_id, inputValue){
 }
 //FIN FUNCION QUE GUARDA LOS REGISTROS DE PACIENTES QUE NO ESTAN ALMACENADOS EN LA AGENDA
 
-function editarRegistro(aseguradora_id){
+function editarRegistro(fact_empresas_id){
 	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){	
-		$('#formularioAseguradora')[0].reset();		
-		var url = '<?php echo SERVERURL; ?>php/aseguradora/editar.php';
+		$('#formularioEmpresa')[0].reset();		
+		var url = '<?php echo SERVERURL; ?>php/reg_empresas/editar.php';
 
 			$.ajax({
 			type:'POST',
 			url:url,
-			data:'aseguradora_id='+aseguradora_id,
+			data:'fact_empresas_id='+fact_empresas_id,
 			success: function(valores){
 				var array = eval(valores);
 				$('#reg').hide();
 				$('#edi').show();
-				$('#formularioAseguradora #pro').val('Registro');
-                $('#formularioAseguradora #aseguradora_id').val(aseguradora_id);
-				$('#formularioAseguradora #aseguradora').val(array[0]);			
-                $('#formularioAseguradora #rtn_aseguradora').val(array[1]);
+				$('#formularioEmpresa #pro').val('Registro');
+                $('#formularioEmpresa #fact_empresas_id').val(fact_empresas_id);
+				$('#formularioEmpresa #empresa').val(array[0]);			
+                $('#formularioEmpresa #rtn_empresa').val(array[1]);
 				
-				$('#formularioAseguradora').attr({ 'data-form': 'update' });
-			 	$('#formularioAseguradora').attr({ 'action': '<?php echo SERVERURL; ?>php/aseguradora/modificarAseguradora.php' });	
+				$('#formularioEmpresa').attr({ 'data-form': 'update' });
+			 	$('#formularioEmpresa').attr({ 'action': '<?php echo SERVERURL; ?>php/reg_empresas/modificarRegistro.php' });	
 
-				$('#modalAseguradora').modal({
+				$('#modalEmpresas').modal({
 					show:true,
 					keyboard: false,
 					backdrop:'static'
@@ -191,7 +191,7 @@ function limpiar(){
 
 //INICIO PAGINACION DE REGISTROS
 function pagination(partida){
-	var url = '<?php echo SERVERURL; ?>php/aseguradora/paginar.php';
+	var url = '<?php echo SERVERURL; ?>php/reg_empresas/paginar.php';
 	var dato = '';
 	var empresa = '';
 	
@@ -223,8 +223,8 @@ function pagination(partida){
 //FIN PAGINACION DE REGISTROS
 
 $(document).ready(function(){
-    $("#modalAseguradora").on('shown.bs.modal', function(){
-        $(this).find('#formularioAseguradora #aseguradora').focus();
+    $("#modalEmpresas").on('shown.bs.modal', function(){
+        $(this).find('#formularioEmpresa #empresa').focus();
     });
 });
 </script>

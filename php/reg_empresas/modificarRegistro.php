@@ -6,17 +6,17 @@ include "../funtions.php";
 $mysqli = connect_mysqli();
 
 $usuario = $_SESSION['colaborador_id'];
-$aseguradora_id = $_POST['aseguradora_id'];
-$aseguradora = cleanString($_POST['aseguradora']);
-$rtn_aseguradora = cleanString($_POST['rtn_aseguradora']);
+$fact_empresas_id = $_POST['fact_empresas_id'];
+$empresa = cleanString($_POST['empresa']);
+$rtn_empresa = cleanString($_POST['rtn_empresa']);
 $fecha_registro = date("Y-m-d H:i:s");
 $fecha = date("Y-m-d");
 
-$update = "UPDATE aseguradora
+$update = "UPDATE fact_empresas
 	SET
-		nombre = '$aseguradora',
-		rtn = '$rtn_aseguradora'
-	WHERE aseguradora_id = '$aseguradora_id'";
+		nombre = '$empresa',
+		rtn = '$rtn_empresa'
+	WHERE fact_empresas_id = '$fact_empresas_id'";
 $query = $mysqli->query($update) or die($mysqli->error);
 
 if($query){
@@ -25,20 +25,20 @@ if($query){
 		1 => "Registro Editado Correctamente", 
 		2 => "success",
 		3 => "btn-primary",
-		4 => "formularioAseguradora",
+		4 => "formularioEmpresa",
 		5 => "Editar",
 		6 => "Aseguradora",//FUNCION DE LA TABLA QUE LLAMAREMOS PARA QUE ACTUALICE (DATATABLE BOOSTRAP)
-		7 => "modalAseguradora", //Modals Para Cierre Automatico
+		7 => "modalEmpresas", //Modals Para Cierre Automatico
 	);	
 	
 	/*********************************************************************************************************************************************************************/
 	//INGRESAR REGISTROS EN LA ENTIDAD HISTORIAL
 	$historial_numero = historial();
 	$estado_historial = "Agregar";
-	$observacion_historial = "Se ha modificado el la aseguradora $aseguradora con codigo: $aseguradora_id";
-	$modulo = "Aseguradora";
+	$observacion_historial = "Se ha modificado el la aseguradora $empresa con codigo: $fact_empresas_id";
+	$modulo = "Configurar Empresas";
 	$insert = "INSERT INTO historial 
-	   VALUES('$historial_numero','0','0','$modulo','$aseguradora_id','$usuario','0','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";	 
+	   VALUES('$historial_numero','0','0','$modulo','$fact_empresas_id','$usuario','0','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";	 
 	$mysqli->query($insert) or die($mysqli->error);
 	/*********************************************************************************************************************************************************************/		
 	/*********************************************************************************************************************************************************************/		

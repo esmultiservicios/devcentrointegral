@@ -17,7 +17,7 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>	
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>	  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>  
 			</div>
 		  </li>			
 		  <li class="nav-item dropdown active">
@@ -61,7 +61,9 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>		  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/aseguradora.php">Aseguradora</a>	
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  	  
 			</div>
 		  </li>
 		  <li class="nav-item dropdown active">
@@ -101,7 +103,9 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>		  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/aseguradora.php">Aseguradora</a>	
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  		  
 			</div>
 		  </li>
 		  <li class="nav-item dropdown active">
@@ -208,6 +212,7 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/colaboradores.php">Colaboradores</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/users.php">Usuarios</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/aseguradora.php">Aseguradora</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/config_varios.php">Varios</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/config_mails.php">Correo</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/secuencia_facturacion.php">Secuencia Facturación</a>			  

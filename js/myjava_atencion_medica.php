@@ -3,6 +3,7 @@ $(document).ready(function() {
 	setInterval('pagination(1)',22000); 	
 	getColaborador();
 	getAseguradora();
+	getFactEmpresas();
 });
 
 /*INICIO DE FUNCIONES PARA ESTABLECER EL FOCUS PARA LAS VENTANAS MODALES*/
@@ -1989,6 +1990,20 @@ function getAseguradora(){
         success: function(data){
 		    $('#formulario_facturacion #aseguradora_id').html("");
 			$('#formulario_facturacion #aseguradora_id').html(data);			
+        }
+     });		
+}
+
+function getFactEmpresas(){
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getFactEmpresas.php';		
+		
+	$.ajax({
+        type: "POST",
+        url: url,
+	    async: true,
+        success: function(data){
+		    $('#formulario_facturacion #fact_empresas_id').html("");
+			$('#formulario_facturacion #fact_empresas_id').html(data);			
         }
      });		
 }

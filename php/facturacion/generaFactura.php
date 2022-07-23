@@ -15,7 +15,7 @@ $mysqli = connect_mysqli();
 $noFactura = $_GET['facturas_id'];
 $anulada = '';
 
-$query = "SELECT CONCAT(p.nombre, ' ', p.apellido) AS 'paciente', p.identidad AS 'identidad', p.expediente AS 'expediente', p.telefono1 AS 'tel_paciente', p.localidad AS 'localidad_paciente', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.correo AS 'empresa_correo', CONCAT(c.nombre, ' ', c.apellido) AS 'profesional', s.nombre AS 'servicio', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', pc.nombre AS 'puesto', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', am.edad AS 'edad', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', f.empresa_nombre AS 'empresa_nombre', f.empresa_rtn AS 'empresa_rtn', ase.nombre AS 'aseguradora', ase.rtn AS 'rtn_asegeuradora'
+$query = "SELECT CONCAT(p.nombre, ' ', p.apellido) AS 'paciente', p.identidad AS 'identidad', p.expediente AS 'expediente', p.telefono1 AS 'tel_paciente', p.localidad AS 'localidad_paciente', e.nombre AS 'empresa', e.ubicacion AS 'direccion_empresa', e.telefono AS 'empresa_telefono', e.correo AS 'empresa_correo', CONCAT(c.nombre, ' ', c.apellido) AS 'profesional', s.nombre AS 'servicio', sf.prefijo AS 'prefijo', sf.siguiente AS 'numero', sf.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', time(f.fecha_registro) AS 'hora', sf.cai AS 'cai', e.rtn AS 'rtn', sf.fecha_activacion AS 'fecha_activacion', sf.fecha_limite AS 'fecha_limite', pc.nombre AS 'puesto', f.estado AS 'estado', sf.rango_inicial AS 'rango_inicial', sf.rango_final AS 'rango_final', am.edad AS 'edad', f.number AS 'numero_factura', f.notas AS 'notas', e.otra_informacion As 'otra_informacion', e.eslogan AS 'eslogan', e.celular As 'celular', fact.nombre AS 'empresa_nombre', fact.rtn AS 'empresa_rtn', ase.nombre AS 'aseguradora', ase.rtn AS 'rtn_asegeuradora'
 	FROM facturas AS f
 	INNER JOIN pacientes AS p
 	ON f.pacientes_id = p.pacientes_id
@@ -27,13 +27,16 @@ $query = "SELECT CONCAT(p.nombre, ' ', p.apellido) AS 'paciente', p.identidad AS
 	ON f.colaborador_id = c.colaborador_id
 	INNER JOIN servicios AS s
 	ON f.servicio_id = s.servicio_id
-    INNER JOIN puesto_colaboradores AS pc
-    ON c.puesto_id = pc.puesto_id	
-    LEFT JOIN atenciones_medicas AS am
-    ON f.pacientes_id = am.pacientes_id
+	INNER JOIN puesto_colaboradores AS pc
+	ON c.puesto_id = pc.puesto_id	
+	LEFT JOIN atenciones_medicas AS am
+	ON f.pacientes_id = am.pacientes_id
 	LEFT JOIN aseguradora As ase
-	ON f.aseguradora_id = ase.aseguradora_id		
-	WHERE f.facturas_id = '$noFactura'";	
+	ON f.aseguradora_id = ase.aseguradora_id
+	LEFT JOIN fact_empresas AS fact
+	ON f.fact_empresas_id = fact.fact_empresas_id		
+	WHERE f.facturas_id = '$noFactura'
+	GROUP BY f.pacientes_id";	
 $result = $mysqli->query($query) or die($mysqli->error);
 
 //OBTENER DETALLE DE FACTURA
