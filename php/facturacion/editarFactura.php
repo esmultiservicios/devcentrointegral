@@ -8,7 +8,7 @@ $mysqli = connect_mysqli();
 $facturas_id = $_POST['facturas_id'];
 
 //CONSULTAR DATOS DEL METODO DE PAGO
-$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', p.pacientes_id AS 'pacientes_id', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', p.identidad AS 'identidad', CONCAT(c.nombre,' ',c.apellido) AS 'profesional', f.colaborador_id AS 'colaborador_id', f.estado AS 'estado', s.nombre AS 'consultorio', f.servicio_id AS 'servicio_id', f.fecha AS 'fecha_factura', f.notas AS 'notas', f.empresa_nombre AS 'empresa_nombre', f.empresa_rtn AS 'empresa_rtn'
+$query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha', p.pacientes_id AS 'pacientes_id', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', p.identidad AS 'identidad', CONCAT(c.nombre,' ',c.apellido) AS 'profesional', f.colaborador_id AS 'colaborador_id', f.estado AS 'estado', s.nombre AS 'consultorio', f.servicio_id AS 'servicio_id', f.fecha AS 'fecha_factura', f.notas AS 'notas', fact.nombre AS 'empresa_nombre', fact.rtn AS 'empresa_rtn'
 	FROM facturas AS f
 	INNER JOIN pacientes AS p
 	ON f.pacientes_id = p.pacientes_id
@@ -16,6 +16,8 @@ $query = "SELECT f.facturas_id AS facturas_id, DATE_FORMAT(f.fecha, '%d/%m/%Y') 
 	ON f.servicio_id = s.servicio_id
 	INNER JOIN colaboradores AS c
 	ON f.colaborador_id = c.colaborador_id
+	LEFT JOIN fact_empresas AS fact
+	ON fact.fact_empresas_id = fact.fact_empresas_id
 	WHERE facturas_id = '$facturas_id'";
 $result = $mysqli->query($query) or die($mysqli->error);
 $consulta_registro = $result->fetch_assoc();   
