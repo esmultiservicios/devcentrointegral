@@ -84,8 +84,7 @@ if($pacientes_id != "" && $colaborador_id != "" && $servicio_id != ""){
 				secuencia_facturacion_id = '$secuencia_facturacion_id',
 				estado = '$estado',
 				notas = '$notes',
-				empresa_nombre = '$empresa_nombre',
-				empresa_rtn = '$empresa_rtn'				
+				fact_empresas_id = '$fact_empresas_id'			
 			WHERE facturas_id = '$facturas_id'";
 		$query = $mysqli->query($update);
 

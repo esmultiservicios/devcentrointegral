@@ -62,7 +62,6 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/aseguradora.php">Aseguradora</a>	
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  	  
 			</div>
 		  </li>
@@ -103,8 +102,7 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/aseguradora.php">Aseguradora</a>	
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>	
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  		  
 			</div>
 		  </li>

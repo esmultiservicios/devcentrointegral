@@ -17,7 +17,7 @@ function llenarTablaFactura(count){
 	if(getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}else{
-		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', true);
+		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}		
 }
 
@@ -40,7 +40,7 @@ function limpiarTabla(){
 	if(getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}else{
-		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', true);
+		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}		
 }
 
@@ -61,7 +61,7 @@ function addRow(){
 	if(getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}else{
-		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', true);
+		$('#formulario_facturacion #invoiceItem #price_'+ count).attr('readonly', false);
 	}		
 	count++;
 }

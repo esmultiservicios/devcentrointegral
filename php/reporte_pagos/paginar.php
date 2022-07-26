@@ -33,7 +33,7 @@ if($type == 1 || $type == 2 || $type == 4){//SUPER ADMINISTRADOR, ADMINISTRADOR 
 	}
 }
 
-$query = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta'
+$query = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta', tp.tipo_pago_id AS 'tipo_pago_id'
 	FROM pagos AS p
 	INNER JOIN facturas AS f
 	ON p.facturas_id = f.facturas_id
@@ -77,7 +77,7 @@ if($paginaActual <= 1){
 	$limit = $nroLotes*($paginaActual-1);
 }
 
-$registro = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta'
+$registro = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta', tp.tipo_pago_id AS 'tipo_pago_id'
 	FROM pagos AS p
 	INNER JOIN facturas AS f
 	ON p.facturas_id = f.facturas_id
@@ -100,7 +100,7 @@ $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<th width="18%">Paciente</th>
 			<th width="10%">Identidad</th>			
 			<th width="14%">Factura</th>
-			<th width="10%">Pago</th>
+			<th width="10%">Pago Recibido</th>
 			<th width="10%">Efectivo</th>
 			<th width="10%">Tarjeta</th>
 			<th width="16%">Tipo Pago</th>
@@ -113,6 +113,21 @@ while($registro2 = $result->fetch_assoc()){
 	$numero = $registro2['prefijo'].''.rellenarDigitos($registro2['numero'], $registro2['relleno']);
 
 	$tipo_pago = "";
+	$efectivo = 0;
+	$tarjeta = 0;
+
+	if($registro2['tipo_pago_id'] == 1){
+		$efectivo = $registro2['importe'];
+	}
+
+	if($registro2['tipo_pago_id'] == 2){
+		$tarjeta = $registro2['importe'];
+	}
+
+	if($registro2['tipo_pago_id'] == 6){
+		$efectivo = $registro2['efectivo'];
+		$tarjeta = $registro2['tarjeta'];
+	}
 	
 	$tabla = $tabla.'<tr>
 			<td>'.$i.'</td> 
@@ -121,8 +136,8 @@ while($registro2 = $result->fetch_assoc()){
 			<td>'.$registro2['identidad'].'</td>				
 			<td>'.$numero.'</td>
 			<td>'.number_format($registro2['importe'],2).'</td>	
-			<td>'.number_format($registro2['efectivo'],2).'</td>	
-			<td>'.number_format($registro2['tarjeta'],2).'</td>	
+			<td>'.number_format($efectivo,2).'</td>	
+			<td>'.number_format($tarjeta,2).'</td>	
 			<td>'.$registro2['tipo_pago'].'</td>
 			<td>		   
 				<a style="text-decoration:none;" title = "Editar Usuario" href="javascript:editarRegistro('.$registro2['pagos_id'].');void(0);" class="fas fa-edit fa-lg"></a>

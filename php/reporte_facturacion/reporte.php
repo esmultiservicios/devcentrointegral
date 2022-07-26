@@ -394,7 +394,7 @@ if($type == 1 || $type == 2 || $type == 4){//SUPER ADMINISTRADOR, ADMINISTRADOR 
 }
 
 //CONSULTAR EL TIPO DE PAGO Y AGRUPARLO
-$query_pago = "SELECT tp.nombre AS 'tipo_pago', b.nombre AS 'banco', SUM(pd.efectivo) AS 'neto'
+$query_pago = "SELECT tp.nombre AS 'tipo_pago', b.nombre AS 'banco', SUM(pd.efectivo) AS 'neto', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta', tp.tipo_pago_id AS 'tipo_pago_id'
 	FROM pagos AS p
 	INNER JOIN pagos_detalles AS pd
 	ON p.pagos_id = pd.pagos_id
@@ -416,34 +416,69 @@ $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", 'N°');
 $objPHPExcel->getActiveSheet()->getColumnDimension('A')->setWidth(5); 
 $objPHPExcel->getActiveSheet()->SetCellValue("B$fila", 'Tipo Pago');
 $objPHPExcel->getActiveSheet()->getColumnDimension('B')->setWidth(20);
-$objPHPExcel->getActiveSheet()->SetCellValue("C$fila", 'Banco');
-$objPHPExcel->getActiveSheet()->getColumnDimension('C')->setWidth(20);
-$objPHPExcel->getActiveSheet()->SetCellValue("D$fila", 'Neto');
-$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(45);
+$objPHPExcel->getActiveSheet()->mergeCells("B$fila:C$fila"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("D$fila", 'Banco');
+$objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(20);
+$objPHPExcel->getActiveSheet()->SetCellValue("E$fila", 'Pago Recibido');
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(20);
+$objPHPExcel->getActiveSheet()->SetCellValue("F$fila", 'Efectivo');
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(20);
+$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", 'Tarjeta');
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(20);
 
-$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:D$fila"); //establecer estilo
-$objPHPExcel->getActiveSheet()->getStyle("A$fila:D$fila")->getFont()->setBold(true); //negrita
+$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:G$fila"); //establecer estilo
+$objPHPExcel->getActiveSheet()->getStyle("A$fila:G$fila")->getFont()->setBold(true); //negrita
 
 $valor = 1;
 $total = 0;
+$total_efectivo = 0;
+$total_tarjeta = 0;
+
 if($result_pago->num_rows>0){
 	while($registro2 = $result_pago->fetch_assoc()){ 
-	   $fila+=1;
-	   $total += $registro2['neto'];
-	   $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", $valor);	
-       $objPHPExcel->getActiveSheet()->SetCellValue("B$fila", $registro2['tipo_pago']);			  
-	   $objPHPExcel->getActiveSheet()->SetCellValue("C$fila", $registro2['banco']);  
-	   $objPHPExcel->getActiveSheet()->SetCellValue("D$fila", $registro2['neto']);  	   
-	   
-       //Establecer estilo
-       $objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A$fila:D$fila");	
-	   $valor++;
+		$efectivo = 0;
+		$tarjeta = 0;
+	  
+		if($registro2['tipo_pago_id'] == 1){
+		  $efectivo = $registro2['neto'];
+		}
+	  
+		if($registro2['tipo_pago_id'] == 2){
+		  $tarjeta = $registro2['neto'];
+		}
+	  
+		if($registro2['tipo_pago_id'] == 6){
+		  $efectivo = $registro2['efectivo'];
+		  $tarjeta = $registro2['tarjeta'];
+		}
+			  
+		 $fila+=1;
+		   $total += $registro2['neto'];
+		 $total_efectivo += $efectivo;
+		 $total_tarjeta += $tarjeta;
+
+	     $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", $valor);	
+      	 $objPHPExcel->getActiveSheet()->SetCellValue("B$fila", $registro2['tipo_pago']);	
+      	 $objPHPExcel->getActiveSheet()->mergeCells("B$fila:C$fila"); //unir celdas		  
+	     $objPHPExcel->getActiveSheet()->SetCellValue("D$fila", $registro2['banco']);  
+	     $objPHPExcel->getActiveSheet()->SetCellValue("E$fila", $registro2['neto']);  
+	     $objPHPExcel->getActiveSheet()->SetCellValue("F$fila", $efectivo);  
+	     $objPHPExcel->getActiveSheet()->SetCellValue("G$fila", $tarjeta);     	   
+		
+		//Establecer estilo
+		$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A$fila:G$fila");	
+		$valor++;
    }	
 }
 $fila+=1;
 $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", "TOTAL");
-$objPHPExcel->getActiveSheet()->SetCellValue("D$fila", $total);
-$objPHPExcel->getActiveSheet()->mergeCells("A$fila:C$fila"); //unir celdas 
+$objPHPExcel->getActiveSheet()->SetCellValue("E$fila", $total);
+$objPHPExcel->getActiveSheet()->mergeCells("A$fila:D$fila"); //unir celdas 
+$objPHPExcel->getActiveSheet()->SetCellValue("F$fila", $total_efectivo);
+$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", $total_tarjeta);
+
+//Establecer estilo
+$objPHPExcel->getActiveSheet()->setSharedStyle($totales, "A$fila:G$fila");
 
 //CREDITO
 if($type == 1 || $type == 2 || $type == 4){//SUPER ADMINISTRAOD, ADMINISTRADOR Y CONTADOR GENERAL
