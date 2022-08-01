@@ -30,7 +30,7 @@ $registro = "SELECT am.atencion_id AS 'atencion_id',  DATE_FORMAT(am.fecha, '%d/
 (CASE WHEN p.genero = 'H' THEN 'X' ELSE '' END) AS 'h',
 (CASE WHEN p.genero = 'M' THEN 'X' ELSE '' END) AS 'm',
 (CASE WHEN am.paciente = 'N' THEN 'X' ELSE '' END) AS 'n',
-(CASE WHEN am.paciente = 'S' THEN 'X' ELSE '' END) AS 's', d.nombre AS 'departamento', m.nombre AS 'municipio', p.localidad AS 'localidad'
+(CASE WHEN am.paciente = 'S' THEN 'X' ELSE '' END) AS 's', d.nombre AS 'departamento', m.nombre AS 'municipio', p.localidad AS 'localidad', p.telefono1 AS 'telefono1', p.telefono2 AS 'telefono2'
 	FROM atenciones_medicas AS am
 	INNER JOIN pacientes AS p
 	ON am.pacientes_id = p.pacientes_id
@@ -186,22 +186,22 @@ $objDrawing->setWorksheet($objPHPExcel->getActiveSheet()); //incluir la imagen
 $objPHPExcel->getActiveSheet()->getPageSetup()->setRowsToRepeatAtTopByStartAndEnd(1, 5);
  
 $fila=1;
-$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A3:R3");
+$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A3:T3");
 $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", $empresa_nombre);
-$objPHPExcel->getActiveSheet()->mergeCells("A$fila:R$fila"); //unir celdas
-$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:R$fila");
+$objPHPExcel->getActiveSheet()->mergeCells("A$fila:T$fila"); //unir celdas
+$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:T$fila");
 
 $fila=2;
-$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A4:R4");
+$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A4:T4");
 $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", "Reporte de Atenciones");
 $objPHPExcel->getActiveSheet()->mergeCells("A$fila:Q$fila"); //unir celdas
-$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:R$fila");
+$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:T$fila");
 
 $fila=3;
-$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A5:R5");
+$objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A5:T5");
 $objPHPExcel->getActiveSheet()->SetCellValue("A$fila", "Desde: $mes $año Hasta: $mes1 $año2");
-$objPHPExcel->getActiveSheet()->mergeCells("A$fila:R$fila"); //unir celdas
-$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:R$fila");
+$objPHPExcel->getActiveSheet()->mergeCells("A$fila:T$fila"); //unir celdas
+$objPHPExcel->getActiveSheet()->setSharedStyle($titulo, "A$fila:T$fila");
 
 $fila=4;
 
@@ -217,62 +217,75 @@ $objPHPExcel->getActiveSheet()->mergeCells("C4:C5"); //unir celdas
 $objPHPExcel->getActiveSheet()->SetCellValue("D$fila", 'Identidad');
 $objPHPExcel->getActiveSheet()->getColumnDimension('D')->setWidth(25);
 $objPHPExcel->getActiveSheet()->mergeCells("D4:D5"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("E$fila", 'Genero');
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(8);
-$objPHPExcel->getActiveSheet()->mergeCells("E4:F4"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", 'Paciente');
-$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(22);
+
+$objPHPExcel->getActiveSheet()->SetCellValue("E$fila", 'Teléfono 1');
+$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(25);
+$objPHPExcel->getActiveSheet()->mergeCells("E4:E5"); //unir celdas
+
+$objPHPExcel->getActiveSheet()->SetCellValue("F$fila", 'Teléfono 2');
+$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(25);
+$objPHPExcel->getActiveSheet()->mergeCells("F4:F5"); //unir celdas
+
+
+
+$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", 'Genero');
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(8);
 $objPHPExcel->getActiveSheet()->mergeCells("G4:H4"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("I$fila", 'Procedencia');
-$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(70);
-$objPHPExcel->getActiveSheet()->mergeCells("I4:K4"); //unir celdas
 
-$objPHPExcel->getActiveSheet()->SetCellValue("L$fila", 'Antecednetes');
-$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(70);
-$objPHPExcel->getActiveSheet()->mergeCells("L4:L5"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("I$fila", 'Paciente');
+$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(22);
+$objPHPExcel->getActiveSheet()->mergeCells("I4:J4"); //unir celdas
 
-$objPHPExcel->getActiveSheet()->SetCellValue("M$fila", 'Historia Clinica');
-$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(70);
-$objPHPExcel->getActiveSheet()->mergeCells("M4:M5"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("K$fila", 'Procedencia');
+$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(70);
+$objPHPExcel->getActiveSheet()->mergeCells("K4:M4"); //unir celdas
 
-$objPHPExcel->getActiveSheet()->SetCellValue("N$fila", 'Examen Físico');
+$objPHPExcel->getActiveSheet()->SetCellValue("N$fila", 'Antecednetes');
 $objPHPExcel->getActiveSheet()->getColumnDimension('N')->setWidth(70);
 $objPHPExcel->getActiveSheet()->mergeCells("N4:N5"); //unir celdas
 
-$objPHPExcel->getActiveSheet()->SetCellValue("O$fila", 'Seguimiento');
+$objPHPExcel->getActiveSheet()->SetCellValue("O$fila", 'Historia Clinica');
 $objPHPExcel->getActiveSheet()->getColumnDimension('O')->setWidth(70);
 $objPHPExcel->getActiveSheet()->mergeCells("O4:O5"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("P$fila", 'Colaborador');
-$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(20);
-$objPHPExcel->getActiveSheet()->mergeCells("P4:P5"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("Q$fila", 'Servicio');
-$objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(20);
-$objPHPExcel->getActiveSheet()->mergeCells("Q4:Q5"); //unir celdas
-$objPHPExcel->getActiveSheet()->SetCellValue("R$fila", 'Atención');
-$objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(30);
-$objPHPExcel->getActiveSheet()->mergeCells("R4:R5"); //unir celdas
 
-$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:R$fila"); //establecer estilo
-$objPHPExcel->getActiveSheet()->getStyle("A$fila:R$fila")->getFont()->setBold(true); //negrita
+$objPHPExcel->getActiveSheet()->SetCellValue("P$fila", 'Examen Físico');
+$objPHPExcel->getActiveSheet()->getColumnDimension('P')->setWidth(70);
+$objPHPExcel->getActiveSheet()->mergeCells("P4:P5"); //unir celdas
+
+$objPHPExcel->getActiveSheet()->SetCellValue("Q$fila", 'Seguimiento');
+$objPHPExcel->getActiveSheet()->getColumnDimension('Q')->setWidth(70);
+$objPHPExcel->getActiveSheet()->mergeCells("Q4:Q5"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("R$fila", 'Colaborador');
+$objPHPExcel->getActiveSheet()->getColumnDimension('R')->setWidth(20);
+$objPHPExcel->getActiveSheet()->mergeCells("R4:R5"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("S$fila", 'Servicio');
+$objPHPExcel->getActiveSheet()->getColumnDimension('S')->setWidth(20);
+$objPHPExcel->getActiveSheet()->mergeCells("S4:S5"); //unir celdas
+$objPHPExcel->getActiveSheet()->SetCellValue("T$fila", 'Atención');
+$objPHPExcel->getActiveSheet()->getColumnDimension('T')->setWidth(30);
+$objPHPExcel->getActiveSheet()->mergeCells("T4:T5"); //unir celdas
+
+$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:T$fila"); //establecer estilo
+$objPHPExcel->getActiveSheet()->getStyle("A$fila:T$fila")->getFont()->setBold(true); //negrita
 
 $fila=5;
-$objPHPExcel->getActiveSheet()->SetCellValue("E$fila", 'H');
-$objPHPExcel->getActiveSheet()->getColumnDimension('E')->setWidth(4);
-$objPHPExcel->getActiveSheet()->SetCellValue("F$fila", 'M');
-$objPHPExcel->getActiveSheet()->getColumnDimension('F')->setWidth(4);
-$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", 'Nuevo');
-$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(8);
-$objPHPExcel->getActiveSheet()->SetCellValue("H$fila", 'Subsiguiente');
-$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(14);
-$objPHPExcel->getActiveSheet()->SetCellValue("I$fila", 'Departamento');
-$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(20);
-$objPHPExcel->getActiveSheet()->SetCellValue("J$fila", 'Municipio');
-$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(20);
-$objPHPExcel->getActiveSheet()->SetCellValue("K$fila", 'Localidad');
-$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(30);
+$objPHPExcel->getActiveSheet()->SetCellValue("G$fila", 'H');
+$objPHPExcel->getActiveSheet()->getColumnDimension('G')->setWidth(4);
+$objPHPExcel->getActiveSheet()->SetCellValue("H$fila", 'M');
+$objPHPExcel->getActiveSheet()->getColumnDimension('H')->setWidth(4);
+$objPHPExcel->getActiveSheet()->SetCellValue("I$fila", 'Nuevo');
+$objPHPExcel->getActiveSheet()->getColumnDimension('I')->setWidth(8);
+$objPHPExcel->getActiveSheet()->SetCellValue("J$fila", 'Subsiguiente');
+$objPHPExcel->getActiveSheet()->getColumnDimension('J')->setWidth(14);
+$objPHPExcel->getActiveSheet()->SetCellValue("K$fila", 'Departamento');
+$objPHPExcel->getActiveSheet()->getColumnDimension('K')->setWidth(20);
+$objPHPExcel->getActiveSheet()->SetCellValue("L$fila", 'Municipio');
+$objPHPExcel->getActiveSheet()->getColumnDimension('L')->setWidth(20);
+$objPHPExcel->getActiveSheet()->SetCellValue("M$fila", 'Localidad');
+$objPHPExcel->getActiveSheet()->getColumnDimension('M')->setWidth(30);
 
-$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:R$fila"); //establecer estilo
-$objPHPExcel->getActiveSheet()->getStyle("A$fila:R$fila")->getFont()->setBold(true); //negrita
+$objPHPExcel->getActiveSheet()->setSharedStyle($subtitulo, "A$fila:T$fila"); //establecer estilo
+$objPHPExcel->getActiveSheet()->getStyle("A$fila:T$fila")->getFont()->setBold(true); //negrita
  
 //rellenar con contenido
 $valor = 1;
@@ -289,19 +302,21 @@ if($result->num_rows>0){
 		   $objPHPExcel->getActiveSheet()->setCellValueExplicit("D$fila", $registro2['identidad'], PHPExcel_Cell_DataType::TYPE_STRING);
 	   }
 	          
-	   $objPHPExcel->getActiveSheet()->SetCellValue("E$fila", $registro2['h']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("F$fila", $registro2['m']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("G$fila", $registro2['n']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("H$fila", $registro2['s']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("I$fila", $registro2['departamento']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("J$fila", $registro2['municipio']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("K$fila", $registro2['localidad']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("L$fila", $registro2['antecedentes']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("M$fila", $registro2['historia_clinica']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("N$fila", $registro2['examen_fisico']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("O$fila", $registro2['seguimiento']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("P$fila", $registro2['colaborador']);
-	   $objPHPExcel->getActiveSheet()->SetCellValue("Q$fila", $registro2['servicio']);
+     $objPHPExcel->getActiveSheet()->SetCellValue("E$fila", $registro2['telefono1']);
+     $objPHPExcel->getActiveSheet()->SetCellValue("F$fila", $registro2['telefono2']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("G$fila", $registro2['h']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("H$fila", $registro2['m']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("I$fila", $registro2['n']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("J$fila", $registro2['s']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("K$fila", $registro2['departamento']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("L$fila", $registro2['municipio']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("M$fila", $registro2['localidad']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("N$fila", $registro2['antecedentes']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("O$fila", $registro2['historia_clinica']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("P$fila", $registro2['examen_fisico']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("Q$fila", $registro2['seguimiento']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("R$fila", $registro2['colaborador']);
+	   $objPHPExcel->getActiveSheet()->SetCellValue("S$fila", $registro2['servicio']);
 	   
 	   //CONSULTAR LOS PRODUCTOS ENTREGADOS AL PACIENTE
 	   $fecha = $registro2['fecha_consulta'];
@@ -327,7 +342,7 @@ if($result->num_rows>0){
 	   $objPHPExcel->getActiveSheet()->SetCellValue("R$fila", $atencion);	   
 	   
        //Establecer estilo
-       $objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A$fila:R$fila");	
+       $objPHPExcel->getActiveSheet()->setSharedStyle($bordes, "A$fila:T$fila");	
 	   $valor++;
    }	
 }

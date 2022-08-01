@@ -113,9 +113,9 @@ if($colaborador_id != "" || $colaborador_id != null){
 				
 				<div class="form-row">						
 					<div class="col-md-4 mb-3">
-					  <label for="expedoente">País <span class="priority">*<span/></label>
+					  <label for="expedoente">País</label>
 					  <div class="input-group mb-3">
-						  <select id="pais_id" name="pais_id" class="form-control" data-toggle="tooltip" data-placement="top" title="Departamentos">
+						  <select id="pais_id" name="pais_id" class="form-control" data-toggle="tooltip" data-placement="top" title="País">
 							<option value="">Seleccione</option>
 						  </select>
 						  <div class="input-group-append" id="buscar_pais_pacientes">				
@@ -124,7 +124,7 @@ if($colaborador_id != "" || $colaborador_id != null){
 					   </div>						  
 					</div>					
 					<div class="col-md-4 mb-3">
-					  <label for="expedoente">Departamentos <span class="priority">*<span/></label>
+					  <label for="expedoente">Departamentos</label>
 					  <div class="input-group mb-3">
 						  <select id="departamento_id" name="departamento_id" class="form-control" data-toggle="tooltip" data-placement="top" title="Departamentos">
 							<option value="">Seleccione</option>
@@ -135,7 +135,7 @@ if($colaborador_id != "" || $colaborador_id != null){
 					   </div>						  
 					</div>
 					<div class="col-md-4 mb-3">
-					  <label for="expedoente">Municipios <span class="priority">*<span/></label>
+					  <label for="expedoente">Municipios</label>
 					  <div class="input-group mb-3">
 						  <select id="municipio_id" name="municipio_id" class="form-control" data-toggle="tooltip" data-placement="top" title="Municipios">
 							<option value="">Seleccione</option>

@@ -26,7 +26,7 @@ if($colaborador != ""){
 }
 
 $query = "SELECT am.atencion_id AS 'atencion_id',  DATE_FORMAT(am.fecha, '%d/%m/%Y') AS 'fecha', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', p.identidad AS 'identidad', am.historia_clinica AS 'historia_clinica',CONCAT(c.nombre,' ',c.apellido) AS 'colaborador', s.nombre AS 'servicio', (CASE WHEN p.genero = 'H' THEN 'Hombre' ELSE 'Mujer' END) AS 'sexo',
-(CASE WHEN am.paciente = 'N' THEN 'N' ELSE 'S' END) AS 'paciente_tipo'
+(CASE WHEN am.paciente = 'N' THEN 'N' ELSE 'S' END) AS 'paciente_tipo', p.telefono1 AS 'telefono1', p.telefono2 AS 'telefono2'
 	FROM atenciones_medicas AS am
 	INNER JOIN pacientes AS p
 	ON am.pacientes_id = p.pacientes_id
@@ -67,7 +67,7 @@ if($paginaActual <= 1){
 }
 
 $registro = "SELECT am.atencion_id AS 'atencion_id', DATE_FORMAT(am.fecha, '%d/%m/%Y') AS 'fecha', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', p.identidad AS 'identidad', am.historia_clinica AS 'historia_clinica',CONCAT(c.nombre,' ',c.apellido) AS 'colaborador', s.nombre AS 'servicio', (CASE WHEN p.genero = 'H' THEN 'Hombre' ELSE 'Mujer' END) AS 'sexo',
-(CASE WHEN am.paciente = 'N' THEN 'N' ELSE 'S' END) AS 'paciente_tipo'
+(CASE WHEN am.paciente = 'N' THEN 'N' ELSE 'S' END) AS 'paciente_tipo', p.telefono1 AS 'telefono1', p.telefono2 AS 'telefono2'
 	FROM atenciones_medicas AS am
 	INNER JOIN pacientes AS p
 	ON am.pacientes_id = p.pacientes_id
@@ -82,14 +82,16 @@ $result = $mysqli->query($registro);
 
 $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<tr>
-			<th width="6.5%">Fecha</th>
-			<th width="25.5%">Nombre</th>
-			<th width="10.5%">Identidad</th>
-			<th width="4.5%">Sexo</th>
-			<th width="4.5%">Paciente</th>
-			<th width="27.5%">Historia Clínica</th>
-			<th width="10.5%">Colaborador</th>
-			<th width="10.5%">Servicio</th>				
+			<th width="8">Fecha</th>
+			<th width="10%">Nombre</th>
+			<th width="10%">Identidad</th>
+			<th width="10%">Teléfono 1</th>
+			<th width="10%">Teléfono2 </th>
+			<th width="4%">Sexo</th>
+			<th width="2%">Paciente</th>
+			<th width="18%">Historia Clínica</th>
+			<th width="16%">Colaborador</th>
+			<th width="10%">Servicio</th>				
 			</tr>';			
 			
 while($registro2 = $result->fetch_assoc()){	
@@ -97,6 +99,8 @@ while($registro2 = $result->fetch_assoc()){
 	   <td>'.$registro2['fecha'].'</td>
 	   <td>'.$registro2['paciente'].'</td>		   
 	   <td>'.$registro2['identidad'].'</td>	
+	   <td>'.$registro2['telefono1'].'</td>	
+	   <td>'.$registro2['telefono2'].'</td>	
        <td>'.$registro2['sexo'].'</td>	
        <td>'.$registro2['paciente_tipo'].'</td>		   
 	   <td>'.$registro2['historia_clinica'].'</td>
