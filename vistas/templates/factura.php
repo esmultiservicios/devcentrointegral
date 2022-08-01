@@ -11,7 +11,7 @@
 		<label for="inputCliente" class="col-sm-1 col-form-label-md">Paciente <span class="priority">*<span/></label>
 		<div class="col-sm-5">
 			<div class="input-group mb-3">
-			  <input type="text" class="form-control" id="facturas_id" name="facturas_id" readonly required>
+			  <input type="hidden" class="form-control" id="facturas_id" name="facturas_id" readonly required>
 			  <input type="hidden" class="form-control" id="pacientes_id" name="pacientes_id" readonly required>
 			  <input type="text" class="form-control" placeholder="Paciente" id="cliente_nombre" name="cliente_nombre" readonly required>
 			  <div class="input-group-append" id="grupo_buscar_colaboradores">				
