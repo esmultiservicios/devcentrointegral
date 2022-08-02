@@ -98,7 +98,7 @@ function evaluarCategoriaDetalle(categoria){
 
 function agregarProductos(){
 	funciones();
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 6){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
 		$('#formulario_productos').attr({ 'data-form': 'save' });
 		$('#formulario_productos').attr({ 'action': '<?php echo SERVERURL; ?>php/productos/agregarProductos.php' });			
 		$('#reg_producto').show();

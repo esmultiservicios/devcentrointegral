@@ -12,7 +12,7 @@ $(document).ready(function() {
 });	
 
 function agregarMedidas(){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 3){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		$('#formulario_medidas').attr({ 'data-form': 'save' });
 		$('#formulario_medidas').attr({ 'action': '<?php echo SERVERURL; ?>php/medidas/agregarMedidas.php' });			
 		$('#reg_medidas').show();

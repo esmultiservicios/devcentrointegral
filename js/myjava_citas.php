@@ -329,7 +329,7 @@ $('#botones_citas #sobrecupo').on('click', function(e){ // add event submit We d
 });
 
 $('#botones_citas #historial_nopresento').on('click', function(e){ // add event submit We don't want this to act as a link so cancel the link action
-if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
+if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
      e.preventDefault();
 	 $('#form-buscarhistorialno')[0].reset();
      pagination_busqueda_historial_nopresento(1);	 
@@ -370,7 +370,7 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 });
 
 $('#botones_citas #historial').on('click', function(e){ // add event submit We don't want this to act as a link so cancel the link action
-if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
+if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
      e.preventDefault();
 	 $('#form-buscarhistorial')[0].reset();
      pagination_busqueda_historial(1);	 

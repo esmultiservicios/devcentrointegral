@@ -12,7 +12,7 @@ $(document).ready(function() {
 });	
 
 function agregarCategoria(){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 3){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		$('#formularioCategoria').attr({ 'data-form': 'save' });
 		$('#formularioCategoria').attr({ 'action': '<?php echo SERVERURL; ?>php/categoria/agregarCategoria.php' });			
 		$('#reg_categoria').show();
