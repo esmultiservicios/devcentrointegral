@@ -467,10 +467,8 @@ function getAgendatime($consultarJornadaJornada_id, $servicio, $consultar_colabo
 					$hora = "21:00"; 
 				}else if ($hora_h >= date('H:i',strtotime('22:00')) && $hora_h < date('H:i',strtotime('23:00'))){
 					$hora = "22:00";
-				}else if ($hora_h >= date('H:i',strtotime('23:00')) && $hora_h < date('H:i',strtotime('24:00'))){
+				}else if ($hora_h >= date('H:i',strtotime('23:00')) && $hora_h < date('H:i',strtotime('23:59'))){
 					$hora = "23:00";
-				}else if ($hora_h >= date('H:i',strtotime('24:00')) && $hora_h < date('H:i',strtotime('00:00'))){
-					$hora = "24:00";
 				}else if ($hora_h >= date('H:i',strtotime('00:00')) && $hora_h < date('H:i',strtotime('01:00'))){
 					$hora = "00:00";
 				}else if ($hora_h >= date('H:i',strtotime('01:00')) && $hora_h < date('H:i',strtotime('02:00'))){
