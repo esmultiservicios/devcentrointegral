@@ -88,7 +88,7 @@ while($registro2 = $result->fetch_assoc()){
 	   <td>'.$registro2['nuevos'].'</td>
 	   <td>'.$registro2['subsiguientes'].'</td>		   
 	   <td>
-		   <a style="text-decoration:none; "href="javascript:modal_eliminarJornadaColaboradores('.$registro2['id'].');void(0);" class="fas fa-trash fa-lg"></a>
+		   <a style="text-decoration:none; "href="javascript:modal_eliminarJornadaColaboradores('.$registro2['colaborador_id'].');void(0);" class="fas fa-trash fa-lg"></a>
 	   </td>
   </tr>';
 }

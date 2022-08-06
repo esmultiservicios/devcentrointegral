@@ -81,7 +81,15 @@
 						</td>			
 						<td><input type="number" name="quantity[]" id="quantity_0" class="buscar_cantidad form-control" placeholder="Cantidad" autocomplete="off"></td>
 						<td><input type="number" name="price[]" id="price_0" class="form-control price" placeholder="Precio" autocomplete="off"></td>
-						<td><input type="number" name="discount[]" id="discount_0" class="form-control" step="0.01" placeholder="Descuento" autocomplete="off"></td>
+						<td>							
+							<div class="input-group mb-3">
+								<input type="number" name="discount[]" id="discount_0" class="form-control" step="0.01" placeholder="Descuento" readonly autocomplete="off">
+								<div id="suggestions_producto_0" class="suggestions"></div>
+								<div class="input-group-append" id="grupo_buscar_productos">								
+									<a data-toggle="modal" href="#" class="btn btn-outline-success buscar_productos"><div class="sb-nav-link-icon"></div><i class="aplicar_descuento fas fa-plus fa-lg"></i></a>
+								</div>
+							</div>
+						</td>
 						<td><input type="number" name="total[]" id="total_0" class="form-control total" placeholder="Total" readonly autocomplete="off"></td>
 					</tr>
 				</tbody>
