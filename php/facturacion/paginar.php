@@ -157,7 +157,7 @@ while($registro2 = $result->fetch_assoc()){
 	$pay_credit = "";
 	
 	if($estado==1){
-		$eliminar = '<a style="text-decoration:none;" data-toggle="tooltip" data-placement="right" href="javascript:deleteBill('.$registro2['facturas_id'].');void(0);" class="fas fa-trash fa-lg" title="Imprimir Factura"></a>';		
+		$eliminar = '<a style="text-decoration:none;" data-toggle="tooltip" data-placement="right" href="javascript:deleteBill('.$registro2['facturas_id'].');void(0);" class="fas fa-trash fa-lg" title="Eliminar Factura"></a>';		
 	}
 	
 	if($estado==2 || $estado==3 || $estado==4){
