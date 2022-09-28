@@ -323,7 +323,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e){
 	var isv_neto = 0;
 	var total_ = (precio * cantidad) - descuento;
 
-	if(total_ > 0){
+	if(total_ >= 0){
 		if(impuesto_venta == 1){
 			porcentaje_isv = parseFloat(getPorcentajeISV("Facturas") / 100);
 			if($('#formulario_facturacion #taxAmount').val() == "" || $('#formulario_facturacion #taxAmount').val() == 0){
