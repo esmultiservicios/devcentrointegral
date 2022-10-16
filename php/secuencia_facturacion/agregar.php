@@ -29,7 +29,7 @@ $rango_final = $_POST['rango_final'];
 $fecha_activacion = $_POST['fecha_activacion'];
 $fecha_limite = $_POST['fecha_limite'];
 $usuario = $_SESSION['colaborador_id'];
-$comentario = cleanStringStrtolower($_POST['comentario']);
+$comentario = "";
 
 if(isset($_POST['estado'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 	if($_POST['estado'] == ""){

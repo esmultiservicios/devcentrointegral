@@ -42,7 +42,8 @@ $(document).ready(function() {
 			 $('#edi').hide(); 
 			 $('#delete').hide(); 			 
 			 $('#formularioSecuenciaFacturacion #group_comentario').hide();
-			 $('#secuenciaFacturacion').modal({
+			 
+			$('#secuenciaFacturacion').modal({
 				show:true,
 				keyboard: false,
 				backdrop:'static'

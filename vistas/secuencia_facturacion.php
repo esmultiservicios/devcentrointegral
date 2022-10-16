@@ -163,18 +163,7 @@ if($colaborador_id != "" || $colaborador_id != null){
 							</div>
 					   </div>					   
 					</div>					
-				</div>
-				<div class="form-row">						
-					<div class="col-md-12 mb-3">
-					  <label for="nombre">Comentario <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <input type="text" name="comentario" id="comentario" class="form-control" placeholder="Comentario" maxlength="150" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" required>
-						  <div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-comments fa-lg"></i></span>
-							</div>
-					   </div>					   
-					</div>					
-				</div>				
+				</div>			
 			</form>
         </div>		
 		<div class="modal-footer">
