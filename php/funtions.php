@@ -1103,5 +1103,19 @@ function convertir($numero){
 
 	return $numf." CON ".$cents."/100";
 }
+
+//CONSULTA EN EL SERVIDOR DE KIREDS PARA VALIDAR QUE EL CLIENTE EXISTA
+function connect_mysqli_main_server(){
+	$mysqli_main =mysqli_connect(SERVER_MAIN,USER_MAIN,PASS_MAIN,DB_MAIN);
+
+	$mysqli_main->set_charset("utf8");
+
+	if ($mysqli_main->connect_errno) {
+		echo "Fallo al conectar a MySQL: " . $mysqli->connect_error;
+		exit;
+	}
+
+	return $mysqli_main;
+}	
 /*INICIO CONVERTIR NUMEROS A LETRAS*/   
 ?>

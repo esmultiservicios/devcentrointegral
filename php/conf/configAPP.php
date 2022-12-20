@@ -2,12 +2,20 @@
     /*
         Parametros de conexión a la DB
     */
+
+    //DATOS DE CONEXION DEL CLIENTE
     const SERVERURL = "http://localhost/githubCentrointregral/";
 	const SERVEREMPRESA = "Centro Integral";
 	const SERVER = "localhost";
-    const DB = "clinicarehn_clinicare_centrointegral";
+    const DB = "clinicarehn_clientes_centrointegral";
     const USER = "clinicarehn_clinicare";
-    const PASS = "Cl|n1c@r32022#%.";
+    const PASS = "Clin1c@r32022#%.";
+
+    //DATOS DE CONEXION SERVIDOR PRINCIPAL
+    const SERVER_MAIN = "localhost";
+    const DB_MAIN = "clinicarehn_fayad_clinicare";
+    const USER_MAIN = "clinicarehn_clinicare";
+    const PASS_MAIN = "Clin1c@r32022#%.";     
 
     /*
         Para encrptar y Desencriptar
