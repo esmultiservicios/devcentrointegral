@@ -33,6 +33,11 @@ function sendEmailReprogramación(agenda_id){
 	});	
 }
 
+function getMonth(){
+	const hoy = new Date()
+	return hoy.toLocaleString('default', { month: 'long' });
+}
+
 function getUsuarioSistema(){
     var url = '<?php echo SERVERURL; ?>php/sesion/sistema_tipo_usuario.php';
 	var usuario;
