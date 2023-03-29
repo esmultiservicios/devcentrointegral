@@ -185,6 +185,33 @@ if($colaborador_id != "" || $colaborador_id != null){
 
 	<!--FIN GRAFICOS-->	
 	
+	<div class="row">
+		<div class="col-xl-12">
+			<a href="<?php echo SERVERURL; ?>vistas/secuencia_facturacion.php" style="color: #3366BB;">
+				<div class="card-header">
+					<i class="fas fa-sliders-h mr-1"></i>
+					Documentos Fiscales
+				</div>
+				<div class="card-body"> 
+					<div class="table-responsive">
+						<table id="dataTableSecuenciaDashboard" class="table table-striped table-condensed table-hover" style="width:100%">
+							<thead>
+								<tr>
+									<th>Empresa</th>
+									<th>Documento</th>
+									<th>Rango Inicio</th>
+									<th>Rango Fin</th>	
+									<th>Actual</th>										
+									<th>Fecha Expiración</th>					
+								</tr>
+							</thead>
+						</table>  
+					</div>                   
+				</div>				
+			</a>
+		</div>
+	</div>
+
 	<?php include("templates/footer.php"); ?> 
  </div>
 

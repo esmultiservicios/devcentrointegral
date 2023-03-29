@@ -615,6 +615,10 @@ $(document).ready(function(){
 	setInterval('getPendientesPreclinica()',2000);
 	setInterval('getPendientesFacturas()',2000);
 	setInterval('getTotalProductos()',2000);
+
+	listar_secuencia_fiscales_dashboard();
+	
+	$(window).scrollTop(0);
 });
 
 //DATOS MAIN
@@ -704,5 +708,106 @@ function getTotalProductos(){
            	$('#main_productos').html(data);  		  		  			  
 		}
 	});	
+}
+
+function convertDate(inputFormat) {
+  function pad(s) { return (s < 10) ? '0' + s : s; }
+  var d = new Date(inputFormat);
+  return [d.getFullYear(), pad(d.getMonth()+1), pad(d.getDate())].join('-');
+}
+
+function today(){
+    var hoy = new Date();
+    return convertDate(hoy);	
+}
+
+function getMonth(){
+	const hoy = new Date()
+	return hoy.toLocaleString('default', { month: 'long' });
+}
+
+function convertDateFormat(string) {
+  if(string == null || string == ""){
+    var hoy = new Date();
+    string = convertDate(hoy);	  
+  }
+}
+
+var listar_secuencia_fiscales_dashboard = function(){
+	var table_categoria_productos  = $("#dataTableSecuenciaDashboard").DataTable({
+		"destroy":true,
+		"ajax":{
+			"method":"POST",
+			"url":"<?php echo SERVERURL; ?>php/main/llenarDataTableDocumentosFiscalesDashboard.php"
+		},
+		"columns":[
+			{"data":"empresa"},
+			{"data":"documento"},
+			{"data":"inicio"},
+			{"data":"fin"},
+			{"data":"siguiente"},
+			{"data":"fecha"}
+		],
+        "lengthMenu": lengthMenu,
+		"stateSave": true,
+		"bDestroy": true,
+		"language": idioma_español,//esta se encuenta en el archivo main.js
+		"dom": dom,
+		"columnDefs": [
+		  { width: "40.66%", targets: 0 },
+		  { width: "12.66%", targets: 1 },
+		  { width: "12.66%", targets: 2 },
+		  { width: "12.66%", targets: 3 },
+		  { width: "8.66%", targets: 4 },
+		  { width: "12.66%", targets: 5 }
+		],		
+		"buttons":[
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Documentos Fiscales',
+				className: 'table_actualizar btn btn-secondary ocultar',
+				action: 	function(){
+					listar_secuencia_fiscales_dashboard();
+				}
+			},
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				orientation: 'landscape',
+				pageSize: 'LETTER',						
+				title: 'Reporte Documentos Fiscales',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-success ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5]
+				},				
+			},
+			{
+				extend:    'pdf',
+				text:      '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				orientation: 'landscape',
+				pageSize: 'LETTER',						
+				title: 'Reporte Documentos Fiscales',
+				messageBottom: 'Fecha de Reporte: ' + convertDateFormat(today()),
+				className: 'table_reportes btn btn-danger ocultar',
+				exportOptions: {
+						columns: [0,1,2,3,4,5]
+				},				
+				customize: function ( doc ) {
+					doc.content.splice( 1, 0, {
+						margin: [ 0, 0, 0, 12 ],
+						alignment: 'left',
+						image: imagen,//esta se encuenta en el archivo main.js
+						width:100,
+                        height:45
+					} );
+				}
+			}
+		],
+	});
+	table_categoria_productos.search('').draw();
+	$('#buscar').focus();
 }
 </script>

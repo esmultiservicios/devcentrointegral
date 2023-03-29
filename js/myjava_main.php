@@ -270,9 +270,7 @@ function main(){
 	/***********************************************/
 	var maida = getPendientesMAIDA();
     var s_h = getPendientesSH();
-	/***********************************************/
-	
-	
+	/************************************************/
 	
     //Usuarios	
 	$('#temporal').html("Total de Usuarios Temporales: " + temporal);
@@ -290,7 +288,7 @@ function main(){
 	datos++;
     // lógica para obtener y mostrar los datos
     if (datos === 5)
-       clearInterval(relojito);	
+       clearInterval(relojito);
 }
 
 clearInterval(relojito);
