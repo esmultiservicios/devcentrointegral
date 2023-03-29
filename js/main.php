@@ -743,10 +743,10 @@ var listar_secuencia_fiscales_dashboard = function(){
 		"columns":[
 			{"data":"empresa"},
 			{"data":"documento"},
-			{"data":"rango_inicial"},
-			{"data":"rango_final"},
+			{"data":"inicio"},
+			{"data":"fin"},
 			{"data":"siguiente"},
-			{"data":"fecha_limite"}
+			{"data":"fecha"}
 		],
         "lengthMenu": lengthMenu,
 		"stateSave": true,

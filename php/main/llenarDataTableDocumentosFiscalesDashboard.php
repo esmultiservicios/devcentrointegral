@@ -18,13 +18,28 @@
 	$result = $mysqli->query($consulta);	
 
 	$arreglo = array();
+	$data = array();
 	
-	while($data = $result->fetch_assoc()){				
-		$arreglo["data"][] = $data;
+	while($row = $result->fetch_assoc()){				
+		$data[] = array( 
+			"secuencia_facturacion_id"=>$row['secuencia_facturacion_id'],
+			"empresa"=>$row['empresa'],
+			"documento"=>$row['documento'],
+			"cai"=>$row['cai'],
+			"inicio"=>$row['rango_inicial'],
+			"fin"=>$row['rango_final'],
+			"fecha"=>$row['fecha_limite'],
+			"siguiente"=>$row['siguiente']			
+		);		
 	}
-	 
+	
+	$arreglo = array(
+		"echo" => 1,
+		"totalrecords" => count($data),
+		"totaldisplayrecords" => count($data),
+		"data" => $data
+	);
+
 	echo json_encode($arreglo);
 	
-	$result->free();//LIMPIAR RESULTADO
-	$mysqli->close();//CERRAR CONEXIÓN
 ?>
