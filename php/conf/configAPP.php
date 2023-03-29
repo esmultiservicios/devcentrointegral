@@ -9,7 +9,7 @@
 	const SERVER = "localhost";
     const DB = "clinicarehn_clientes_centrointegral";
     const USER = "clinicarehn_clinicare";
-    const PASS = "Clin1c@r32022#%.";
+    const PASS = "Clin1c@r32022#";
 
     //DATOS DE CONEXION SERVIDOR PRINCIPAL
     const SERVER_MAIN = "localhost";
