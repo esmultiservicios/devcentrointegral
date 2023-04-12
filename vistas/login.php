@@ -169,7 +169,10 @@ require_once "../php/conf/configAPP.php";
     <script src="<?php echo SERVERURL; ?>login/js/jquery.min.js"></script>
     <script src="<?php echo SERVERURL; ?>login/bootstrap/js/bootstrap.min.js"></script>
     <script src="<?php echo SERVERURL; ?>login/js/script_login.js"></script>
-	<script src="<?php echo SERVERURL; ?>sweetalert/sweetalert.min.js"></script>		
+	<script src="<?php echo SERVERURL; ?>sweetalert/sweetalert.min.js"></script>	
+   
+   <a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%20CLINICARE,%20nos%20gustar%C3%ADa%20que%20nos%20puedan%20brindar%20asistencia%20t%C3%A9cnica,%20muchas%20gracias." class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
+    <i class="fab fa-whatsapp my-float-ws"></i>     
 	
 	<?php 		
 		include "../js/login.php";		
