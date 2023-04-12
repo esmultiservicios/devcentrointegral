@@ -20,3 +20,6 @@
 <script src="<?php echo SERVERURL; ?>js/query/arriba.js"></script> 
 <script src="<?php echo SERVERURL; ?>js/query/menu-despelgable.js"></script>
 <span class="ir-arriba" data-toggle="tooltip" data-placement="top" title="Ir Arriba"><i class="fas fa-chevron-up fa-xs"></i></span>  
+
+<a href="https://api.whatsapp.com/send?phone=50432273380&text=Hola%21%20Quisiera%20m%C3%A1s%20informaci%C3%B3n%20sobre%20Varela%202." class="float-ws" target="_blank" data-toggle="tooltip" data-placement="top" title="Soporte CLINICARE">
+<i class="fab fa-whatsapp my-float-ws"></i>  
