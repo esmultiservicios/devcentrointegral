@@ -70,23 +70,45 @@ if($result_factura->num_rows==0){
 			VALUES ('$pagos_detalles_id','$pagos_id','$tipo_pago_id','$banco_id','$importe','$referencia_pago1','$referencia_pago2','$referencia_pago3')";
 		$query = $mysqli->query($insert);
 		
-		//ACTUALIZAMOS EL ESTADO DE LA FACTURA
-		$update_factura = "UPDATE facturas
-			SET
-				estado = '$estado',
-				number = '$numero'
+		//CONSULTAMO EL TIPO DE FACTURA
+		$query_tipo_factura = "SELECT tipo_factura
+			FROM facturas
 			WHERE facturas_id = '$facturas_id'";
-		$mysqli->query($update_factura) or die($mysqli->error);	
+		$result = $mysqli->query($query_tipo_factura) or die($mysqli->error);
+		$consulta2TipoFactura = $resultTipoFactura->fetch_assoc();
 
-		//CONSULTAMOS EL NUMERO QUE SIGUE DE EN LA SECUENCIA DE FACTURACION
-		$numero_secuencia_facturacion = correlativo("siguiente", "secuencia_facturacion");
+		$tipo_factura = "";
+
+		if($resultTipoFactura->num_rows>0){
+			$tipo_factura = $consulta2TipoFactura['secuencia_facturacion_id'];		
+		}	
 		
-		//ACTUALIZAMOS LA SECUENCIA DE FACTURACION AL NUMERO SIGUIENTE		
-		$update = "UPDATE secuencia_facturacion 
-		SET 
-			siguiente = '$numero_secuencia_facturacion' 
-		WHERE secuencia_facturacion_id = '$secuencia_facturacion_id'";
-		$mysqli->query($update);
+		if(tipo_factura == 1){
+			//ACTUALIZAMOS EL ESTADO DE LA FACTURA
+			$update_factura = "UPDATE facturas
+				SET
+					estado = '$estado',
+					number = '$numero'
+				WHERE facturas_id = '$facturas_id'";
+			$mysqli->query($update_factura) or die($mysqli->error);	
+
+			//CONSULTAMOS EL NUMERO QUE SIGUE DE EN LA SECUENCIA DE FACTURACION
+			$numero_secuencia_facturacion = correlativo("siguiente", "secuencia_facturacion");
+			
+			//ACTUALIZAMOS LA SECUENCIA DE FACTURACION AL NUMERO SIGUIENTE		
+			$update = "UPDATE secuencia_facturacion 
+			SET 
+				siguiente = '$numero_secuencia_facturacion' 
+			WHERE secuencia_facturacion_id = '$secuencia_facturacion_id'";
+			$mysqli->query($update);	
+		}else{
+			//ACTUALIZAMOS EL ESTADO DE LA FACTURA
+			$update_factura = "UPDATE facturas
+				SET
+					estado = '$estado',
+				WHERE facturas_id = '$facturas_id'";
+			$mysqli->query($update_factura) or die($mysqli->error);				
+		}
 		
 		$datos = array(
 			0 => "Guardar", 
