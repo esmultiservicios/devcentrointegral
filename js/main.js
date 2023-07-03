@@ -484,14 +484,6 @@ function llenarTabla(dato){
 		listar_categoria();
 	}		
 	
-	if(dato == "Movimientos"){
-		listar_movimientos();
-		listar_productos_buscar();
-		getCategoriaProductosMovimientos();
-		getCategoriaProductos();
-		getCategoriaOperacion();
-	}			
-	
 	if(dato == "AtencionMedica"){
 		pagination(1);
 		listar_pacientes_buscar();
@@ -506,6 +498,16 @@ function llenarTabla(dato){
 	
 	if(dato == "ReportePagos"){
 		pagination(1);
+	}	
+
+	if(dato == "Movimientos"){
+		listar_movimientos();
+		agregarMovimientos();
+		getCategoriaProductosMovimientos();
+		getCategoriaProductos();
+		getCategoriaOperacion();
+		getProductos(1);
+
 	}		
 }
 

@@ -1,7 +1,7 @@
 <?php
-session_start();   
+session_start();
 include "../funtions.php";
-	
+
 //CONEXION A DB
 $mysqli = connect_mysqli();
 
@@ -105,7 +105,7 @@ $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<th width="6.66%">Factura</th>
 			<th width="6.66%">Fecha</th>
 			<th width="6.66%">Identidad</th>
-			<th width="10.66%">Paciente</th>			
+			<th width="10.66%">Paciente</th>
 			<th width="13.66%">Número</th>
 			<th width="6.66%">Importe</th>
 			<th width="6.66%">ISV</th>
@@ -114,19 +114,19 @@ $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<th width="6.66%">Servicio</th>
 			<th width="6.66%">Profesional</th>
 			<th width="2.66%">Imprimir</th>
-            <th width="2.66%">Cierre</th>			
+            <th width="2.66%">Cierre</th>
 			<th width="2.66%">Revertir</th>
 			</tr>';
-$i = 1;	
-$cierre_ = "";			
-while($registro2 = $result->fetch_assoc()){ 
+$i = 1;
+$cierre_ = "";
+while($registro2 = $result->fetch_assoc()){
 	$facturas_id = $registro2['facturas_id'];
 	//CONSULTAR DATOS DETALLE DE Factura
 	$query_detalle = "SELECT precio, descuento, cantidad, isv_valor
 		FROM facturas_detalle
 		WHERE facturas_id = '$facturas_id'";
 	$result_detalles = $mysqli->query($query_detalle) or die($mysqli->error);
-	
+
 	$cantidad = 0;
 	$descuento = 0;
 	$precio = 0;
@@ -134,66 +134,66 @@ while($registro2 = $result->fetch_assoc()){
 	$total = 0;
 	$isv_neto = 0;
 	$neto_antes_isv = 0;
-	
+
 	while($registrodetalles = $result_detalles->fetch_assoc()){
 			$precio += $registrodetalles["precio"];
 			$cantidad += $registrodetalles["cantidad"];
 			$descuento += $registrodetalles["descuento"];
 			$total_precio = $registrodetalles["precio"] * $registrodetalles["cantidad"];
 			$neto_antes_isv += $total_precio;
-			$isv_neto += $registrodetalles["isv_valor"];	
+			$isv_neto += $registrodetalles["isv_valor"];
 	}
-	
-	$total = ($neto_antes_isv + $isv_neto) - $descuento; 
-		
+
+	$total = ($neto_antes_isv + $isv_neto) - $descuento;
+
 	if($registro2['numero'] != ""){
 		$numero = $registro2['prefijo'].''.rellenarDigitos($registro2['numero'], $registro2['relleno']);
 	}else{
 		$numero = "Aún no se ha generado";
 	}
-	
+
 	$cierre = $registro2['cierre'];
-	
+
 	if($cierre == 1){
 		$cierre_ = '<a style="text-decoration:none; pointer-events: none; cursor: default;" data-toggle="tooltip" data-placement="right" href="#" class="fas fa-check-double fa-lg" title="La factura ha sido cerrada"></a>';
 	}else{
-		$cierre_ = '<a style="text-decoration:none; pointer-events: none; cursor: default;" data-toggle="tooltip" data-placement="right" href="#" class="fas fa-check fa-lg" title="No se ha cerrado la factura"></a>';		
+		$cierre_ = '<a style="text-decoration:none; pointer-events: none; cursor: default;" data-toggle="tooltip" data-placement="right" href="#" class="fas fa-check fa-lg" title="No se ha cerrado la factura"></a>';
 	}
-	
-	
+
+
 	$tabla = $tabla.'<tr>
-			<td>'.$i.'</td> 
+			<td>'.$i.'</td>
 			<td>'.$registro2['tipo_documento'].'</td>
-			<td><a style="text-decoration:none" href="javascript:invoicesDetails('.$registro2['facturas_id'].');">'.$registro2['fecha1'].'</a></td>	
+			<td><a style="text-decoration:none" href="javascript:invoicesDetails('.$registro2['facturas_id'].');">'.$registro2['fecha1'].'</a></td>
 			<td>'.$registro2['identidad'].'</td>
-			<td>'.$registro2['paciente'].'</td>				
+			<td>'.$registro2['paciente'].'</td>
 			<td>'.$numero.'</td>
             <td>'.number_format($precio,2).'</td>
-            <td>'.number_format($isv_neto,2).'</td>			
+            <td>'.number_format($isv_neto,2).'</td>
 			<td>'.number_format($descuento,2).'</td>
 			<td>'.number_format($total,2).'</td>
             <td>'.$registro2['servicio'].'</td>
-            <td>'.$registro2['profesional'].'</td>	
+            <td>'.$registro2['profesional'].'</td>
 			<td>
 			  <a style="text-decoration:none;" data-toggle="tooltip" data-placement="right" title = "Crear Factura" href="javascript:printBill('.$registro2['facturas_id'].');void(0);" class="fas fa-print fa-lg"></a>
 			</td>
-            <td>'.$cierre_.'</td>				
-			<td>		
+            <td>'.$cierre_.'</td>
+			<td>
 			  <a style="text-decoration:none;" data-toggle="tooltip" data-placement="right" title = "Revertir Factura" href="javascript:modal_rollback('.$registro2['facturas_id'].','.$registro2['pacientes_id'].');void(0);" class="fas fa-undo fa-lg"></a>
 			</td>
-			</tr>';	
-			$i++;				
+			</tr>';
+			$i++;
 }
 
 if($nroProductos == 0){
 	$tabla = $tabla.'<tr>
 	   <td colspan="15" style="color:#C7030D">No se encontraron resultados, seleccione un profesional para verificar si hay registros almacenados</td>
-	</tr>';		
+	</tr>';
 }else{
    $tabla = $tabla.'<tr>
 	  <td colspan="15"><b><p ALIGN="center">Total de Registros Encontrados: '.$nroProductos.'</p></b>
-   </tr>';		
-}        
+   </tr>';
+}
 
 $tabla = $tabla.'</table>';
 
@@ -203,5 +203,5 @@ $array = array(0 => $tabla,
 echo json_encode($array);
 
 $result->free();//LIMPIAR RESULTADO
-$mysqli->close();//CERRAR CONEXIÓN	
+$mysqli->close();//CERRAR CONEXIÓN
 ?>

@@ -204,7 +204,7 @@ function agregarRegistro(){
 					type: "success", 
 					timer: 3000, //timeOut for auto-close
 				});
-				$('#secuenciaFacturacion').modal('hide');
+				//$('#secuenciaFacturacion').modal('hide');
 				pagination(1);
 				return false;				
 			}else if(registro == 2){

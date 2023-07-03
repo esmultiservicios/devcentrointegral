@@ -39,7 +39,17 @@ if(isset($_POST['almacen'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
 }
 
 $concentracion = $_POST['concentracion'];
-$cantidad = $_POST['cantidad'];
+
+if(isset($_POST['cantidad'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
+	if($_POST['cantidad'] == ""){
+		$cantidad = 0;
+	}else{
+		$cantidad = $_POST['cantidad'];
+	}
+}else{
+	$cantidad = 0;
+}
+
 $precio_compra = $_POST['precio_compra'];
 $precio_venta = $_POST['precio_venta'];
 $cantidad_minima = $_POST['cantidad_minima'];
@@ -112,8 +122,13 @@ if($result->num_rows==0){
 		if ($categoria_producto == "Producto" || $categoria_producto == "Insumos"){
 			$movimientos_id  = correlativo('movimientos_id  ', 'movimientos');
 			$documento = "Entrada Productos ".$movimientos_id;
-			$insert = "INSERT INTO movimientos VALUES('$movimientos_id','$productos_id','$documento','$cantidad','$0','$cantidad','$fecha_registro')";
-			$mysqli->query($insert) or die($mysqli->error);			
+
+			$comentario_movimientos = "Ingreso de Producto";
+
+			if($cantidad>0){
+				$insert = "INSERT INTO movimientos VALUES('$movimientos_id','$productos_id','$documento','$cantidad','$0','$cantidad','$fecha_registro', '$comentario_movimientos')";
+				$mysqli->query($insert) or die($mysqli->error);
+			}		
 		}		
 		
 		/*********************************************************************************************************************************************************************/

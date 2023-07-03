@@ -224,8 +224,9 @@ if($pacientes_id != "" && $colaborador_id != "" && $servicio_id != ""){
 						$documento = "Factura ".$facturas_id;
 					
 						$movimientos_id = correlativo("movimientos_id","movimientos");
+						$comentario_movimientos = "Salida por Facturación";
 						$insert_movimiento = "INSERT INTO movimientos 
-						VALUES('$movimientos_id','$productoID','$documento','$cantidad_entrada','$cantidad_salida','$saldo','$fecha_registro')";
+						VALUES('$movimientos_id','$productoID','$documento','$cantidad_entrada','$cantidad_salida','$saldo','$fecha_registro','$comentario_movimientos')";
 						$mysqli->query($insert_movimiento);
 					}
 				}

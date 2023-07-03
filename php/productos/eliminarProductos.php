@@ -21,10 +21,15 @@ $query_compras = "SELECT compras_detalles_id
 	WHERE productos_id = '$productos_id'";
 $result_compras = $mysqli->query($query_compras) or die($mysqli->error);
 
-if($result_facturas->num_rows >=1 || $result_compras->num_rows >= 1){
+$query_movimientos = "SELECT movimientos_id 
+	FROM movimientos
+	WHERE productos_id = '$productos_id'";
+$result_movimientos = $mysqli->query($query_movimientos) or die($mysqli->error);
+
+if($result_facturas->num_rows >=1 || $result_compras->num_rows >= 1 || $result_movimientos->num_rows >= 1){
 	$datos = array(
 		0 => "Error", 
-		1 => "Lo sentimos este registro cuenta con información almacenada no se puede eliminar", 
+		1 => "Lo sentimos este registro cuenta con información almacenada (en facturación, compras o movimientos) no se puede eliminar",
 		2 => "error",
 		3 => "btn-danger",
 		4 => "",

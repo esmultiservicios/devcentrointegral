@@ -1,0 +1,4 @@
+####01/07/2023####
+tabla => movimientos
+se agrego al final los siguientes campos
+comentario		varchar(1000)

@@ -46,55 +46,76 @@
 			  <span aria-hidden="true">&times;</span>
 			</button>
         </div>
-        <div class="modal-body">		
-			<form class="FormularioAjax" id="formularioMovimientos" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">			
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formularioMovimientos" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					    <input type="hidden" id="muestras_id" name="muestras_id" class="form-control"/>
+					    <input type="hidden" id="movimientos_id " name="movimientos_id " class="form-control"/>
 						<div class="input-group mb-3">
 							<input type="text" required readonly id="pro" name="pro" class="form-control"/>
-							<div class="input-group-append">				
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square"></i></span>
 							</div>
-						</div>	 
-					</div>							
+						</div>
+					</div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label>Categoría <span class="priority">*<span/></label>
-					  <select id="movimiento_categoria" name="movimiento_categoria" class="form-control" data-toggle="tooltip" data-placement="top" title="Categoría Productos" required>
-							<option value="">Seleccione</option>
-					  </select>					  
+					<div class="col-md-3 mb-3">
+						<label for="categoria">Categoría<span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<select class="selectpicker" id="movimiento_categoria" name="movimiento_categoria" required data-live-search="true" title="Categoría" data-size="10">
+							</select>
+						</div>
 					</div>
-					<div class="col-md-6 mb-3">
-					  <label>Productos <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <select id="movimiento_producto" name="movimiento_producto" class="form-control" data-toggle="tooltip" data-placement="top" title="Productos" required>
-								<option value="">Seleccione</option>
-						  </select>
-						  <div class="input-group-append" id="buscar_productos">				
-							<a data-toggle="modal" href="#" class="btn btn-outline-success" id="servicio_boton"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-						  </div>
-					   </div>					  
-					</div>										
-				</div>	
-				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label>Tipo de Operación <span class="priority">*<span/></label>
-					  <select id="movimiento_operacion" name="movimiento_operacion" class="form-control" data-toggle="tooltip" data-placement="top" title="Tipo Operación" required>
-						 <option value="">Seleccione</option>
-					  </select>					  
+					<div class="col-md-3 mb-3">
+						<label for="categoria">Productos<span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<select class="selectpicker" id="movimiento_producto" name="movimiento_producto" required data-live-search="true" title="Productos" data-size="10">
+							</select>
+						</div>
 					</div>
-					<div class="col-md-6 mb-3">
-					  <label>Cantidad <span class="priority">*<span/></label>
-					  <input type="number" required id="movimiento_cantidad" name="movimiento_cantidad" class="form-control" required>				  
-					</div>										
-				</div>			
-			</form>
-        </div>		
+					<div class="col-md-3 mb-3">
+						<label for="categoria">Tipo Operación<span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<select class="selectpicker" id="movimiento_operacion" name="movimiento_operacion" required data-live-search="true" title="Tipo Operación" data-size="10">
+							</select>
+						</div>
+					</div>
+					<div class="col-md-3 mb-3">
+						  <label>Cantidad <span class="priority">*<span/></label>
+						  <input type="number" required id="movimiento_cantidad" name="movimiento_cantidad" class="form-control" required>
+						</div>
+					</div>
+					<div class="form-row">
+						<div class="col-md-12 mb-3">
+								<div class="card">
+								<div class="card-header text-white bg-info mb-3" align="center">
+									Comentario
+								</div>
+								<div class="card-body">
+									<div class="form-row">
+										<div class="col-md-12 mb-3">
+											<div class="input-group">
+											<textarea id="comentario" name="comentario" placeholder="Comentario" class="form-control" maxlength="1000" rows="7"></textarea>
+											<div class="input-group-prepend">
+												<span class="input-group-text">
+													<i class="btn btn-outline-success fas fa-microphone-alt" id="search_comentario_movimientos_start"></i>
+													<i class="btn btn-outline-success fas fa-microphone-slash" id="search_comentario_movimientos_stop"></i>
+												</span>
+											</div>
+											</div>
+											<p id="charNum_comentario">1000 Caracteres</p>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
 		<div class="modal-footer">
-			<button class="btn btn-primary ml-2" type="submit" id="modal_movimientos" form="formularioMovimientos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>		
-		</div>			
+			<button class="btn btn-primary ml-2" type="submit" id="modal_movimientos" form="formularioMovimientos"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
+		</div>
       </div>
     </div>
 </div>
