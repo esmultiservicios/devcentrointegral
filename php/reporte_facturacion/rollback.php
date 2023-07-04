@@ -76,7 +76,7 @@ if($query){
 	//INGRESAR REGISTROS EN LA ENTIDAD HISTORIAL
 	$historial_numero = historial();
 	$estado_historial = "Agregar";
-	$observacion_historial = "el número de factura $numero_factura ha sido eliminada correctamente segun comentario: $comentario";
+	$observacion_historial = "el número de factura $numero_factura ha sido anulada correctamente segun comentario: $comentario";
 	$modulo = "Facturas";
 	$insert = "INSERT INTO historial 
 	   VALUES('$historial_numero','$pacientes_id','$expediente','$modulo','$facturas_id','$colaborador_id','$servicio_id','$fecha','$estado_historial','$observacion_historial','$estado','$fecha_registro')";	 
