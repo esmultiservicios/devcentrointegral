@@ -55,10 +55,12 @@ function getConsulta(){
 	    async: true,
         success: function(data){		
 		    $('#for_main #consulta').html("");
-			$('#for_main #consulta').html(data);	
+			$('#for_main #consulta').html(data);
+			$('#for_main #consulta').selectpicker('refresh');
 
 		    $('#formulario_registros #consulta_registro').html("");
-			$('#formulario_registros #consulta_registro').html(data);				
+			$('#formulario_registros #consulta_registro').html(data);
+			$('#formulario_registros #consulta_registro').selectpicker('refresh');			
 		}			
      });		
 }
@@ -324,7 +326,6 @@ $('#formulario_registros #edi').on('click', function(e){ // add event submit We 
 		return false;	   
 	 }  
 });
-
 
 function consultarNombre(id){	
     var url = '<?php echo SERVERURL; ?>php/config_varios/getNombre.php';

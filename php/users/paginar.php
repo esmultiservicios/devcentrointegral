@@ -157,15 +157,17 @@ $result = $mysqli->query($registro);
 
   	$tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			            <tr>
-                  	      <th width="4%">Código</th>
-                          <th width="10%">Nombre</th>
-                          <th width="10%">Apellido</th>
-                          <th width="7%">Username</th>
-                          <th width="17%">Email</th>	
-                          <th width="23%">Empresa</th>	
-                          <th width="10%">Tipo</th>	
-                         <th width="5%">Estatus</th>																																										
-             	          <th width="8%">Opciones</th>
+                  	      <th width="2.09%">Código</th>
+                          <th width="9.09%">Nombre</th>
+                          <th width="9.09%">Apellido</th>
+                          <th width="9.09%">Username</th>
+                          <th width="9.09%">Email</th>	
+                          <th width="16.09%">Empresa</th>	
+                          <th width="13.09%">Tipo</th>	
+                          <th width="5.09%">Estatus</th>																																										
+						  <th width="9.09%">Editar</th>
+						  <th width="9.09%">Cambiar</th>
+             	          <th width="9.09%">Eliminar</th>
 			            </tr>';
 				
 	while($registro2 = $result->fetch_assoc()){			
@@ -184,20 +186,24 @@ $result = $mysqli->query($registro);
 		   <td>'.$registro2['tipo_usuario'].'</td>
 		   <td>'.$status.'</td>		   		   		   		   		   		   
 		   <td>
-               <a style="text-decoration:none;" href="javascript:editarRegistro('.$registro2['id'].');void(0);" class="fas fa-edit fa-lg" data-toggle="tooltip" data-placement="top" title="Editar Registro"></a>
-			   <a style="text-decoration:none;" href="javascript:modificarContra('.$registro2['id'].');void(0);" class="fas fa-sync fa-lg" data-toggle="tooltip" data-placement="top" title="Resetear Contraseña"></a>
-               <a style="text-decoration:none;" href="javascript:modal_eliminar('.$registro2['colaborador_id'].','.$registro2['id'].');void(0);" class="fas fa-trash fa-lg" data-toggle="tooltip" data-placement="top" title="Eliminar Registro"></a>
-           </td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:editarRegistro('.$registro2['id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-user-edit fa-lg"></i> Editar</a>
+		   </td>
+		   <td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:modificarContra('.$registro2['id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-sync fa-lg"></i> Cambiar</a>
+		   </td>
+		   <td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:modal_eliminar('.$registro2['id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-trash fa-lg"></i> Eliminar</a>
+		   </td>			   
 	  </tr>';		
 	}
     
 	if($nroProductos == 0){
         $tabla = $tabla.'<tr>
-	       <td colspan="13" style="color:#C7030D">No se encontraron resultados</td>
+	       <td colspan="14" style="color:#C7030D">No se encontraron resultados</td>
 	    </tr>';		
 	}else{
        $tabla = $tabla.'<tr>
-	      <td colspan="9"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
+	      <td colspan="14"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
 	   </tr>';		
 	}     
 

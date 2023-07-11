@@ -118,14 +118,15 @@ var listar_movimientos = function(){
 function getCategoriaProductos(){
     var url = '<?php echo SERVERURL; ?>php/movimientos/getCategoriaProducto.php';
 
-	$.ajax({
-        type: "POST",
-        url: url,
-        success: function(data){
-		    $('#form_main #categoria_id').html("");
-			$('#form_main #categoria_id').html(data);
-		}
-     });
+    $.ajax({
+      type: "POST",
+      url: url,
+      success: function(data){
+        $('#form_main #categoria_id').html("");
+        $('#form_main #categoria_id').html(data);
+        $('#form_main #categoria_id').selectpicker('refresh');
+      }
+    });
 }
 
 function getCategoriaProductosMovimientos(){

@@ -56,29 +56,29 @@ $(document).ready(function(){
 /*FIN DE FUNCIONES PARA ESTABLECER EL FOCUS PARA LAS VENTANAS MODALES*/
 
 function modificarContra(id){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){	
-		$('#modificar_contra #dato').val(id);
-		swal({
-			title: "¿Esta seguro?",
-			text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(id) + "?",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonClass: "btn-warning",
-			confirmButtonText: "¡Sí, modificar la contraseña!",
-			cancelButtonText: "Cancelar",
-			closeOnConfirm: false
-		},
-		function(){					
-			resetearContra(id);
-		});	
-	}else{
-		swal({
-			title: "Acceso Denegado", 
-			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
-		});					 
-	}	
+if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){	
+	$('#modificar_contra #dato').val(id);
+	swal({
+		title: "¿Esta seguro?",
+		text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(id) + "?",
+		type: "warning",
+		showCancelButton: true,
+		confirmButtonClass: "btn-warning",
+		confirmButtonText: "¡Sí, modificar la contraseña!",
+		cancelButtonText: "Cancelar",
+		closeOnConfirm: false
+	},
+	function(){					
+		resetearContra(id);
+	});	
+}else{
+	swal({
+		title: "Acceso Denegado", 
+		text: "No tiene permisos para ejecutar esta acción",
+		type: "error", 
+		confirmButtonClass: 'btn-danger'
+	});					 
+}	
 }
 
 function resetearContra(id){	
@@ -124,8 +124,11 @@ function getColaborador(){
 		success: function(data){
 			$('#formulario #colaborador').html("");
 			$('#formulario #colaborador').html(data);
+			$('#formulario #colaborador').selectpicker('refresh');
+			
 			$('#formulario_editar #colaborador1').html("");
-			$('#formulario_editar #colaborador1').html(data);;			
+			$('#formulario_editar #colaborador1').html(data);
+			$('#formulario_editar #colaborador1').selectpicker('refresh');			
 		}
 	});
 	return false;	
@@ -139,9 +142,12 @@ function getStatus(){
 		url:url,		
 		success: function(data){
 			$('#formulario #estatus').html("");
-			$('#formulario #estatus').html(data);	
+			$('#formulario #estatus').html(data);
+			$('#formulario #estatus').selectpicker('refresh');
+			
 			$('#formulario_editar #estatus1').html("");
-			$('#formulario_editar #estatus1').html(data);				
+			$('#formulario_editar #estatus1').html(data);
+			$('#formulario_editar #estatus1').selectpicker('refresh');			
 		}
 	});
 	return false;	
@@ -155,9 +161,12 @@ function getEmpresa(){
 		url:url,		
 		success: function(data){
 			$('#formulario #empresa').html("");
-			$('#formulario #empresa').html(data);		
+			$('#formulario #empresa').html(data);	
+			$('#formulario #empresa').selectpicker('refresh');
+			
 			$('#formulario_editar #empresa1').html("");
-			$('#formulario_editar #empresa1').html(data);					
+			$('#formulario_editar #empresa1').html(data);
+			$('#formulario_editar #empresa1').selectpicker('refresh');			
 		}
 	});
 	return false;	
@@ -286,11 +295,15 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 				listar_colaboradores_buscar();
 				$('#formulario_editar #pro').val('Edicion');
 				$('#formulario_editar #id-registro1').val(id);
-			    $('#formulario_editar #colaborador1').val(datos[0]);						
+			    $('#formulario_editar #colaborador1').val(datos[0]);
+				$('#formulario_editar #colaborador1').selectpicker('refresh');				
 				$('#formulario_editar #email1').val(datos[3]);
-				$('#formulario_editar #empresa1').val(datos[4]);;
-			    $('#formulario_editar #tipo1').val(datos[5]);																								
+				$('#formulario_editar #empresa1').val(datos[4]);
+				$('#formulario_editar #empresa1').selectpicker('refresh');			
+			    $('#formulario_editar #tipo1').val(datos[5]);
+				$('#formulario_editar #tipo1').selectpicker('refresh');				
 				$('#formulario_editar #estatus1').val(datos[6]);
+				$('#formulario_editar #estatus1').selectpicker('refresh');
 				
 				$('#formulario_editar').attr({ 'data-form': 'save' }); 
 				$('#formulario_editar').attr({ 'action': '<?php echo SERVERURL; ?>php/users/agregar_edicion.php' });
@@ -348,8 +361,11 @@ function getTipo(){
         success: function(data){		
 		    $('#formulario #tipo').html("");
 			$('#formulario #tipo').html(data);
-		    $('#formulario_editar #tipo1').html("");
+			$('#formulario #tipo').selectpicker('refresh');
+			
+		    $('#formulario_editar #tipo1').html("");			
 			$('#formulario_editar #tipo1').html(data);		
+			$('#formulario_editar #tipo1').selectpicker('refresh');
 		}			
      });		
 }
@@ -363,7 +379,8 @@ function getEstatus(){
 	    async: true,
         success: function(data){		
 		    $('#main_form #status').html("");
-			$('#main_form #status').html(data);		
+			$('#main_form #status').html(data);
+			$('#main_form #status').selectpicker('refresh');			
 		}			
      });		
 }
@@ -383,6 +400,7 @@ function consultarNombre(id){
 	});
 	return resp;		
 }
+
 
 var tiempo;
 function ini() {
@@ -488,4 +506,21 @@ $('#formulario #buscar_empresa').on('click', function(e){
 		backdrop:'static'
 	});		 
 });
+
+$(document).ready(function(){
+// Prepare the preview for profile picture
+    $("#wizard-picture").change(function(){
+        readURL(this);
+    });
+});
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}
 </script>

@@ -12,7 +12,6 @@ $consulta = "SELECT colaborador_id, nombre AS nombre, apellido AS 'apellido'
 $result = $mysqli->query($consulta);			  
 
 if($result->num_rows>0){
-	echo '<option value="">Seleccione</option>';
 	while($consulta2 = $result->fetch_assoc()){
 		$nombre_ = explode(" ", $consulta2['nombre']);
 		$apellido_ = explode(" ", $consulta2['apellido']);
@@ -21,6 +20,8 @@ if($result->num_rows>0){
 		
 		echo '<option value="'.$consulta2['colaborador_id'].'">'.$colaborador.'</option>';
 	}
+}else{
+	echo '<option value="">No hay datos que mostrar</option>';
 }
 
 $result->free();//LIMPIAR RESULTADO

@@ -17,7 +17,7 @@ function funciones(){
 }	
 
 function agregarUbicacion(){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3){
 		$('#formulario_ubicacion').attr({ 'data-form': 'save' });
 		$('#formulario_ubicacion').attr({ 'action': '<?php echo SERVERURL; ?>php/ubicacion/agregarUbicacion.php' });			
 		$('reg_ubicacion').show();

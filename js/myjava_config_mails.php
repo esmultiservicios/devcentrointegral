@@ -58,7 +58,8 @@ function getConsulta(){
 	    async: true,
         success: function(data){		
 		    $('#formulario_registros #conf_smtp_secure').html("");
-			$('#formulario_registros #conf_smtp_secure').html(data);				
+			$('#formulario_registros #conf_smtp_secure').html(data);
+			$('#formulario_registros #conf_smtp_secure').selectpicker('refresh');			
 		}			
      });		
 }
@@ -72,7 +73,8 @@ function getTipo(){
 	    async: true,
         success: function(data){		
 		    $('#formulario_registros #conf_tipo').html("");
-			$('#formulario_registros #conf_tipo').html(data);				
+			$('#formulario_registros #conf_tipo').html(data);	
+			$('#formulario_registros #conf_tipo').selectpicker('refresh');			
 		}			
      });		
 }
@@ -80,19 +82,11 @@ function getTipo(){
 function pagination(partida){
 	var url = '<?php echo SERVERURL; ?>php/conf_mail/paginar.php';
 	var dato = $('#for_main #bs_regis').val();
-	var entidad;
-	
-	if( $('#for_main #consulta').val() == "" || $('#for_main #consulta').val() == null){
-		entidad = "banco";
-	}else{
-		entidad = $('#for_main #consulta').val();
-	}
-	
 	
 	$.ajax({
 		type:'POST',
 		url:url,
-		data:'partida='+partida+'&entidad='+entidad+'&dato='+dato,
+		data:'partida='+partida+'&dato='+dato,
 		success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
@@ -210,9 +204,11 @@ function editarRegistro(id){
 				$('#formulario_registros #pro').val('Edicion');
 				$('#formulario_registros #id_registro').val(id);
                 $('#formulario_registros #conf_tipo').val(datos[0]);
+				$('#formulario_registros #conf_tipo').selectpicker('refresh');
 				$('#formulario_registros #conf_mail').val(datos[1]);				
 				$('#formulario_registros #conf_servidor').val(datos[2]);
                 $('#formulario_registros #conf_smtp_secure').val(datos[3]);
+				$('#formulario_registros #conf_smtp_secure').selectpicker('refresh');
 				$('#formulario_registros #conf_puerto').val(datos[4]);				
 				$('#formulario_registros #conf_pass').val(datos[5]);
 				$('#formulario_registros #conf_tipo').attr('disabled', true);

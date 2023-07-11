@@ -68,17 +68,18 @@ $result = $mysqli->query($registro);
 
 $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<tr>
-			<th width="2.09%">No.</th>
-			<th width="11.09%">Empresa</th>				
-			<th width="23.09%">CAI</th>
-			<th width="6.09%">RTN</th>
-			<th width="11.09%">Número Siguiente</th>
-			<th width="11.09%">Rango Inicial</th>
-			<th width="11.09%">Rango Final</th>
-			<th width="9.09%">Fecha Activación</th>				
-			<th width="6.09%">Fecha Limite</th>
-			<th width="2.09%">Activo</th>
-            <th width="5.09%">Opciones</th>				
+			<th width="2.33%">No.</th>
+			<th width="16.33%">Empresa</th>				
+			<th width="12.33%">CAI</th>
+			<th width="8.33%">RTN</th>
+			<th width="8.33%">Número Siguiente</th>
+			<th width="8.33%">Rango Inicial</th>
+			<th width="8.33%">Rango Final</th>
+			<th width="8.33%">Fecha Activación</th>				
+			<th width="8.33%">Fecha Limite</th>
+			<th width="2.33%">Activo</th>
+			<th width="8.33%">Editar</th>				
+            <th width="8.33%">Eliminar</th>				
 			</tr>';
 $i = 1;				
 while($registro2 = $result->fetch_assoc()){ 
@@ -99,20 +100,22 @@ while($registro2 = $result->fetch_assoc()){
 			<td>'.$registro2['fecha_limite'].'</td>	
 			<td>'.$registro2['activo'].'</td>				
 			<td>
-              <a style="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="Editar Usuario" href="javascript:editarRegistro('.$registro2['secuencia_facturacion_id'].');void(0);" class="fas fa-edit fa-lg"></a>	  			  
-			  <a style="text-decoration:none;" data-toggle="tooltip" data-placement="top" title="Eliminar" href="javascript:modal_eliminar('.$registro2['secuencia_facturacion_id'].');void(0);" class="fas fa-trash fa-lg"></a>
+				<a class="btn btn btn-secondary ml-2" href="javascript:editarRegistro('.$registro2['secuencia_facturacion_id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</a>
 			</td>
+			<td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:modal_eliminar('.$registro2['secuencia_facturacion_id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-trash fa-lg"></i> Eliminar</a>
+			</td>			
 			</tr>';	
 			$i++;				
 }
 
 if($nroProductos == 0){
 	$tabla = $tabla.'<tr>
-	   <td colspan="11" style="color:#C7030D">No se encontraron resultados</td>
+	   <td colspan="12" style="color:#C7030D">No se encontraron resultados</td>
 	</tr>';		
 }else{
    $tabla = $tabla.'<tr>
-	  <td colspan="11"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
+	  <td colspan="12"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
    </tr>';		
 }        
 

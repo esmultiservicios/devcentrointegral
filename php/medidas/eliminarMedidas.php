@@ -3,7 +3,7 @@ session_start();
 include "../funtions.php";
 	
 //CONEXION A DB
-$mysqli = connect_mysqli(); 
+$mysqli = connect_mysqli();
 
 $medida_id = $_POST['medida_id'];
 $fecha_registro = date("Y-m-d H:i:s");

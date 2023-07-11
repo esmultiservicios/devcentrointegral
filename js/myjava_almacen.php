@@ -144,6 +144,7 @@ var edit_alamcen_dataTable = function(tbody, table){
 				$('#delete_almacen').hide();
 				$('#formulario_almacen #almacen').val(valores[0]);
 				$('#formulario_almacen #ubicacion').val(valores[1]);
+				$('#formulario_almacen #ubicacion').selectpicker('refresh');
 
 				//HABILITAR OBJETOS
 				$('#formulario_almacen #almacen').attr("readonly", false);	
@@ -184,6 +185,7 @@ var delete_almacen_dataTable = function(tbody, table){
 				$('#delete_almacen').show();
 				$('#formulario_almacen #almacen').val(valores[0]);
 				$('#formulario_almacen #ubicacion').val(valores[1]);
+				$('#formulario_almacen #ubicacion').selectpicker('refresh');
 
 				//DESHABILITAR OBJETOS
 				$('#formulario_almacen #almacen').attr("readonly", true);				
@@ -209,7 +211,8 @@ function getUbicacion(){
 	    async: true,
         success: function(data){	
 		    $('#formulario_almacen #ubicacion').html("");
-			$('#formulario_almacen #ubicacion').html(data);			
+			$('#formulario_almacen #ubicacion').html(data);
+			$('#formulario_almacen #ubicacion').selectpicker('refresh');			
 		}			
      });		
 }

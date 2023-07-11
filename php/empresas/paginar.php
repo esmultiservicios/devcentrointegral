@@ -60,13 +60,14 @@ $result = $mysqli->query($registro);
 
 $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<tr>
-			<th width="2.28%">No.</th>
-			<th width="24.28%">Empresa</th>				
-			<th width="10.28%">RTN</th>
-			<th width="8.28%">Teléfono</th>
-			<th width="14.28%">Correo</th>			
-			<th width="34.28%">Ubicación</th>
-			<th width="4.28%">Opciones</th>
+			<th width="2.5%">No.</th>
+			<th width="22.5%">Empresa</th>				
+			<th width="8.5%">RTN</th>
+			<th width="8.5%">Teléfono</th>
+			<th width="12.5%">Correo</th>			
+			<th width="28.5%">Ubicación</th>
+			<th width="8.5%">Editar</th>
+			<th width="8.5%">Eliminar</th>
 			</tr>';
 $i = 1;				
 while($registro2 = $result->fetch_assoc()){  
@@ -78,9 +79,11 @@ while($registro2 = $result->fetch_assoc()){
 			<td>'.$registro2['correo'].'</td>			
 			<td>'.$registro2['ubicacion'].'</td>			
 			<td>
-			  <a style="text-decoration:none;" title = "Editar Usuario" href="javascript:editarRegistro('.$registro2['empresa_id'].');void(0);" class="fas fa-edit fa-lg"></a>	  			  
-			  <a style="text-decoration:none;" href="javascript:modal_eliminar('.$registro2['empresa_id'].');void(0);" class="fas fa-trash fa-lg"></a>
+				<a class="btn btn btn-secondary ml-2" href="javascript:editarRegistro('.$registro2['empresa_id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</a>
 			</td>
+			<td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:modal_eliminar('.$registro2['empresa_id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-trash fa-lg"></i> Eliminar</a>
+			</td>			
 			</tr>';	
 			$i++;				
 }

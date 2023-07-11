@@ -711,7 +711,8 @@ function getProfesionales(){
         url: url,
         success: function(data){	
 		    $('#form_agenda_main #medico_general').html("");
-			$('#form_agenda_main #medico_general').html(data);		
+			$('#form_agenda_main #medico_general').html(data);
+			$('#form_agenda_main #medico_general').selectpicker('refresh');		
 		}			
      });	
 }
@@ -907,9 +908,7 @@ function getServicio(){
         success: function(data){	
 		    $('#form_agenda_main #servicio').html("");
 			$('#form_agenda_main #servicio').html(data);
-
-		    $('#formulario_triage_reporte #servicio_triage').html("");
-			$('#formulario_triage_reporte #servicio_triage').html(data);			
+			$('#form_agenda_main #servicio').selectpicker('refresh');			
 		}			
      });	
 }
@@ -924,6 +923,7 @@ function getAtencion(){
         success: function(data){	
 		    $('#form_agenda_main #atencion').html("");
 			$('#form_agenda_main #atencion').html(data);
+			$('#form_agenda_main #atencion').selectpicker('refresh');
 		}			
      });	
 }
@@ -938,6 +938,7 @@ function getStatusRepro(){
         success: function(data){	
 		    $('#formulario #status_repro').html("");
 			$('#formulario #status_repro').html(data);
+			$('#formulario #status_repro').selectpicker('refresh');
 		}			
      });	
 }
@@ -952,6 +953,7 @@ function getHoraNueva(){
         success: function(data){	
 		    $('#formulario #hora_nueva').html("");
 			$('#formulario #hora_nueva').html(data);
+			$('#formulario #hora_nueva').selectpicker('refresh');
 		}			
      });	
 }

@@ -1,29 +1,51 @@
 <?php
-session_start(); 
+session_start();
 include "../php/funtions.php";
 
+//CONEXION A DB
+$mysqli = connect_mysqli();
+
 if( isset($_SESSION['colaborador_id']) == false ){
-   header('Location: login.php'); 
-}    
+   header('Location: login.php');
+}
 
 $_SESSION['menu'] = "Medidas";
 
 if(isset($_SESSION['colaborador_id'])){
- $colaborador_id = $_SESSION['colaborador_id'];  
+ $colaborador_id = $_SESSION['colaborador_id'];
 }else{
    $colaborador_id = "";
 }
 
 $type = $_SESSION['type'];
 
-$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);//HOSTNAME	
-$fecha = date("Y-m-d H:i:s"); 
-$comentario = mb_convert_case("Ingreso al Modulo de Medidas", MB_CASE_TITLE, "UTF-8");   
+$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);//HOSTNAME
+$fecha = date("Y-m-d H:i:s");
+$comentario = mb_convert_case("Ingreso al Modulo de Medidas", MB_CASE_TITLE, "UTF-8");
 
 if($colaborador_id != "" || $colaborador_id != null){
-   historial_acceso($comentario, $nombre_host, $colaborador_id);  
-}     
-?>
+   historial_acceso($comentario, $nombre_host, $colaborador_id);
+}
+
+//OBTENER NOMBRE DE EMPRESA
+$usuario = $_SESSION['colaborador_id'];
+
+$query_empresa = "SELECT e.nombre AS 'nombre'
+	FROM users AS u
+	INNER JOIN empresa AS e
+	ON u.empresa_id = e.empresa_id
+	WHERE u.colaborador_id = '$usuario'";
+$result = $mysqli->query($query_empresa) or die($mysqli->error);
+$consulta_registro = $result->fetch_assoc();
+
+$empresa = '';
+
+if($result->num_rows>0){
+  $empresa = $consulta_registro['nombre'];
+}
+
+$mysqli->close();//CERRAR CONEXIÓN
+ ?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -34,59 +56,70 @@ if($colaborador_id != "" || $colaborador_id != null){
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Medidas :: <?php echo SERVEREMPRESA;?></title>
+    <title>Medidas :: <?php echo $empresa; ?></title>
 	<?php include("script_css.php"); ?>
 </head>
 <body>
    <!--Ventanas Modales-->
-   <!-- Small modal -->  
-  <?php include("templates/modals.php"); ?>    
+   <!-- Small modal -->
+  <?php include("templates/modals.php"); ?>
 
 <!--INICIO MODAL-->
    <?php include("modals/modals.php");?>
-<!--FIN MODAL-->  	
+<!--FIN MODAL-->
 
    <!--Fin Ventanas Modales-->
-	<!--MENU-->	  
+	<!--MENU-->
        <?php include("templates/menu.php"); ?>
-    <!--FIN MENU--> 
-	
+    <!--FIN MENU-->
+
 <br><br><br>
 <div class="container-fluid">
 	<ol class="breadcrumb mt-2 mb-4">
 		<li class="breadcrumb-item"><a class="breadcrumb-link" href="inicio.php">Dashboard</a></li>
 		<li class="breadcrumb-item active" id="acciones_factura"><span id="label_acciones_factura"></span>Medidas</li>
 	</ol>
-	
-	<div class="table-responsive">
-		<form id="formPrincipal">
-			<div class="col-md-12 mb-3">
-				<table id="dataTableMedidas" class="table table-striped table-condensed table-hover" style="width:100%">
-					<thead align="center">
-						<tr>
-							<th>Medida</th>
-							<th>Descripción</th>							
-							<th>Editar</th>
-							<th>Eliminar</th>						
-						</tr>
-					</thead>
-				</table> 
-			</div>
-		<form>
-	</div>
-    <?php include("templates/footer.php"); ?> 	
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fab fa-sellsy mr-1"></i>
+      Resultado
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+    		<form id="formPrincipal">
+    			<div class="col-md-12 mb-3">
+    				<table id="dataTableMedidas" class="table table-striped table-condensed table-hover" style="width:100%">
+    					<thead align="center">
+    						<tr>
+    							<th>Medida</th>
+    							<th>Descripción</th>
+    							<th>Editar</th>
+    							<th>Eliminar</th>
+    						</tr>
+    					</thead>
+    				</table>
+    			</div>
+    		<form>
+    	</div>
+    </div>
+    <div class="card-footer small text-muted">
+
+    </div>
+  </div>
+  <?php include("templates/footer.php"); ?>
 </div>
 
     <!-- add javascripts -->
-	<?php 
-		include "script.php"; 
-		
-		include "../js/main.php"; 
-		include "../js/myjava_medidas.php";  		
-		include "../js/select.php"; 	
-		include "../js/functions.php"; 
-		include "../js/myjava_cambiar_pass.php"; 		
+	<?php
+		include "script.php";
+
+		include "../js/main.php";
+		include "../js/myjava_medidas.php";
+		include "../js/select.php";
+		include "../js/functions.php";
+		include "../js/myjava_cambiar_pass.php";
 	?>
-	  
+
 </body>
 </html>

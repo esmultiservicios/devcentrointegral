@@ -377,7 +377,8 @@ function getEmpresa(){
 	    async: true,
         success: function(data){
 		    $('#form_main #empresa').html("");
-			$('#form_main #empresa').html(data);			
+			$('#form_main #empresa').html(data);
+			$('#form_main #empresa').selectpicker('refresh');			
         }
      });		
 }

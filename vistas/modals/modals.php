@@ -122,83 +122,91 @@
 <!--FIN MODAL MOVIMIENTO DE PRODUCTOS-->
 
 <!--INICIO MODAL PARA INGRESO DE USUARIOS-->
+<!--INICIO MODAL PARA INGRESO DE USUARIOS-->
 <div class="modal fade" id="registrar">
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Registrar Usuarios</h4>
+          <h4 class="modal-title">Registro de Usuarios</h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
         </div>
-        <div class="modal-body">		
-			<form class="FormularioAjax" id="formulario" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">			
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					    <input type="hidden" id="id-registro" name="id-registro" class="form-control"/>
+					   <input type="hidden" id="id-registro" name="id-registro" class="form-control"/>
 						<div class="input-group mb-3">
 							<input type="text" required readonly id="pro" name="pro" class="form-control"/>
-							<div class="input-group-append">				
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square"></i></span>
 							</div>
-						</div>	 
-					</div>							
-				</div>
-				<div class="form-row" id="grupo_expediente">
-					<div class="col-md-8 mb-3">
-					  <label>Colaborador <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						<select id="colaborador" name="colaborador" class="form-control" data-toggle="tooltip" data-placement="top" title="Consultorio" required></select>
-						<div class="input-group-append" id="buscar_colaboradores">				
-						  <a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-					    </div>
-					  </div>					  
+						</div>
 					</div>
-					<div class="col-md-4 mb-3">
-					  <label for="edad">Estado <span class="priority">*<span/></label>
-					  <select id="estatus" name="estatus" class="form-control" data-toggle="tooltip" data-placement="top" title="Estatus" required>		   
-						 <option value="">Seleccione</option>
-						 <option value="1">Activo</option>
-						 <option value="2">Inactivo</option>						 
-					  </select>
-					</div>				
-				</div>				
+				</div>
+				<div class="form-row">
+					<div class="col-md-3 mb-3">
+						<div class="picture-container">
+							<div class="picture">
+								<img src="../img/avatar.jpg" class="picture-src" id="wizardPicturePreview" title="">
+								<input type="file" id="wizard-picture" class="">
+							</div>
+							 <h6 class="">Seleccionar Imagen</h6>
+
+  						</div>
+  					</div>
+            <div class="col-md-3 mb-3">
+              <label for="colaborador">Colaborador <span class="priority">*<span/></label>
+              <div class="input-group mb-3">
+                <select class="selectpicker" id="colaborador" name="colaborador" required data-live-search="true" title="Colaborador">
+                </select>
+              </div>
+  				 </div>
+           <div class="col-md-3 mb-3">
+               <label for="estatus">Estatus <span class="priority">*<span/></label>
+             <div class="input-group mb-3">
+               <select class="selectpicker" id="estatus" name="estatus" required data-live-search="true" title="Estatus">
+               </select>
+             </div>
+          </div>
+				</div>
 				<div class="form-row">
 					<div class="col-md-4 mb-3">
-					  <label for="nombre">Nickname <span class="priority">*<span/></label>
+					  <label>Nickname <span class="priority">*<span/></label>
 					  <input type="text" required name="username" id="username" maxlength="100" class="form-control"/>
 					</div>
-					<div class="col-md-8 mb-3">
-					  <label for="apellido">Email <span class="priority">*<span/></label>
+          <div class="col-md-8 mb-3">
+					  <label for="email">Email</label>
 					  <div class="input-group mb-3">
-						  <input type="email" required name="email" id="email" maxlength="100" class="form-control" required />
-						  <div class="input-group-append">				
+						   <input type="text" name="email" id="email" class="form-control" placeholder="Email" required>
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-at fa-lg"></i></span>
 							</div>
-					   </div>					  
-					</div>					
-				</div>	
+					   </div>
+					</div>
+				</div>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label for="fecha">Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						<select id="empresa" name="empresa" class="form-control" data-toggle="tooltip" data-placement="top" title="Empresa" required></select>
-						<div class="input-group-append" id="buscar_empresa">				
-						  <a data-toggle="modal" href="#" class="btn btn-outline-success"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-					    </div>
-					  </div>					  
-					</div>				
-					<div class="col-md-6 mb-3">
-					  <label for="sexo">Tipo <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo" name="tipo" required>			  
-					  </select>
-					</div>					
-				</div>				
+          <div class="col-md-6 mb-3">
+              <label for="empresa">Empresa <span class="priority">*<span/></label>
+            <div class="input-group mb-3">
+              <select class="selectpicker" id="empresa" name="empresa" required data-live-search="true" title="Empresa">
+              </select>
+            </div>
+         </div>
+         <div class="col-md-3 mb-3">
+             <label for="tipo">Tipo <span class="priority">*<span/></label>
+           <div class="input-group mb-3">
+             <select class="selectpicker" id="tipo" name="tipo" required data-live-search="true" title="Tipo">
+             </select>
+           </div>
+        </div>
+				</div>
 			</form>
-        </div>		
+        </div>
 		<div class="modal-footer">
-			<button class="btn btn-primary ml-2" form="formulario" type="submit" id="reg_usuarios"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>			
-		</div>			
+			<button class="btn btn-primary ml-2" form="formulario" type="submit" id="reg_usuarios"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
+		</div>
       </div>
     </div>
 </div>
@@ -207,75 +215,65 @@
 	<div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
       <div class="modal-content">
         <div class="modal-header">
-          <h4 class="modal-title">Registrar Usuarios</h4>
+          <h4 class="modal-title">Registro de Usuarios</h4>
 			<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			  <span aria-hidden="true">&times;</span>
 			</button>
         </div>
-        <div class="modal-body">		
-			<form class="FormularioAjax" id="formulario_editar" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">			
+        <div class="modal-body">
+			<form class="FormularioAjax" id="formulario_editar" data-async data-target="#rating-modal" action="" method="POST" data-form="" autocomplete="off" enctype="multipart/form-data">
 				<div class="form-row">
 					<div class="col-md-12 mb-3">
-					    <input type="hidden" id="id-registro1" name="id-registro1" class="form-control"/>	
+					   <input type="hidden" id="id-registro1" name="id-registro1" class="form-control"/>
 						<div class="input-group mb-3">
 							<input type="text" required readonly id="pro" name="pro" class="form-control"/>
-							<div class="input-group-append">				
+							<div class="input-group-append">
 								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fa fa-plus-square"></i></span>
 							</div>
-						</div>	 
-					</div>							
+						</div>
+					</div>
 				</div>
 				<div class="form-row" id="grupo_expediente">
-					<div class="col-md-8 mb-3">
-					  <label>Colaborador</label>
-					  <div class="input-group mb-3">
-						<select id="colaborador1" name="colaborador1" class="form-control" data-toggle="tooltip" data-placement="top" title="Consultorio"></select>
-						<div class="input-group-append" id="buscar_colaborador_editar">				
-						  <a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_colaboradores_editar"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-					    </div>
-					  </div>					  
+          <div class="col-md-3 mb-3">
+					    <label for="colaborador1">Colaborador <span class="priority">*<span/></label>
+						<div class="input-group mb-3">
+							<select class="selectpicker" id="colaborador1" name="colaborador1" required data-live-search="true" title="Colaborador">
+							</select>
+						</div>
 					</div>
-					<div class="col-md-4 mb-3">
-					  <label for="edad">Estado <span class="priority">*<span/></label>
-					  <select id="estatus1" name="estatus1" class="form-control" data-toggle="tooltip" data-placement="top" title="Estatus" required>		   
-						 <option value="">Seleccione</option>
-						 <option value="1">Activo</option>
-						 <option value="2">Inactivo</option>						 
-					  </select>
-					</div>				
-				</div>				
-				<div class="form-row">
-					<div class="col-md-12 mb-3">
-					  <label for="apellido">Email <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						  <input type="email" required name="email1" id="email1" maxlength="100" class="form-control" required />
-						  <div class="input-group-append">				
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div><i class="fas fa-at fa-lg"></i></span>
-							</div>
-					   </div>
-					</div>						
+          <div class="col-md-3 mb-3">
+              <label for="estatus1">Estatus <span class="priority">*<span/></label>
+            <div class="input-group mb-3">
+              <select class="selectpicker" id="estatus1" name="estatus1" required data-live-search="true" title="Estatus">
+              </select>
+            </div>
+         </div>
+         <div class="col-md-6 mb-3">
+           <label>Email <span class="priority">*<span/></label>
+           <input type="email" required name="email1" id="email1" maxlength="100" class="form-control"/>
+         </div>
 				</div>
 				<div class="form-row">
-					<div class="col-md-6 mb-3">
-					  <label for="fecha">Empresa <span class="priority">*<span/></label>
-					  <div class="input-group mb-3">
-						<select id="empresa1" name="empresa1" class="form-control" data-toggle="tooltip" data-placement="top" title="Empresa" required></select>
-						<div class="input-group-append" id="buscar_empresa_editar">				
-						  <a data-toggle="modal" href="#" class="btn btn-outline-success" id="servicio_boton"><div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i></a>
-					    </div>
-					  </div>					  
-					</div>	
-					<div class="col-md-6 mb-3">
-					  <label for="sexo">Tipo <span class="priority">*<span/></label>
-					  <select class="form-control" id="tipo1" name="tipo1" required>			  
-					  </select>
-					</div>						
-				</div>							
+          <div class="col-md-6 mb-3">
+              <label for="empresa1">Empresa <span class="priority">*<span/></label>
+              <div class="input-group mb-3">
+                <select class="selectpicker" id="empresa1" name="empresa1" required data-live-search="true" title="Empresa">
+                </select>
+              </div>
+           </div>
+           <div class="col-md-3 mb-3">
+               <label for="tipo1">Tipo <span class="priority">*<span/></label>
+             <div class="input-group mb-3">
+               <select class="selectpicker" id="tipo1" name="tipo1" required data-live-search="true" title="Tipo">
+               </select>
+             </div>
+          </div>
+				</div>
 			</form>
-        </div>		
+        </div>
 		<div class="modal-footer">
-			<button class="btn btn-primary ml-2" form="formulario_editar" type="submit" id="editar_usuarios"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>			
-		</div>			
+			<button class="btn btn-primary ml-2" form="formulario_editar" type="submit" id="editar_usuarios"><div class="sb-nav-link-icon"></div><i class="far fa-save fa-lg"></i> Registrar</button>
+		</div>
       </div>
     </div>
 </div>

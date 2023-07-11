@@ -145,6 +145,8 @@ if($dias_transcurridos <= 30){
 				5 => "EliminarCita",
 				6 => "formCita",
 				7 => "eliminar_cita",
+				8 => "",
+				9 => "Eliminar", //PERMITE CERRAR EL MODAL SEGUN EL INDICADOR este indicador esta en main.js
 			);
 		}else{
 			$datos = array(

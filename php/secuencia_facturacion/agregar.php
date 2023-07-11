@@ -1,9 +1,9 @@
 <?php
-session_start();   
+session_start();
 include "../funtions.php";
-	
+
 //CONEXION A DB
-$mysqli = connect_mysqli(); 
+$mysqli = connect_mysqli();
 
 $fecha_registro = date("Y-m-d H:i:s");
 $fecha = date("Y-m-d");
@@ -52,28 +52,29 @@ if($result->num_rows==0){
 	$correlativo = correlativo('secuencia_facturacion_id ', 'secuencia_facturacion');
 	$rango_inicial =  str_pad($rango_inicial, $relleno, "0", STR_PAD_LEFT);
 	$rango_final =  str_pad($rango_final, $relleno, "0", STR_PAD_LEFT);
-	
-	$insert = "INSERT INTO secuencia_facturacion 
-		VALUES('$correlativo','$empresa','$cai','$prefijo','$relleno','$incremento','$siguiente','$rango_inicial','$rango_final','$fecha_activacion','$fecha_limite','$comentario','$estado','$usuario','$fecha_registro')";
+	$documento_id = "1";//FACTURA ELECTRONICA
+
+	$insert = "INSERT INTO secuencia_facturacion
+		VALUES('$correlativo','$empresa','$cai','$prefijo','$relleno','$incremento','$siguiente','$rango_inicial','$rango_final','$fecha_activacion','$fecha_limite','$comentario','$estado','$usuario','$fecha_registro','$documento_id')";
 	$query = $mysqli->query($insert) or die($mysqli->error);
-	
+
 	if($query){
 		echo 1;//REGISTRO ALMACENADO CORRECTAMENTE
-		
+
 		/*********************************************************************************************************************************************************************/
 		//INGRESAR REGISTROS EN LA ENTIDAD HISTORIAL
 		$historial_numero = historial();
 		$estado_historial = "Agregar";
 		$observacion_historial = "Se ha agregado una nueva secuencia de facturación con el prefijo: $prefijo y rangos desde $rango_inicial a $rango_final";
 		$modulo = "Secuencia Facturación";
-		$insert = "INSERT INTO historial 
-		   VALUES('$historial_numero','0','0','$modulo','$correlativo','0','0','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";	 
+		$insert = "INSERT INTO historial
+		   VALUES('$historial_numero','0','0','$modulo','$correlativo','0','0','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";
 		$mysqli->query($insert) or die($mysqli->error);
-		/*********************************************************************************************************************************************************************/		
+		/*********************************************************************************************************************************************************************/
 	}else{
 		echo 2;//ERROR AL ALMACENAR ESTE REGISTRO
 	}
-	
+
 }else{
 	echo 3;//EXISTE UN ADMINISTRADOR DE SECUENCIAS ALMACENADO PARA LA FACTURACION
 }

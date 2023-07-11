@@ -1,10 +1,10 @@
 <?php
 session_start();   
 include "../funtions.php";
-	
+
 //CONEXION A DB
 $mysqli = connect_mysqli(); 
- 
+
 $agenda_id = $_POST['agenda_id'];
 $colaborador_id = $_POST['colaborador_id'];
 

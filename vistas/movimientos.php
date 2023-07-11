@@ -80,59 +80,89 @@ $mysqli->close();//CERRAR CONEXIÓN
 		<li class="breadcrumb-item active" id="acciones_factura"><span id="label_acciones_factura"></span>Movimientos</li>
 	</ol>
 
-    <form class="form-inline" id="form_main">
-		<div class="form-group mb-2">
-			<div class="input-group">
-				<div class="input-group-append">
-					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
-				</div>
-				<select id="categoria_id" name="categoria_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Categoría de Productos">
-					<option value="">Seleccione</option>
-			    </select>
-			</div>
-		</div>
-		<div class="form-group mb-2">
-			<div class="input-group">
-				<div class="input-group-append">
-					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
-				</div>
-				<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
-			</div>
-		</div>
-		<div class="form-group mb-2">
-			<div class="input-group">
-				<div class="input-group-append">
-					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
-				</div>
-				<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
-			</div>
-		</div>
-		<button type="submit" class="btn btn-info mb-2 ml-1 mr-1" data-toggle="tooltip" data-placement="top" title="Registrar Movimientos" id="registrar"><i class="fas fa-plus-circle fa-lg"></i> Crear</button>
-		<button type="submit" class="btn btn-primary mb-2 mr-1" data-toggle="tooltip" data-placement="top" title="Actualizar Movimientos" id="actualizar"><i class="fas fa-sync-alt fa-lg"></i> Actualizar</button>
-		<button type="submit" class="btn btn-success mb-2" data-toggle="tooltip" data-placement="top" title="Exportar" id="reporte"><i class="fas fa-download fa-lg"></i> Exportar</button>
-	</form>
-	<hr/>
-	<div class="table-responsive">
-		<form id="formPrincipal">
-			<div class="col-md-12 mb-3">
-				<table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover" style="width:100%">
-					<thead>
-						<tr>
-							<th>Fecha</th>
-							<th>Producto</th>
-							<th>Concentración</th>
-							<th>Medida</th>
-							<th>Entrada</th>
-							<th>Salida</th>
-							<th>Saldo</th>
-              <th>Comentario</th>
-						</tr>
-					</thead>
-				</table>
-			</div>
-		<form>
-	</div>
-    <?php include("templates/footer.php"); ?>
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fas fa-search  mr-1"></i>
+      Búsqueda
+    </div>
+    <div class="card-body">
+      <form id="form_main" class="form-inline">
+        <div class="form-group mr-1">
+          <div class="input-group">
+            <div class="input-group-append">
+              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Categoría</span>
+            </div>
+            <select id="categoria_id" name="categoria_id" class="selectpicker" title="Categoría" data-live-search="true">
+            </select>
+          </div>
+        </div>
+        <div class="form-group mr-1">
+          <div class="input-group">
+    				<div class="input-group-append">
+    					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
+    				</div>
+    				<input type="date" required id="fechai" name="fechai" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Inicio">
+    			</div>
+        </div>
+        <div class="form-group mr-1">
+          <div class="input-group">
+    				<div class="input-group-append">
+    					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
+    				</div>
+    				<input type="date" required id="fechaf" name="fechaf" value="<?php echo date ("Y-m-d");?>" class="form-control" data-toggle="tooltip" data-placement="top" title="Fecha Fin">
+    			</div>
+        </div>
+        <div class="form-group mr-1">
+          <button class="btn btn-info ml-2" type="submit" id="registrar"><div class="sb-nav-link-icon"></div><i class="fas fa-plus-circle fa-lg"></i> Crear</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary ml-2" type="submit" id="actualizar"><div class="sb-nav-link-icon"></div><i class="fas fa-sync-alt fa-lg"></i> Actualizar</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary ml-2" type="submit" id="reporte"><div class="sb-nav-link-icon"></div><i class="fas fa-user-plus fa-lg"></i> Exportar</button>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-success ml-2" type="submit" id="reporte"><div class="sb-nav-link-icon"></div><i class="fas fa-download fa-lg"></i> Exportar</button>
+        </div>
+      </form>
+    </div>
+    <div class="card-footer small text-muted">
+
+    </div>
+  </div>
+
+  <div class="card mb-4">
+    <div class="card-header">
+      <i class="fab fa-sellsy mr-1"></i>
+      Resultado
+    </div>
+    <div class="card-body">
+      <div class="table-responsive">
+        <form id="formPrincipal">
+          <div class="col-md-12 mb-3">
+            <table id="dataTablaMovimientos" class="table table-striped table-condensed table-hover" style="width:100%">
+              <thead>
+                <tr>
+                  <th>Fecha</th>
+                  <th>Producto</th>
+                  <th>Concentración</th>
+                  <th>Medida</th>
+                  <th>Entrada</th>
+                  <th>Salida</th>
+                  <th>Saldo</th>
+                  <th>Comentario</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        <form>
+      </div>
+    </div>
+    <div class="card-footer small text-muted">
+
+    </div>
+  </div>
+  <?php include("templates/footer.php"); ?>
 </div>
 
     <!-- add javascripts -->

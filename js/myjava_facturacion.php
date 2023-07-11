@@ -5,8 +5,8 @@ $(document).ready(function() {
 	$('.footer').show();
 	$('.footer1').hide();
 	getTotalFacturasDisponibles();
-	setInterval('pagination(1)',22000); 
-	
+	setInterval('pagination(1)',22000);
+
 	//LLAMADA A LAS FUNCIONES
 	funciones();
 
@@ -23,7 +23,7 @@ $(document).ready(function() {
 	  pagination(1);
 	});
 
-	$('#form_main #profesional').on('change',function(){
+	$('#form_main #clientes').on('change',function(){
 	  pagination(1);
 	});
 
@@ -57,7 +57,7 @@ function getColaboradorConsulta(){
 
 //INICIO FUNCION COBRAR
 function pay(facturas_id){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
 		$('#formulario_facturacion')[0].reset();
 		$("#formulario_facturacion #invoiceItem > tbody").empty();//limpia solo los registros del body
 		var url = '<?php echo SERVERURL; ?>php/facturacion/editarFactura.php';
@@ -74,8 +74,6 @@ function pay(facturas_id){
 				$('#formulario_facturacion #colaborador_nombre').val(datos[4]);
 				$('#formulario_facturacion #servicio_id').val(datos[5]);
 				$('#formulario_facturacion #notes').val(datos[6]);
-				$('#formulario_facturacion #empresa_nombre').val(datos[7]);
-				$('#formulario_facturacion #empresa_rtn').val(datos[8]);				
 
 				$('#formulario_facturacion #fecha').attr("readonly", true);
 				$('#formulario_facturacion #validar').attr("disabled", false);
@@ -89,8 +87,8 @@ function pay(facturas_id){
 				$('#formulario_facturacion #buscar_servicios').hide();
 
 				$('#formulario_facturacion #validar').show();
-			    $('#formulario_facturacion #guardar').show();	
-			    $('#formulario_facturacion #guardar1').hide();	
+			    $('#formulario_facturacion #guardar').show();
+			    $('#formulario_facturacion #guardar1').hide();
 
 				$('#main_facturacion').hide();
 				$('#label_acciones_factura').html("Factura");
@@ -98,7 +96,7 @@ function pay(facturas_id){
 
 				$('.footer').hide();
 				$('.footer1').show();
-				
+
 				return false;
 			}
 		});
@@ -130,7 +128,7 @@ function pay(facturas_id){
 					$('#formulario_facturacion #invoiceItem #price_'+ fila).val(price);
 					$('#formulario_facturacion #invoiceItem #discount_'+ fila).val(discount);
 					$('#formulario_facturacion #invoiceItem #valor_isv_'+ fila).val(isv);
-					$('#formulario_facturacion #invoiceItem #isv_'+ fila).val(data.producto_isv);					
+					$('#formulario_facturacion #invoiceItem #isv_'+ fila).val(data.producto_isv);
 				}
 				$('#formulario_facturacion #taxAmount').val(isv_valor);
 				calculateTotal();
@@ -156,8 +154,6 @@ function funciones(){
 	getColaborador();
 	getEstado();
 	getPacientes();
-	getAseguradora();
-	getFactEmpresas();
 
 	getServicio();
 	getBanco();
@@ -174,13 +170,13 @@ function pagination(partida){
     var fechai = $('#form_main #fecha_b').val();
 	var fechaf = $('#form_main #fecha_f').val();
 	var dato = '';
-	var profesional = '';
+	var clientes = '';
 	var estado = '';
 
-    if($('#form_main #profesional').val() == "" || $('#form_main #profesional').val() == null){
-		profesional = '';
+    if($('#form_main #clientes').val() == "" || $('#form_main #clientes').val() == null){
+		clientes = '';
 	}else{
-		profesional = $('#form_main #profesional').val();
+		clientes = $('#form_main #clientes').val();
 	}
 
     if($('#form_main #estado').val() == "" || $('#form_main #estado').val() == null){
@@ -199,7 +195,7 @@ function pagination(partida){
 		type:'POST',
 		url:url,
 		async: true,
-		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&profesional='+profesional+'&estado='+estado,
+		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&estado='+estado,
 		success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
@@ -247,36 +243,36 @@ function getEstado(){
     var url = '<?php echo SERVERURL; ?>php/facturacion/getEstado.php';
 
 	$.ajax({
-        type: "POST",
-        url: url,
+			type: "POST",
+			url: url,
 	    async: true,
-        success: function(data){
-		    $('#form_main #estado').html("");
-			$('#form_main #estado').html(data);
+	        success: function(data){
+			    $('#form_main #estado').html("");
+				  $('#form_main #estado').html(data);
+				  $('#form_main #estado').selectpicker('refresh');
         }
      });
 }
 //FIN FUNCION PARA OBTENER LOS BANCOS DISPONIBLES
 
-//INICIO FUNCION PARA OBTENER LOS BANCOS DISPONIBLES	
+//INICIO FUNCION PARA OBTENER LOS BANCOS DISPONIBLES
 function getBanco(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getBanco.php';		
-		
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getBanco.php';
+
 	$.ajax({
         type: "POST",
         url: url,
 	    async: true,
         success: function(data){
-		    $('#formTransferenciaBill #bk_nm').html("");
-			$('#formTransferenciaBill #bk_nm').html(data);
-			
-		    $('#formChequeBill #bk_nm_chk').html("");
-			$('#formChequeBill #bk_nm_chk').html(data);				
+					$('#formTransferenciaBill #bk_nm').html("");
+					$('#formTransferenciaBill #bk_nm').html(data);
+
+					$('#formChequeBill #bk_nm_chk').html("");
+					$('#formChequeBill #bk_nm_chk').html(data);
         }
-     });		
+     });
 }
 //FIN FUNCION PARA OBTENER LOS BANCOS DISPONIBLES
-
 //INICIO FUNCION PARA OBTENER LOS PROFESIONALES
 function getColaborador(){
     var url = '<?php echo SERVERURL; ?>php/citas/getMedico.php';
@@ -285,8 +281,9 @@ function getColaborador(){
         type: "POST",
         url: url,
         success: function(data){
-		    $('#form_main #profesional').html("");
-			$('#form_main #profesional').html(data);
+		    $('#form_main #clientes').html("");
+		  	$('#form_main #clientes').html(data);
+				$('#form_main #clientes').selectpicker('refresh');
 		}
      });
 }
@@ -329,11 +326,11 @@ function sendMail(facturas_id){
 	   success:function(data){
 	      bill = data;
 	      if(bill == 1){
-			swal({
-				title: "Success",
-				text: "La factura ha sido enviada por correo satisfactoriamente",
-				type: "success",
-			});
+				swal({
+					title: "Success",
+					text: "La factura ha sido enviada por correo satisfactoriamente",
+					type: "success",
+				});
 		  }
 	  }
 	});
@@ -404,7 +401,7 @@ $('#acciones_atras').on('click', function(e){
 			$('#formulario_facturacion')[0].reset();
 			swal.close();
 			$('.footer').show();
-     		$('.footer1').hide();			
+     		$('.footer1').hide();
 		});
 	 }else{
 		 $('#main_facturacion').show();
@@ -413,7 +410,7 @@ $('#acciones_atras').on('click', function(e){
 		 $('#acciones_atras').addClass("breadcrumb-item active");
 		 $('#acciones_factura').removeClass("active");
 		 $('.footer').show();
-     	 $('.footer1').hide();		 
+     	 $('.footer1').hide();
 	 }
 });
 
@@ -442,13 +439,10 @@ function formFactura(){
 	 limpiarTabla();
 	 $('.footer').hide();
      $('.footer1').show();
-	 cleanFooterValueBill(); 	
-	 $('#formulario_facturacion #buscar_paciente').show();
-	 $('#formulario_facturacion #buscar_colaboradores').show();
-	 $('#formulario_facturacion #buscar_servicios').show();	 
+	 cleanFooterValueBill();
 	 $('#formulario_facturacion #validar').show();
-	 $('#formulario_facturacion #guardar').hide();	
-	 $('#formulario_facturacion #guardar1').show();	 
+	 $('#formulario_facturacion #guardar').hide();
+	 $('#formulario_facturacion #guardar1').show();;
 }
 
 $(document).ready(function() {
@@ -456,7 +450,7 @@ $(document).ready(function() {
 	$('#acciones_atras').addClass("active");
 	$('#label_acciones_factura').html("");
 	$('.footer').show();
-    $('.footer1').hide();	
+    $('.footer1').hide();
 });
 //FIN BUSQUEDA PACIENTES
 
@@ -510,47 +504,47 @@ var view_colaboradores_busqueda_dataTable = function(tbody, table){
 //INICIO MODAL PAGOS
 function pago(facturas_id){
 	var url = '<?php echo SERVERURL; ?>php/facturacion/editarPago.php';
-	
+
 	$.ajax({
 		type:'POST',
 		url:url,
 		data:'facturas_id='+facturas_id,
 		success: function(valores){
 			var datos = eval(valores);
-			$('#formEfectivoBill .border-right a:eq(0) a').tab('show');			
+			$('#formEfectivoBill .border-right a:eq(0) a').tab('show');
 			$("#customer-name-bill").html("<b>Cliente:</b> " + datos[0]);
 		    $("#customer_bill_pay").val(datos[2]);
 			$('#bill-pay').html("L. " + parseFloat(datos[2]).toFixed(2));
-			
+
 			//EFECTIVO
-			$('#formEfectivoBill')[0].reset();				
+			$('#formEfectivoBill')[0].reset();
 			$('#formEfectivoBill #monto_efectivo').val(datos[2]);
 			$('#formEfectivoBill #factura_id_efectivo').val(facturas_id);
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-			
+
 			//TARJETA
 			$('#formTarjetaBill')[0].reset();
 			$('#formTarjetaBill #monto_efectivo').val(datos[2]);
 			$('#formTarjetaBill #factura_id_tarjeta').val(facturas_id);
-			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);	
+			$('#formTarjetaBill #pago_efectivo').attr('disabled', true);
 
 			//MIXTO
 			$('#formMixtoBill')[0].reset();
 			$('#formMixtoBill #monto_efectivo_mixto').val(datos[2]);
 			$('#formMixtoBill #factura_id_mixto').val(facturas_id);
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);			
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
 
 			//TRANSFERENCIA
 			$('#formTransferenciaBill')[0].reset();
 			$('#formTransferenciaBill #monto_efectivo').val(datos[2]);
 			$('#formTransferenciaBill #factura_id_transferencia').val(facturas_id);
-			$('#formTransferenciaBill #pago_efectivo').attr('disabled', true);				
-			
+			$('#formTransferenciaBill #pago_efectivo').attr('disabled', true);
+
 			//CHEQUES
 			$('#formChequeBill')[0].reset();
 			$('#formChequeBill #monto_efectivo').val(datos[2]);
 			$('#formChequeBill #factura_id_cheque').val(facturas_id);
-			$('#formChequeBill #pago_efectivo').attr('disabled', true);	
+			$('#formChequeBill #pago_efectivo').attr('disabled', true);
 
 			$('#modal_pagos').modal({
 				show:true,
@@ -560,39 +554,39 @@ function pago(facturas_id){
 
 			return false;
 		}
-	});	
+	});
 }
 
 $(document).ready(function(){
-	$("#tab1").on("click", function(){	
+	$("#tab1").on("click", function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formTarjetaBill #efectivo_bill').focus();
-		});			
+		});
 	});
-	
-	$("#tab2").on("click", function(){	
+
+	$("#tab2").on("click", function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formTarjetaBill #cr_bill').focus();
-		});	
-	});	
-	
-	$("#tab3").on("click", function(){	
+		});
+	});
+
+	$("#tab3").on("click", function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formTarjetaBill #bk_nm').focus();
-		});	
-	});	
-	
-	$("#tab4").on("click", function(){	
+		});
+	});
+
+	$("#tab4").on("click", function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formChequeBill #bk_nm_chk').focus();
-		});	
-	});	
-	
-	$("#tab5").on("click", function(){	
+		});
+	});
+
+	$("#tab5").on("click", function(){
 		$("#modal_pagos").on('shown.bs.modal', function(){
            $(this).find('#formMixtoBill #efectivo_bill_mixto').focus();
-		});	
-	});			
+		});
+	});
 });
 
 $(document).ready(function(){
@@ -607,59 +601,60 @@ $(document).ready(function(){
 	$('#formTarjetaBill #cvcpwd').inputmask("999999");
 });
 
-//mixto
+// MIXTO
 $(document).ready(function(){
-	$('#formMixtoBill #cr_bill_mixtoPurchase').inputmask("9999");
+	$('#formMixtoBill #cr_bill_mixto').inputmask("9999");
 });
 
 $(document).ready(function(){
-	$('#formMixtoBill #exp_mixtoPurchase').inputmask("99/99");
+	$('#formMixtoBill #exp_mixto').inputmask("99/99");
 });
 
 $(document).ready(function(){
-	$('#formMixtoBill #cvcpwd_mixtoPurchase').inputmask("999999");
+	$('#formMixtoBill #cvcpwd_mixto').inputmask("999999");
 });
 
+
 $(document).ready(function(){
-	$("#formEfectivoBill #efectivo_bill").on("keyup", function(){	
+	$("#formEfectivoBill #efectivo_bill").on("keyup", function(){
 		var efectivo = parseFloat($("#formEfectivoBill #efectivo_bill").val()).toFixed(2);
 		var monto = parseFloat($("#formEfectivoBill #monto_efectivo").val()).toFixed(2);
-		
-		var total = efectivo - monto;				
-		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
+
+		var total = efectivo - monto;
+
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(total).toFixed(2));
-			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);				
+			$('#formEfectivoBill #pago_efectivo').attr('disabled', false);
 		}else{
 			$('#formEfectivoBill #cambio_efectivo').val(parseFloat(0).toFixed(2));
 			$('#formEfectivoBill #pago_efectivo').attr('disabled', true);
-		}			
+		}
 	});
 
 	//MIXTO
-	$("#formMixtoBill #efectivo_bill_mixto").on("keyup", function(){	
+	$("#formMixtoBill #efectivo_bill_mixto").on("keyup", function(){
 		var efectivo = parseFloat($("#formMixtoBill #efectivo_bill_mixto").val()).toFixed(2);
 		var monto = parseFloat($("#formMixtoBill #monto_efectivo_mixto").val()).toFixed(2);
-		
-		var total = efectivo - monto;				
-		
-		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){			
-			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);	
+
+		var total = efectivo - monto;
+
+		if(Math.floor(efectivo*100) >= Math.floor(monto*100)){
+			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', true);
 			$('#formMixtoBill #monto_tarjeta').val(parseFloat(0).toFixed(2));
-			$('#formMixtoBill #monto_tarjeta').attr('disabled', true);			
+			$('#formMixtoBill #monto_tarjeta').attr('disabled', true);
 		}else{
 			var tarjeta = monto - efectivo;
 			$('#formMixtoBill #monto_tarjeta').val(parseFloat(tarjeta).toFixed(2))
 			$('#formMixtoBill #cambio_efectivo_mixto').val(parseFloat(0).toFixed(2));
 			$('#formMixtoBill #pago_efectivo_mixto').attr('disabled', false);
-		}				
-	});	
+		}
+	});
 });
 //FIN MODAL PAGOS
 
 //INCIO ELIMINAR FACTURA BORRADOR
 function deleteBill(facturas_id){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 3 || getUsuarioSistema() == 6){
+	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		swal({
 		  title: "¿Estas seguro?",
 		  text: "¿Desea eliminar la factura para el paciente: " + getNumeroNombrePaciente(facturas_id) + "?",
@@ -728,7 +723,7 @@ function volver(){
 	$('#acciones_atras').addClass("breadcrumb-item active");
 	$('#acciones_factura').removeClass("active");
 	$('.footer').show();
-	$('.footer1').hide();	
+	$('.footer1').hide();
 }
 
 function cierreCaja(){
@@ -780,13 +775,13 @@ $("#menu-toggle1").click(function(e) {
 $("#menu-toggle2").click(function(e) {
 	e.preventDefault();
 	$("#wrapper").toggleClass("toggled");
-});	
+});
 
 $(document).ready(function(){
 	$(".menu-toggle2").hide();
 	$("#tab1").addClass("active1");
 	$("#sidebar-wrapper").toggleClass("toggled");
-	
+
 	//Menu Toggle Script
 	$("#menu-toggle").click(function(e) {
 		e.preventDefault();
@@ -820,15 +815,22 @@ $(document).ready(function(){
 		$(".tabs").addClass("bg-light");
 		$("#tab4").addClass("active1");
 		$("#tab4").removeClass("bg-light");
-	});	
-	
+	});
+
 	$("#tab5").click(function () {
 		$(".tabs").removeClass("active1");
 		$(".tabs").addClass("bg-light");
 		$("#tab5").addClass("active1");
 		$("#tab5").removeClass("bg-light");
-	});		
+	});
 })
+//FIN CONTROLES MODAL PAGO
+/*														 	FIN FACTURACIÓN				   															 	*/
+/*
+###########################################################################################################################################################
+###########################################################################################################################################################
+###########################################################################################################################################################
+*/
 
 function getTotalFacturasDisponibles(){
 	var url = '<?php echo SERVERURL; ?>php/facturacion/getTotalFacturasDisponibles.php';
@@ -861,9 +863,9 @@ function getTotalFacturasDisponibles(){
 				mensaje = "";
 				$("#formulario_facturacion #validar").attr("disabled", false);
 				$("#formulario_facturacion #guardar").attr("disabled", false);
-				$("#formulario_facturacion #guardar1").attr("disabled", false);			
+				$("#formulario_facturacion #guardar1").attr("disabled", false);
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");				
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
 			}
 
 			if(valores[0] ==0){
@@ -881,104 +883,58 @@ function getTotalFacturasDisponibles(){
 				mensaje = "No puede seguir facturando";
 				$("#formulario_facturacion #validar").attr("disabled", true);
 				$("#formulario_facturacion #guardar").attr("disabled", true);
-				$("#formulario_facturacion #guardar1").attr("disabled", true);			
+				$("#formulario_facturacion #guardar1").attr("disabled", true);
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
 				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
 			}
-			
+
 			if(valores[1] == 1){
 				mensaje += "<br/>Su fecha límite es: " + valores[2];
 				$("#formulario_facturacion #validar").attr("disabled", false);
-				$("#formulario_facturacion #guardar").attr("disabled", false);	
-				$("#formulario_facturacion #guardar1").attr("disabled", false);					
+				$("#formulario_facturacion #guardar").attr("disabled", false);
+				$("#formulario_facturacion #guardar1").attr("disabled", false);
 				$("#mensajeFacturas").html(mensaje).addClass("alert alert-warning");
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");			
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-danger");
 			}
 
 			if(valores[1] == 0){
-				mensaje += "<br/>Su fecha limite de facturación es hoy";				
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
+				mensaje += "<br/>Su fecha limite de facturación es hoy";
+				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
 			}
-			
+
 			if(valores[1] < 0){
 				mensaje += "<br/>Ya alcanzo su fecha límite";
 				$("#formulario_facturacion #validar").attr("disabled", true);
 				$("#formulario_facturacion #guardar").attr("disabled", true);
-				$("#formulario_facturacion #guardar1").attr("disabled", true);			
-				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");	
-				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");		
-			}			
+				$("#formulario_facturacion #guardar1").attr("disabled", true);
+				$("#mensajeFacturas").html(mensaje).addClass("alert alert-danger");
+				$("#mensajeFacturas").html(mensaje).removeClass("alert alert-warning");
+			}
 	   }
 	});
 }
 
 setInterval('getTotalFacturasDisponibles()',1000);
 
-//COBRAR FACTURA
+//BOTON COBRAR
 $('#formulario_facturacion #validar').on('click', function(e){
 	$('#formulario_facturacion').attr({ 'data-form': 'save' });
 	$('#formulario_facturacion').attr({ 'action': '<?php echo SERVERURL; ?>php/facturacion/addFactura.php' });
 	$("#formulario_facturacion").submit();
 });
 
+//BOTON GUARDAR Y COBRAR LUEGO
 $('#formulario_facturacion #guardar').on('click', function(e){
 	$('#formulario_facturacion').attr({ 'data-form': 'save' });
 	$('#formulario_facturacion').attr({ 'action': '<?php echo SERVERURL; ?>php/facturacion/addFacturaporUsuarioGuardar.php' });
 	$("#formulario_facturacion").submit();
 });
 
+//BOTON SOLO GUARDAR
 $('#formulario_facturacion #guardar1').on('click', function(e){
 	$('#formulario_facturacion').attr({ 'data-form': 'save' });
 	$('#formulario_facturacion').attr({ 'action': '<?php echo SERVERURL; ?>php/facturacion/addPreFactura.php' });
 	$("#formulario_facturacion").submit();
-});
-//FIN CONTROLES MODAL PAGO
-
-$(document).ready(function() {		
-	$('#formulario_facturacion #label_facturas_activo').html("Contado");
-	
-    $('#formulario_facturacion .switch').change(function(){    
-        if($('input[name=facturas_activo]').is(':checked')){
-            $('#formulario_facturacion #label_facturas_activo').html("Contado");
-            return true;
-        }
-        else{
-            $('#formulario_facturacion #label_facturas_activo').html("Crédito");
-            return false;
-        }
-    });
-});		
-
-function getAseguradora(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getAseguradora.php';		
-		
-	$.ajax({
-        type: "POST",
-        url: url,
-	    async: true,
-        success: function(data){
-		    $('#formulario_facturacion #aseguradora_id').html("");
-			$('#formulario_facturacion #aseguradora_id').html(data);			
-        }
-     });		
-}
-
-function getFactEmpresas(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getFactEmpresas.php';		
-		
-	$.ajax({
-        type: "POST",
-        url: url,
-	    async: true,
-        success: function(data){
-		    $('#formulario_facturacion #fact_empresas_id').html("");
-			$('#formulario_facturacion #fact_empresas_id').html(data);			
-        }
-     });		
-}
-
-$('#formulario_facturacion #modal_pago').on('click', function(e){
-	modal_pagos();
 });
 </script>

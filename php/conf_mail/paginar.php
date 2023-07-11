@@ -69,13 +69,14 @@ $result = $mysqli->query($query);
 
 $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<tr>
-			<th width="2.28%">No.</th>
-			<th width="14.28%">Tipo</th>
-			<th width="29.28%">Correo</th>
-			<th width="17.28%">Servidor</th>
-			<th width="17.28%">Puerto</th>
-			<th width="14.28%">SMTP Secure</th>			
-			<th width="5.28%">Opciones</th>
+			<th width="2.5%">No.</th>
+			<th width="12.5%">Tipo</th>
+			<th width="17.5%">Correo</th>
+			<th width="17.5%">Servidor</th>
+			<th width="12.58%">Puerto</th>
+			<th width="12.5%">SMTP Secure</th>			
+			<th width="12.5%">Editar</th>
+			<th width="12.5%">Eliinar</th>
 			</tr>';
 $i = 1;				
 while($registro2 = $result->fetch_assoc()){	  
@@ -87,20 +88,22 @@ while($registro2 = $result->fetch_assoc()){
 			<td>'.$registro2['puerto'].'</td>
 			<td>'.$registro2['smtpSecure'].'</td>
 			<td>
-			   <a style="text-decoration:none;" title = "Editar Registros" href="javascript:editarRegistro('.$registro2['correo_id'].');" class="fas fa-edit fa-lg"></a>
-			   <a style="text-decoration:none;" href="javascript:modal_eliminar('.$registro2['correo_id'].');" class="fas fa-trash fa-lg"></a>				   
-			</td>				
+				<a class="btn btn btn-secondary ml-2" href="javascript:editarRegistro('.$registro2['correo_id'].');"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</a>
+			</td>
+			<td>
+				<a class="btn btn btn-secondary ml-2" href="javascript:modal_eliminar('.$registro2['correo_id'].');"><div class="sb-nav-link-icon"></div><i class="fas fa-trash fa-lg"></i> Eliminar</a>
+			</td>
 			</tr>';	
 			$i++;				
 }
 
 if($nroProductos == 0){
 	$tabla = $tabla.'<tr>
-	   <td colspan="7" style="color:#C7030D">No se encontraron resultados</td>
+	   <td colspan="8" style="color:#C7030D">No se encontraron resultados</td>
 	</tr>';		
 }else{
    $tabla = $tabla.'<tr>
-	  <td colspan="7"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
+	  <td colspan="8"><b><p ALIGN="center">Total de Registros Encontrados '.$nroProductos.'</p></b>
    </tr>';		
 }        
 

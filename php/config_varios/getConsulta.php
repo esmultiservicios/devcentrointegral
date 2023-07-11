@@ -1,9 +1,11 @@
 <?php
 echo "
-  <optgroup label='Caja'>
+  <optgroup label='Facturación'>
 	  <option value='banco'>Banco</option> 				   
 	  <option value='tipo_pago'>Tipo Pago</option> 
-  </optgroup>
+	  <option value='atenciones'>Atenciones</option> 
+	  <option value='isv'>Impuesto Sobre la Venta (ISV)</option> 	  
+  </optgroup> 
   <optgroup label='Acceso al Sistema'>
 	  <option value='tipo_user'>Tipo Usuario</option>
   </optgroup>
@@ -15,6 +17,9 @@ echo "
   </optgroup>     
   <optgroup label='Colaboradores'>
 	  <option value='jornada'>Jornada</option>
-  </optgroup>	  
+  </optgroup> 
+  <optgroup label='Otros'>
+	  <option value='tipo_muestra'>Tipo de Muestra</option>
+  </optgroup>   
 ";
 ?>

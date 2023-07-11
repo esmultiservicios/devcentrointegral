@@ -1,91 +1,82 @@
 <?php
-session_start();   
+session_start();
 include "../funtions.php";
-	
-//CONEXION A DB
-$mysqli = connect_mysqli(); 
 
-$usuario = $_SESSION['colaborador_id'];
-$fecha_b = $_POST['fechai'];
-$fecha_f = $_POST['fechaf'];
-$colaborador_id = $_POST['colaborador_id'];
-$profesional = $_POST['profesional'];
-$estado = 2; //1. Borrador 2. Pagada 3. Cancelado
-$estado_cargos = 1; //1. Pendiente 2. Pagada
-$cierre = 2; //1. Sí 2. No
-$cierre_nuevo = 1; //1. Sí 2. No
+//CONEXION A DB
+$mysqli = connect_mysqli();
+
 $fecha_registro = date("Y-m-d H:i:s");
 $fecha = date("Y-m-d");
-$comentario = cleanStringStrtolower($_POST['comentario']);
+$secuencia_facturacion_id = $_POST['secuencia_facturacion_id'];
 
-$query = "SELECT f.colaborador_id AS 'colaborador_id', CONCAT(c.nombre,' ',c.apellido) AS 'profesional', tp.nombre, SUM(f.monto) AS 'monto', SUM(f.descuento) AS 'descuento', SUM(f.neto) AS 'neto', tp.tipo_pago_id AS 'tipo_pago_id', f.servicio_id AS 'servicio_id'
-	FROM factura AS f
-	INNER JOIN metodo_pago As mp
-	ON f.metodo_pago_id = mp.metodo_pago_id
-	INNER JOIN tipo_pago AS tp
-	ON mp.tipo_pago_id = tp.tipo_pago_id
-	INNER JOIN colaboradores AS c
-	ON f.colaborador_id = c.colaborador_id
-	WHERE f.colaborador_id = '$colaborador_id' AND f.estado = '$estado' AND f.cierre = '$cierre' AND f.fecha BETWEEN '$fecha_b' AND '$fecha_f'
-	GROUP BY mp.tipo_pago_id
-	ORDER BY f.colaborador_id";
-$result = $mysqli->query($query) or die($mysqli->error);
-
-$flag = 2;
-
-//CONSULTAMOS SI HAY CARGOS ALMACENADOS PARA ESA FECHA
-$query_cargos = "SELECT cargo_id
-   FROM cargos
-   WHERE colaborador_id = '$colaborador_id' AND fecha_i = '$fecha_b' AND fecha_f = '$fecha_f'";
-$result_cargos = $mysqli->query($query_cargos) or die($mysqli->error);
-
-if($result_cargos->num_rows==0){
-	while($registro2 = $result->fetch_assoc()){
-		$servicio_id = $registro2['servicio_id'];
-		$tipo_pago_id = $registro2['tipo_pago_id'];
-		$monto = $registro2['monto'];
-		$descuento = $registro2['descuento'];
-		$neto = $registro2['neto'];	
-		
-		//GUARDAMOS LOS DATOS DEL REGISTRO
-		$cargo_id = correlativo('cargo_id', 'cargos');
-		$insert = "INSERT INTO cargos VALUES('$cargo_id','$colaborador_id','$servicio_id','$fecha_b','$fecha_f','$tipo_pago_id','$monto','$descuento','$neto','$usuario','$estado_cargos','$fecha_registro')";
-		$query = $mysqli->query($insert) or die($mysqli->error);
-		
-		if($query){		
-			//INGRESAR REGISTROS EN LA ENTIDAD HISTORIAL
-			$historial_numero = historial();
-			$estado_historial = "Agregar";
-			$observacion_historial = "Se ha calculado los cargos para el profesional";
-			$modulo = "Cargos";
-			$insert = "INSERT INTO historial 
-			   VALUES('$historial_numero','0','0','$modulo','$cargo_id','$colaborador_id','$servicio_id','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";	 
-			$mysqli->query($insert) or die($mysqli->error);
-			/********************************************/			
-		} 
-		$flag = 1;
-	}
-
-	if($flag == 1){
-		echo 1;//REGISTRO GENERADO CORRECTAMENTE
-		//ACTUALIZAMOS LOS VALORES DE LA FACTURA PARA CAMBIAR EL CAMPO CIERRE
-		$query_factura = "SELECT factura_id
-		   FROM factura
-		   WHERE fecha BETWEEN '$fecha_b' AND '$fecha_f' AND servicio_id = '$servicio_id' AND colaborador_id = '$colaborador_id' AND estado = '$estado' AND cierre = '$cierre'";
-		$result_factura = $mysqli->query($query_factura) or die($mysqli->error);
-		
-		   while($registrofactura = $result_factura->fetch_assoc()){
-			   $factura_id = $registrofactura['factura_id'];
-			   
-			   //ACTUALIZAMOS EL CIERRE DE LA FACTURA
-			   $update_factura = "UPDATE factura SET cierre = '$cierre_nuevo' WHERE factura_id = '$factura_id'";
-			   $mysqli->query($update_factura) or die($mysqli->error);
-		   }
+if(isset($_POST['empresa'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
+	if($_POST['empresa'] == ""){
+		$empresa = 0;
 	}else{
-		echo 2;//ERROR AL GENERAR EL REGISTRO
+		$empresa = $_POST['empresa'];
 	}
 }else{
-	echo 3;//ESTE REGISTRO YA EXISTE NO SE PUEDE ALMACENAR NUEVAMENTE
+	$empresa = 0;
+}
+
+$cai = $_POST['cai'];
+$prefijo = $_POST['prefijo'];
+$relleno = $_POST['relleno'];
+$incremento = $_POST['incremento'];
+$siguiente = $_POST['siguiente'];
+$rango_inicial = $_POST['rango_inicial'];
+$rango_final = $_POST['rango_final'];
+$fecha_activacion = $_POST['fecha_activacion'];
+$fecha_limite = $_POST['fecha_limite'];
+$usuario = $_SESSION['colaborador_id'];
+$comentario = "";
+
+if(isset($_POST['estado'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
+	if($_POST['estado'] == ""){
+		$estado = 0;
+	}else{
+		$estado = $_POST['estado'];
+	}
+}else{
+	$estado = 0;
+}
+
+//VERIFICAMOS QUE SOLO EXISTA UN REGISTRO DE ADMINISTRADOR DE SECUENCIAS PARA LA FACTURACION
+$query = "SELECT secuencia_facturacion_id
+    FROM secuencia_facturacion
+	WHERE activo = 1 AND empresa_id = '$empresa'";
+$result = $mysqli->query($query) or die($mysqli->error);
+
+if($result->num_rows==0){
+	//ALMACENAMOS EL ADMINISTRADOR DE SECUENCIAS PARA LA FACTURACION
+	$correlativo = correlativo('secuencia_facturacion_id ', 'secuencia_facturacion');
+	$rango_inicial =  str_pad($rango_inicial, $relleno, "0", STR_PAD_LEFT);
+	$rango_final =  str_pad($rango_final, $relleno, "0", STR_PAD_LEFT);
+	$documento_id = "1";//FACTURA ELECTRONICA
+
+	$insert = "INSERT INTO secuencia_facturacion
+		VALUES('$correlativo','$empresa','$cai','$prefijo','$relleno','$incremento','$siguiente','$rango_inicial','$rango_final','$fecha_activacion','$fecha_limite','$comentario','$estado','$usuario','$fecha_registro','$documento_id')";
+	$query = $mysqli->query($insert) or die($mysqli->error);
+
+	if($query){
+		echo 1;//REGISTRO ALMACENADO CORRECTAMENTE
+
+		/*********************************************************************************************************************************************************************/
+		//INGRESAR REGISTROS EN LA ENTIDAD HISTORIAL
+		$historial_numero = historial();
+		$estado_historial = "Agregar";
+		$observacion_historial = "Se ha agregado una nueva secuencia de facturación con el prefijo: $prefijo y rangos desde $rango_inicial a $rango_final";
+		$modulo = "Secuencia Facturación";
+		$insert = "INSERT INTO historial
+		   VALUES('$historial_numero','0','0','$modulo','$correlativo','0','0','$fecha','$estado_historial','$observacion_historial','$usuario','$fecha_registro')";
+		$mysqli->query($insert) or die($mysqli->error);
+		/*********************************************************************************************************************************************************************/
+	}else{
+		echo 2;//ERROR AL ALMACENAR ESTE REGISTRO
+	}
+
+}else{
+	echo 3;//EXISTE UN ADMINISTRADOR DE SECUENCIAS ALMACENADO PARA LA FACTURACION
 }
 
 $mysqli->close();//CERRAR CONEXIÓN

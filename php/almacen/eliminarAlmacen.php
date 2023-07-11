@@ -32,7 +32,7 @@ if($result_facturas->num_rows ==0){
 			6 => "Almacen",//FUNCION DE LA TABLA QUE LLAMAREMOS PARA QUE ACTUALICE (DATATABLE BOOSTRAP)
 			7 => "modal_almacen", //Modals Para Cierre Automatico
 			8 => "",
-			9 => "Eliminar", //PERMITE CERRAR EL MODAL SEGUN EL INDICADOR este indicador esta en main.js			
+			9 => "Eliminar", //PERMITE CERRAR EL MODAL SEGUN EL INDICADOR este indicador esta en main.js
 		);	
 
 		/*********************************************************************************************************************************************************************/

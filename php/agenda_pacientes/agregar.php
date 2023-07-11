@@ -3,8 +3,7 @@ session_start();
 include "../funtions.php";
 
 //CONEXION A DB
-$mysqli = connect_mysqli(); 
-
+$mysqli = connect_mysqli();
 $proceso = $_POST['pro'];
 
 $agenda_id = $_POST['agenda_id'];

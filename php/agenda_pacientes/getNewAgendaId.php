@@ -3,7 +3,7 @@ session_start();
 include "../funtions.php";
 
 //CONEXION A DB
-$mysqli = connect_mysqli(); 
+$mysqli = connect_mysqli();
 
 $pacientes_id = $_POST['pacientes_id']; 
 $colaborador_id = $_POST['colaborador_id']; 
