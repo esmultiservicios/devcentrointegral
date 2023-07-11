@@ -317,13 +317,13 @@ function modal_rollback(facturas_id, pacientes_id){
 	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3){
 		swal({
 		  title: "¿Esta seguro?",
-		  text: "¿Desea cancelar la factura para este registro: Paciente: " + consultarNombre(pacientes_id) + ". Factura N°:  " + getNumeroFactura(facturas_id) + "?",
+		  text: "¿Desea anular la factura para este registro: Paciente: " + consultarNombre(pacientes_id) + ". Factura N°:  " + getNumeroFactura(facturas_id) + "?",
 		  type: "input",
 		  showCancelButton: true,
 		  closeOnConfirm: false,
 		  inputPlaceholder: "Comentario",
 		  cancelButtonText: "Cancelar",
-		  confirmButtonText: "¡Sí, cancelar la factura!",
+		  confirmButtonText: "¡Sí, anular la factura!",
 		  confirmButtonClass: "btn-warning"
 		}, function (inputValue) {
 		  if (inputValue === false) return false;
@@ -361,14 +361,14 @@ function rollback(facturas_id,comentario){
 			    pagination(1);
 				swal({
 					title: "Success",
-					text: "Factura cancelada correctamente",
+					text: "Factura anulada correctamente",
 					type: "success",
 				});
 			    return false;
 			  }else if(registro == 2){
 				swal({
 					title: "Error",
-					text: "Error al cancelar la factura",
+					text: "Error al anular la factura",
 					type: "error",
 					confirmButtonClass: 'btn-danger'
 				});
