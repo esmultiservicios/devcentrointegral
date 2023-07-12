@@ -14,7 +14,6 @@ $dato = $_POST['dato'];
 $clientes = $_POST['clientes'];
 $estado = $_POST['estado'];
 $usuario = $_SESSION['colaborador_id'];
-$usuario = $_SESSION['colaborador_id'];
 $type = $_SESSION['type'];
 
 $busqueda_paciente = "";
@@ -34,11 +33,15 @@ if($estado == 2 || $estado == 4){
 	}*/
 
 	if($clientes != ""){
-		$busqueda_paciente = "AND f.pacientes_id = '$clientes' AND f.usuario = '$colaborador_id'";
+		$busqueda_paciente = "AND f.pacientes_id = '$clientes' AND f.usuario = '$colaborador_id' AND f.estado = '$estado'";
+	}else{
+		  $busqueda_paciente = "AND f.estado = '$estado'";
 	}
 
 	if($dato == !""){
-		$consulta_datos = "AND f.usuario = '$colaborador_id' AND (CONCAT(p.nombre,' ',p.apellido) LIKE '%$dato%' OR p.apellido LIKE '$dato%' OR p.identidad LIKE '$dato%' OR f.number LIKE '$dato%' OR m.number LIKE '$dato%')";
+		$consulta_datos = "AND f.usuario = '$colaborador_id' AND f.estado = '$estado' AND (CONCAT(p.nombre,' ',p.apellido) LIKE '%$dato%' OR p.apellido LIKE '$dato%' OR p.identidad LIKE '$dato%' OR f.number LIKE '$dato%' OR m.number LIKE '$dato%')";
+	}else{
+		$consulta_datos = "AND f.estado = '$estado'";
 	}
 }else{
   /*if($profesional == "" && $dato == ""){
@@ -54,11 +57,15 @@ if($estado == 2 || $estado == 4){
 	}*/
 
 	if($clientes != ""){
-		$busqueda_paciente = "AND f.pacientes_id = '$clientes'";
+		$busqueda_paciente = "AND f.pacientes_id = '$clientes' AND f.estado = '$estado'";
+	}else{
+	  $busqueda_paciente = "AND f.estado = '$estado'";
 	}
 
 	if($dato == !""){
-		$consulta_datos = "AND (CONCAT(p.nombre,' ',p.apellido) LIKE '%$dato%' OR p.apellido LIKE '$dato%' OR p.identidad LIKE '$dato%' OR f.number LIKE '$dato%')";
+		$consulta_datos = "AND f.estado = '$estado' AND (CONCAT(p.nombre,' ',p.apellido) LIKE '%$dato%' OR p.apellido LIKE '$dato%' OR p.identidad LIKE '$dato%' OR f.number LIKE '$dato%')";
+	}else{
+		$consulta_datos = "AND f.estado = '$estado'";
 	}
 }
 
