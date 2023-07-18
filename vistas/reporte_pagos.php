@@ -164,6 +164,15 @@ if($colaborador_id != "" || $colaborador_id != null){
         <div class="form-group mr-1">
           <div class="input-group">
             <div class="input-group-append">
+              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Profesional</span>
+            </div>
+            <select id="profesional" name="profesional" class="selectpicker" title="Profesional" data-live-search="true">
+            </select>
+          </div>
+        </div>        
+        <div class="form-group mr-1">
+          <div class="input-group">
+            <div class="input-group-append">
               <span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
             </div>
             <select id="clientes" name="clientes" class="selectpicker" title="Cliente" data-live-search="true">

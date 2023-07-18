@@ -1,5 +1,5 @@
 <?php
-session_start();   
+session_start();
 include "../funtions.php";
 
 //CONEXION A DB
@@ -13,10 +13,11 @@ $query = "SELECT c.colaborador_id, CONCAT(c.nombre,' ',c.apellido) AS 'profesion
 $result = $mysqli->query($query) or die($mysqli->error);
 
 if($result->num_rows>0){
-	echo '<option value="">Seleccione</option>';
 	while($consulta2 = $result->fetch_assoc()){
 		echo '<option value="'.$consulta2['colaborador_id'].'">'.$consulta2['profesional'].'</option>';
 	}
+}else{
+		echo '<option value="">No hay datos que mostrar</option>';
 }
 
 $result->free();//LIMPIAR RESULTADO

@@ -12,6 +12,7 @@ $fechai = $_POST['fechai'];
 $fechaf = $_POST['fechaf'];
 $dato = $_POST['dato'];
 $clientes = $_POST['clientes'];
+$profesional = $_POST['profesional'];
 $estado = $_POST['estado'];
 $usuario = $_SESSION['colaborador_id'];
 
@@ -42,6 +43,7 @@ if($estado == 1){
 }*/
 $busqueda_paciente = "";
 $consulta_datos = "";
+$profesional_consulta = "";
 
 if($clientes != ""){
 	$busqueda_paciente = "AND f.pacientes_id = '$clientes'";
@@ -49,6 +51,10 @@ if($clientes != ""){
 
 if($dato == !""){
 	$consulta_datos = "AND (CONCAT(p.nombre,' ',p.apellido) LIKE '%$dato%' OR p.apellido LIKE '$dato%' OR p.identidad LIKE '$dato%' OR f.number LIKE '$dato%')";
+}
+
+if($profesional != ""){
+  $profesional_consulta = "AND f.colaborador_id = '$profesional'";
 }
 
 $query = "SELECT f.facturaS_id AS 'factura_id', f.fecha AS 'fecha', p.identidad AS 'identidad', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', sc.prefijo AS 'prefijo', f.number AS 'numero', s.nombre AS 'servicio', CONCAT(c.nombre,'',c.apellido) AS 'profesional', sc.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha1', f.pacientes_id AS 'pacientes_id', f.cierre AS 'cierre', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', f.tipo_factura
@@ -64,6 +70,7 @@ $query = "SELECT f.facturaS_id AS 'factura_id', f.fecha AS 'fecha', p.identidad 
 	WHERE f.fecha BETWEEN '$fechai' AND '$fechaf' AND f.estado ".$in."
 	$busqueda_paciente
   $consulta_datos
+  $profesional_consulta
 	ORDER BY f.number DESC";
 $result = $mysqli->query($query) or die($mysqli->error);
 
@@ -106,8 +113,9 @@ $registro = "SELECT f.facturas_id AS 'facturas_id', f.fecha AS 'fecha', p.identi
 	INNER JOIN colaboradores AS c
 	ON f.colaborador_id = c.colaborador_id
 	WHERE f.fecha BETWEEN '$fechai' AND '$fechaf' AND f.estado ".$in."
-	$busqueda_paciente
+  $busqueda_paciente
   $consulta_datos
+  $profesional_consulta
 	ORDER BY f.number DESC
 	LIMIT $limit, $nroLotes";
 $result = $mysqli->query($registro) or die($mysqli->error);

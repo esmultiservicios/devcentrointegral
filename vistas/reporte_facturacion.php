@@ -159,6 +159,15 @@ $mysqli->close();//CERRAR CONEXIÓN
         <div class="form-group mr-1">
           <div class="input-group">
             <div class="input-group-append">
+              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Profesional</span>
+            </div>
+            <select id="profesional" name="profesional" class="selectpicker" title="Profesional" data-live-search="true">
+            </select>
+          </div>
+        </div>
+        <div class="form-group mr-1">
+          <div class="input-group">
+            <div class="input-group-append">
               <span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
             </div>
             <select id="clientes" name="clientes" class="selectpicker" title="Cliente" data-live-search="true">
@@ -204,13 +213,13 @@ $mysqli->close();//CERRAR CONEXIÓN
             <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date ("Y-m-d");?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
           </div>
         </div>
-        <div class="form-group mr-1">
-          <input type="text" placeholder="Buscar por: Paciente, Identidad o Factura" data-toggle="tooltip" data-placement="top" title="Buscar por: Expediente, Nombre, Apellido, Identidad o Número de Factura" id="bs_regis" autofocus class="form-control" size="45"/>
+        <div class="form-group mr-1 mt-2">
+          <input type="text" placeholder="Buscar por: Paciente, Identidad o Factura" data-toggle="tooltip" data-placement="top" title="Buscar por: Expediente, Nombre, Apellido, Identidad o Número de Factura" id="bs_regis" autofocus class="form-control" size="65"/>
         </div>
-        <div class="form-group mr-1">
+        <div class="form-group mr-1 mt-2">
           <button class="btn btn-primary" type="submit" id="factura" data-toggle="tooltip" data-placement="top" title="Generar Cargo de Facturació"><div class="sb-nav-link-icon"></div><i class="fas fa-calculator fa-lg"></i> Cierre</button>
         </div>
-        <div class="form-group">
+        <div class="form-group mt-2">
             <button class="btn btn-success" type="submit" id="reporte" data-toggle="tooltip" data-placement="top" title="Exportar"><div class="sb-nav-link-icon"></div><i class="fas fa-download fa-lg"></i> Exportar</button>
         </div>
       </form>

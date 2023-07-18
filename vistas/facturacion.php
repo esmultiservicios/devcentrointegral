@@ -68,6 +68,15 @@ $mysqli->close();//CERRAR CONEXIÓN
           <div class="form-group mr-1">
             <div class="input-group">
               <div class="input-group-append">
+                <span class="input-group-text"><div class="sb-nav-link-icon"></div>Profesional</span>
+              </div>
+              <select id="profesional" name="profesional" class="selectpicker" title="Profesional" data-live-search="true">
+              </select>
+            </div>
+          </div>
+          <div class="form-group mr-1">
+            <div class="input-group">
+              <div class="input-group-append">
                 <span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
               </div>
               <select id="clientes" name="clientes" class="selectpicker" title="Cliente" data-live-search="true">
@@ -83,26 +92,40 @@ $mysqli->close();//CERRAR CONEXIÓN
               </select>
             </div>
           </div>
-					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">
-							<div class="input-group-append">
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicial</span>
-							</div>
-							<input type="date" required="required" id="fecha_b" name="fecha_b" style="width:160px;" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
-						</div>
-					</div>
-					<div class="form-group mx-sm-3 mb-1">
-						<div class="input-group">
-							<div class="input-group-append">
-								<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Final</span>
-							</div>
-							<input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date ("Y-m-d");?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
-						</div>
-					</div>
-					<div class="form-group mx-sm-3 mb-1">
-						<input type="text" placeholder="Buscar por: Expediente, Nombre o Identidad" data-toggle="tooltip" data-placement="top" title="Buscar por: Expediente, Nombre, Apellido o Identidad" id="bs_regis" autofocus class="form-control" size="60"/>
-					</div>
-          <div class="form-group mt-2 mr-1">
+          <div class="form-group mr-1">
+            <div class="input-group">
+              <div class="input-group-append">
+                <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
+              </div>
+              <input type="date" required="required" id="fecha_b" name="fecha_b" style="width:160px;" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php
+                  $fecha = date ("Y-m-d");
+
+                  $año = date("Y", strtotime($fecha));
+                  $mes = date("m", strtotime($fecha));
+                  $dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+
+                  $dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
+                  $dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+
+                  $fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
+                  $fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
+
+                  echo $fecha_inicial;
+                ?>" class="form-control"/>
+            </div>
+          </div>
+          <div class="form-group mr-1">
+            <div class="input-group">
+              <div class="input-group-append">
+                <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+              </div>
+              <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date ("Y-m-d");?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
+            </div>
+          </div>
+          <div class="form-group mr-1 mt-2">
+            <input type="text" placeholder="Buscar por: Paciente, Identidad o Factura" data-toggle="tooltip" data-placement="top" title="Buscar por: Expediente, Nombre, Apellido, Identidad o Número de Factura" id="bs_regis" autofocus class="form-control" size="65"/>
+          </div>
+          <div class="form-group mr-1 mt-2">
             <button class="btn btn-primary" type="submit" id="factura" data-toggle="tooltip" data-placement="top" title="Crear Factura"><div class="sb-nav-link-icon"></div><i class="fas fa-file-invoice fa-lg"></i> Crear Factura</button>
           </div>
           <div class="form-group mt-2">

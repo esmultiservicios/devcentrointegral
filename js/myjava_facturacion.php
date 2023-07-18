@@ -27,6 +27,10 @@ $(document).ready(function() {
 	  pagination(1);
 	});
 
+	$('#form_main #profesional').on('change',function(){
+	  pagination(1);
+	});
+
 	$('#form_main #estado').on('change',function(){
 	  pagination(1);
 	});
@@ -150,8 +154,9 @@ function pay(facturas_id){
 
 //INICIO FUNCION PARA OBTENER LAS FUNCIONES
 function funciones(){
-    pagination(1);
-	getColaborador();
+  pagination(1);
+	getClientes();
+	getProfesionales();
 	getEstado();
 	getPacientes();
 
@@ -167,35 +172,25 @@ function funciones(){
 //INICIO PAGINACION DE REGISTROS
 function pagination(partida){
 	var url = '<?php echo SERVERURL; ?>php/facturacion/paginar.php';
-    var fechai = $('#form_main #fecha_b').val();
-	var fechaf = $('#form_main #fecha_f').val();
-	var dato = '';
-	var clientes = '';
-	var estado = '';
 
-    if($('#form_main #clientes').val() == "" || $('#form_main #clientes').val() == null){
-		clientes = '';
-	}else{
-		clientes = $('#form_main #clientes').val();
-	}
+	var fechai = $('#form_main #fecha_b').val();
+  var fechaf = $('#form_main #fecha_f').val();
+  var dato =  $('#form_main #bs_regis').val()
+  var clientes = $('#form_main #clientes').val();
+  var profesional = $('#form_main #profesional').val();
+  var estado = '';
 
-    if($('#form_main #estado').val() == "" || $('#form_main #estado').val() == null){
-		estado = 1;
-	}else{
-		estado = $('#form_main #estado').val();
-	}
-
-	if($('#form_main #bs_regis').val() == "" || $('#form_main #bs_regis').val() == null){
-		dato = '';
-	}else{
-		dato = $('#form_main #bs_regis').val();
-	}
+  if($('#form_main #estado').val() == ""){
+    estado = 1;
+  }else{
+    estado = $('#form_main #estado').val();
+  }
 
 	$.ajax({
 		type:'POST',
 		url:url,
 		async: true,
-		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&estado='+estado,
+		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&profesional='+profesional+'&estado='+estado,
 		success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
@@ -273,21 +268,6 @@ function getBanco(){
      });
 }
 //FIN FUNCION PARA OBTENER LOS BANCOS DISPONIBLES
-//INICIO FUNCION PARA OBTENER LOS PROFESIONALES
-function getColaborador(){
-    var url = '<?php echo SERVERURL; ?>php/citas/getMedico.php';
-
-	$.ajax({
-        type: "POST",
-        url: url,
-        success: function(data){
-		    $('#form_main #clientes').html("");
-		  	$('#form_main #clientes').html(data);
-				$('#form_main #clientes').selectpicker('refresh');
-		}
-     });
-}
-//FIN FUNCION PARA OBTENER LOS PROFESIONALES
 
 //INICIO ENVIAR FACTURA POR CORREO ELECTRONICO
 function mailBill(facturas_id){
@@ -937,4 +917,32 @@ $('#formulario_facturacion #guardar1').on('click', function(e){
 	$('#formulario_facturacion').attr({ 'action': '<?php echo SERVERURL; ?>php/facturacion/addPreFactura.php' });
 	$("#formulario_facturacion").submit();
 });
+
+function getClientes(){
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getPacientes.php';
+
+	$.ajax({
+				type: "POST",
+				url: url,
+				success: function(data){
+					$('#form_main #clientes').html("");
+					$('#form_main #clientes').html(data);
+					$('#form_main #clientes').selectpicker('refresh');
+				}
+     });
+}
+
+function getProfesionales(){
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getColaborador.php';
+
+	$.ajax({
+				type: "POST",
+				url: url,
+				success: function(data){
+					$('#form_main #profesional').html("");
+					$('#form_main #profesional').html(data);
+					$('#form_main #profesional').selectpicker('refresh');
+				}
+     });
+}
 </script>

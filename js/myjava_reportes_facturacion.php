@@ -79,6 +79,10 @@ $(document).ready(function() {
     pagination(1);
   });
 
+  $('#form_main_facturacion_reportes #profesional').on('change',function(){
+    pagination(1);
+  });
+
   $('#form_main_facturacion_reportes #bs_regis').on('keyup',function(){
     pagination(1);
   });
@@ -123,6 +127,7 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 function funciones(){
 	getEstado();
   getClientes();
+  getProfesionales();
   pagination(1);
 }
 //FIN AGRUPAR FUNCIONES DE PACIENTES
@@ -235,7 +240,8 @@ function pagination(partida){
   var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
   var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();
   var dato =  $('#form_main_facturacion_reportes #bs_regis').val()
-  var clientes = $('#form_main_facturacion_reportes #clientes').val()
+  var clientes = $('#form_main_facturacion_reportes #clientes').val();
+  var profesional = $('#form_main_facturacion_reportes #profesional').val();
   var estado = '';
 
   if($('#form_main_facturacion_reportes #estado').val() == ""){
@@ -248,7 +254,7 @@ function pagination(partida){
 		type:'POST',
 		url:url,
 		async: true,
-		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&estado='+estado,
+		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&profesional='+profesional+'&estado='+estado,
 		success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
@@ -482,6 +488,20 @@ function getClientes(){
 					$('#form_main_facturacion_reportes #clientes').html("");
 					$('#form_main_facturacion_reportes #clientes').html(data);
 					$('#form_main_facturacion_reportes #clientes').selectpicker('refresh');
+				}
+     });
+}
+
+function getProfesionales(){
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getColaborador.php';
+
+	$.ajax({
+				type: "POST",
+				url: url,
+				success: function(data){
+					$('#form_main_facturacion_reportes #profesional').html("");
+					$('#form_main_facturacion_reportes #profesional').html(data);
+					$('#form_main_facturacion_reportes #profesional').selectpicker('refresh');
 				}
      });
 }

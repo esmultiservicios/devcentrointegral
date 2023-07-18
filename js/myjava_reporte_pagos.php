@@ -8,6 +8,7 @@ $(document).ready(function() {
 	getEstado();
 	getTipoPago();
 	getClientes();
+	getProfesionales();
 
 	$('#form_main #bs_regis').on('keyup',function(){
 	  pagination(1);
@@ -18,6 +19,10 @@ $(document).ready(function() {
 	});
 
 	$('#form_main #fecha_f').on('change',function(){
+	  pagination(1);
+	});
+
+	$('#form_main #profesional').on('change',function(){
 	  pagination(1);
 	});
 
@@ -60,7 +65,8 @@ function pagination(partida){
 	var fechai = $('#form_main #fecha_b').val();
   var fechaf = $('#form_main #fecha_f').val();
   var dato =  $('#form_main #bs_regis').val()
-  var clientes = $('#form_main #clientes').val()
+  var clientes = $('#form_main #clientes').val();
+	var profesional = $('#form_main #profesional').val();
   var estado = '';
 
   if($('#form_main #estado').val() == ""){
@@ -73,7 +79,7 @@ function pagination(partida){
 		type:'POST',
 		url:url,
 		async: true,
-		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&estado='+estado,
+		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&profesional='+profesional+'&estado='+estado,
 		success:function(data){
 			var array = eval(data);
 			$('#agrega-registros').html(array[0]);
@@ -283,6 +289,20 @@ function getClientes(){
 					$('#form_main #clientes').html("");
 					$('#form_main #clientes').html(data);
 					$('#form_main #clientes').selectpicker('refresh');
+				}
+     });
+}
+
+function getProfesionales(){
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getColaborador.php';
+
+	$.ajax({
+				type: "POST",
+				url: url,
+				success: function(data){
+					$('#form_main #profesional').html("");
+					$('#form_main #profesional').html(data);
+					$('#form_main #profesional').selectpicker('refresh');
 				}
      });
 }
