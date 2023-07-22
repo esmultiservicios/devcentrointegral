@@ -1,3 +1,11 @@
+<?php
+  if (SISTEMA_PRUEBA=="SI"){ //CAJA
+?>
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+<?php
+  }
+?>
+
 <br/><br/><br/>
 <div class="footer">
 	<div class="row">

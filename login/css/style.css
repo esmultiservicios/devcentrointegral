@@ -156,3 +156,15 @@
 .my-float-ws{
 	margin-top:16px;
 }
+
+.prueba-sistema{
+	position: absolute;
+	text-align: center;
+	/*left: 25%;
+	top: 70%;*/
+	/*transform: translateX(-70%) translateY(-40%);*/
+	font-size: 50px;
+	z-index: 1;
+	/*transform: rotate(-45deg);*/
+  color: #ecb4b4
+}

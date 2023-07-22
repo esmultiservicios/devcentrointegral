@@ -8,6 +8,13 @@
 </head>
 <body>
 <?php echo $anulada; ?>
+<?php
+  if (SISTEMA_PRUEBA=="SI"){ //CAJA
+?>
+    <span class="container-fluid prueba-sistema">SISTEMA DE PRUEBA</span>
+<?php
+  }
+?>
 <div id="page_pdf">
 	<table id="factura_head">
 		<tr>

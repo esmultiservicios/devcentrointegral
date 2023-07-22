@@ -49,7 +49,7 @@ if($profesional != ""){
   $profesional_consulta = "AND f.colaborador_id = '$profesional'";
 }
 
-$query = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta', tp.tipo_pago_id AS 'tipo_pago_id'
+$query = "SELECT p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe AS 'importe', sc.prefijo AS 'prefijo', f.number AS 'numero', CONCAT(pac.nombre,' ',pac.apellido) AS 'paciente', pac.identidad AS 'identidad', sc.relleno AS 'relleno', tp.nombre AS 'tipo_pago', p.efectivo AS 'efectivo', p.tarjeta AS 'tarjeta', tp.tipo_pago_id AS 'tipo_pago_id'
 	FROM pagos AS p
 	INNER JOIN facturas AS f
 	ON p.facturas_id = f.facturas_id
@@ -57,11 +57,9 @@ $query = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.fec
 	ON f.secuencia_facturacion_id = sc.secuencia_facturacion_id
 	INNER JOIN pacientes AS pac
 	ON f.pacientes_id = pac.pacientes_id
-	INNER JOIN pagos_detalles AS pd
-	ON p.pagos_id = pd.pagos_id
 	INNER JOIN tipo_pago AS tp
-	ON pd.tipo_pago_id = tp.tipo_pago_id
-	WHERE p.estado = '$estado'
+	ON p.tipo_pago = tp.tipo_pago_id
+	WHERE p.estado = '$estado' AND p.fecha BETWEEN '$fechai' AND '$fechaf'
 	$busqueda_paciente
 	$consulta_datos
 	$profesional_consulta
@@ -109,7 +107,7 @@ $registro = "SELECT p.facturas_id AS 'facturas_id', p.pagos_id AS 'pagos_id', p.
 	ON p.pagos_id = pd.pagos_id
 	INNER JOIN tipo_pago AS tp
 	ON pd.tipo_pago_id = tp.tipo_pago_id
-	WHERE p.estado = '$estado'
+	WHERE p.estado = '$estado' AND p.fecha BETWEEN '$fechai' AND '$fechaf'
 	$busqueda_paciente
 	$consulta_datos
 	$profesional_consulta
@@ -125,7 +123,7 @@ $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<th width="14%">Factura</th>
 			<th width="10%">Pago Recibido</th>
 			<th width="10%">Efectivo</th>
-			<th width="10%">Tarjeta</th>
+			<th width="10%">Recibido</th>
 			<th width="10%">Tipo Pago</th>
 			<th width="9%">Editar</th>
 			</tr>';
@@ -135,23 +133,6 @@ while($registro2 = $result->fetch_assoc()){
 
 	$numero = $registro2['prefijo'].''.rellenarDigitos($registro2['numero'], $registro2['relleno']);
 
-	$tipo_pago = "";
-	$efectivo = 0;
-	$tarjeta = 0;
-
-	if($registro2['tipo_pago_id'] == 1){
-		$efectivo = $registro2['importe'];
-	}
-
-	if($registro2['tipo_pago_id'] == 2){
-		$tarjeta = $registro2['importe'];
-	}
-
-	if($registro2['tipo_pago_id'] == 6){
-		$efectivo = $registro2['efectivo'];
-		$tarjeta = $registro2['tarjeta'];
-	}
-
 	$tabla = $tabla.'<tr>
 			<td>'.$i.'</td>
 			<td><a style="text-decoration:none" href="javascript:invoicesDetails('.$registro2['facturas_id'].');">'.$registro2['fecha_pago'].'</a></td>
@@ -159,8 +140,8 @@ while($registro2 = $result->fetch_assoc()){
 			<td>'.$registro2['identidad'].'</td>
 			<td>'.$numero.'</td>
 			<td>'.number_format($registro2['importe'],2).'</td>
-			<td>'.number_format($efectivo,2).'</td>
-			<td>'.number_format($tarjeta,2).'</td>
+			<td>'.number_format($registro2['efectivo'],2).'</td>
+			<td>'.number_format($registro2['tarjeta'],2).'</td>
 			<td>'.$registro2['tipo_pago'].'</td>
 			<td>
 				<a class="btn btn btn-secondary ml-2" href="javascript:editarRegistro('.$registro2['pagos_id'].');void(0);"><div class="sb-nav-link-icon"></div><i class="fas fa-edit fa-lg"></i> Editar</a>

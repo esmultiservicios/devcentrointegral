@@ -18,7 +18,7 @@ $tipo_pago = 1;//1. CONTADO 2. CRÉDITO
 $estado_pago = 1;//ACTIVO
 $estado = 2;//FACTURA PAGADA
 $efectivo = 0;
-$tarjeta = 	0;			
+$tarjeta = 	$importe;			
 
 $referencia_pago1 = cleanStringConverterCase($_POST['check_num']);//TARJETA DE CREDITO
 $referencia_pago2 = "";
