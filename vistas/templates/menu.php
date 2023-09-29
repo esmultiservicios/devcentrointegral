@@ -181,6 +181,13 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/historial_accesos.php">Historial de Accesos</a>		  
 			</div>
 		  </li>	
+		  <li class="nav-item dropdown active">
+				<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-tools fa-lg"></i>&nbsp;Clinicare</a>
+				<div class="dropdown-menu" aria-labelledby="dropdown05">
+					<a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/perfil.php">Perfil</a>
+					<a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/misFacturas.php">Mis Facturas</a>
+				</div>
+		  </li>  		  
 		<?php
 	     }
 		?>	

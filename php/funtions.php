@@ -262,20 +262,17 @@ function connect_mysqli(){
 	
 //FUNCION QUE PERMITE GENERAR LA CONTRASEÑA DE FORMA AUTOMATICA
 function generar_password_complejo(){
-   $largo = 12;
-   $cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-   $cadena_base .= '0123456789' ;
-   $cadena_base .= '!@#%^&()_,./<>?;:[]{}\|=+|*-';
-
-   $password = '';
-   $limite = strlen($cadena_base) - 1;
-
-   for ($i=0; $i < $largo; $i++)
-	   $password .= $cadena_base[rand(0, $limite)];
-
-   return $password;
+	$largo = 12;
+	$cadena_base =  'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+	$password = '';
+  
+	$limite = strlen($cadena_base) - 1;
+  
+	for ($i=0; $i < $largo; $i++)
+	  $password .= $cadena_base[rand(0, $limite)];
+	
+	return $password;
 }
-
 
 function historial(){
 	$mysqli = connect_mysqli(); 

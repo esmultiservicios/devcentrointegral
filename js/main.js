@@ -11,6 +11,9 @@ $('.FormularioAjax').submit(function(e){
     var method=form.attr('method');
     var respuesta=form.children('.RespuestaAjax');
 	
+	// Deshabilitar el botón antes de hacer la solicitud AJAX
+	 form.find('button[type="submit"]').prop('disabled', true);
+	
     var msjError="<script></script>";
     var formdata = new FormData(this);
 
@@ -37,16 +40,21 @@ $('.FormularioAjax').submit(function(e){
     }
 
 	swal({
-	  title: "¿Estas seguro?",
-	  text: textoAlerta,
-	  type: type,
-	  showCancelButton: true,
-	  confirmButtonClass: classButtom,
-	  confirmButtonText: "Aceptar",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
+		title: "¿Estas seguro?",
+		text: textoAlerta,
+		type: type,
+		showCancelButton: true,
+		confirmButtonClass: classButtom,
+		confirmButtonText: "Aceptar",
+		cancelButtonText: "Cancelar",
+		closeOnConfirm: false,
+		allowEscapeKey: false,
+		allowOutsideClick: false
 	},
 	function(){		
+		// Dentro de la función del swal, deshabilita el botón "Aceptar" del swal
+		swal.disableButtons();
+		
         $.ajax({
             type: method,
             url: action,
@@ -145,6 +153,14 @@ $('.FormularioAjax').submit(function(e){
 					reportePDF(datos[8]);
 					sendEmailReprogramación(datos[8]);
 				}
+				
+				// Habilitar el botón después de completar la transacción
+				form.find('button[type="submit"]').prop('disabled', false);
+				
+				// Habilita solo el botón de "Cancelar" del swal
+  				swal.enableCancelButton();
+				
+				return false;
             },
             error: function() {
                 respuesta.html(msjError);
