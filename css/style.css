@@ -439,7 +439,7 @@ Se debe agregar unos codigos que estan en myjava_facturacion.php inician con Men
 	width:60px;
 	height:60px;
 	bottom:40px;
-	right:80px;
+	left: 40px;
 	background-color:#25d366;
 	color:#FFF;
 	border-radius:50px;
