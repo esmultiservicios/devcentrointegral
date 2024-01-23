@@ -4,7 +4,7 @@
     */
 
     //DATOS DE CONEXION DEL CLIENTE
-    const SERVERURL = "http://localhost/githubCentrointregral/";
+    const SERVERURL = "http://localhost/devcentrointegral/";
 	const SERVEREMPRESA = "Centro Integral";
 	const SERVER = "localhost";
     const DB = "clinicarehn_clientes_centrointegral";

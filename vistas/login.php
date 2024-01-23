@@ -10,7 +10,7 @@ require_once "../php/conf/configAPP.php";
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="shortcut icon" href="<?php echo SERVERURL; ?>img/logo_icono.png">
+    <link rel="shortcut icon" href="<?php echo SERVERURL; ?>img/cami.png">
     <link rel="stylesheet" href="<?php echo SERVERURL; ?>login/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="<?php echo SERVERURL; ?>fontawesome/css/all.min.css">
     <!--//USO DE ICONOS font awesome-->
@@ -25,7 +25,7 @@ require_once "../php/conf/configAPP.php";
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Iniciar Sesión</h1>
 
             <p>
-                <center><img src="<?php echo SERVERURL; ?>img/logo.png" width="45%" height="20%"></center>
+                <center><img src="<?php echo SERVERURL; ?>img/cami.svg" width="90%" height="90%"></center>
             </p>
 
             <div class="input-group mb-3">
@@ -72,7 +72,7 @@ require_once "../php/conf/configAPP.php";
         <form class="form-reset" id="forgot_form">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center">Restablecer Contraseña</h1>
             <p>
-                <center><img src="<?php echo SERVERURL; ?>img/logo.png" width="50%" height="20%"></center>
+                <center><img src="<?php echo SERVERURL; ?>img/cami.svg" width="90%" height="90%"></center>
             </p>
 
             <div class="input-group mb-3">
@@ -96,7 +96,7 @@ require_once "../php/conf/configAPP.php";
         <form class="form-signup" id="form_registro">
             <h1 class="h3 mb-3 font-weight-normal" style="text-align: center"> Formulario de Registro</h1>
             <p>
-                <center><img src="<?php echo SERVERURL; ?>img/logo.png" width="50%" height="20%"></center>
+                <center><img src="<?php echo SERVERURL; ?>img/cami.svg" width="90%" height="90%"></center>
             </p>
 
             <div class="input-group mb-3">
@@ -156,8 +156,7 @@ require_once "../php/conf/configAPP.php";
         </form>
         <!-- Copyright -->
         <div class="footer-copyright text-center py-3">
-            <center><img src="<?php echo SERVERURL; ?>img/cami.svg" width="90%" height="90%"></center>©
-            2017 - <?php echo date("Y");?> Copyright:
+            © 2017 - <?php echo date("Y");?> Copyright:
             <center>
                 <p class="navbar-text"> Todos los derechos reservados
                 </p>

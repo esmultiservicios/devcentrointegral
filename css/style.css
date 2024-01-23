@@ -470,3 +470,8 @@ Se debe agregar unos codigos que estan en myjava_facturacion.php inician con Men
 	/*transform: rotate(-45deg);*/
   color: #ecb4b4
 }
+
+.logo {
+	margin-left: 10px; /* Ajusta el margen izquierdo según tus necesidades */
+	max-height: 40px; /* Ajusta la altura máxima del logo según tus necesidades */
+}
