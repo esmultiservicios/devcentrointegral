@@ -172,7 +172,7 @@ $mysqli->close();//CERRAR CONEXIÓN
 					  <label for="fecha_limite">Fecha Límite <span class="priority">*<span/></label>
 					  <input type="date" required="required" id="fecha_limite" name="fecha_limite" value="<?php echo date ("Y-m-d");?>" class="form-control"/>
 					</div>
-          <div class="col-md-3 mb-3">
+         			<div class="col-md-3 mb-3">
 					    <label for="estado">Estado <span class="priority">*<span/></label>
 						<div class="input-group mb-3">
 							<select class="selectpicker" id="estado" name="estado" required data-live-search="true" title="Estado">

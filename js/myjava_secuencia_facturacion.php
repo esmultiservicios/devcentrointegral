@@ -472,9 +472,11 @@ function getEmpresa(){
         success: function(data){
 		    $('#form_main #empresa').html("");
 			$('#form_main #empresa').html(data);
+			$('#form_main #empresa').selectpicker('refresh');
 
 		    $('#formularioSecuenciaFacturacion #empresa').html("");
-			$('#formularioSecuenciaFacturacion #empresa').html(data);			
+			$('#formularioSecuenciaFacturacion #empresa').html(data);	
+			$('#formularioSecuenciaFacturacion #empresa').selectpicker('refresh');		
         }
      });		
 }
@@ -491,9 +493,11 @@ function getEstado(){
         success: function(data){
 		    $('#form_main #estado').html("");
 			$('#form_main #estado').html(data);	
+			$('#form_main #estado').selectpicker('refresh');
 
 		    $('#formularioSecuenciaFacturacion #estado').html("");
-			$('#formularioSecuenciaFacturacion #estado').html(data);				
+			$('#formularioSecuenciaFacturacion #estado').html(data);
+			$('#formularioSecuenciaFacturacion #estado').selectpicker('refresh');			
         }
      });		
 }
