@@ -16,7 +16,7 @@
     const DB_MAIN = "clinicarehn_fayad_clinicare";
     const USER_MAIN = "clinicarehn_clinicare";
     const PASS_MAIN = "Clin1c@r32022#%.";     
-
+                        
     /*
         Para encrptar y Desencriptar
         Nota: Estos valores no se deben cambiar, si hay datos en la DB    

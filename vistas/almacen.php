@@ -78,13 +78,13 @@ if($colaborador_id != "" || $colaborador_id != null){
     					</thead>
     				</table>
     			</div>
-    		<form>
+    		</form>
     	</div>
     </div>
     <div class="card-footer small text-muted">
-
-    </div>
+    </div>	
   </div>
+  
     <?php include("templates/footer.php"); ?>
 </div>
 

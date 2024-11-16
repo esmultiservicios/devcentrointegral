@@ -214,11 +214,17 @@ function rellenarDigitos($valor, $long){
 	return $numero;
 }
 
-function nombremes($mes){
-  setlocale(LC_TIME, 'spanish');  
-  $nombre=strftime("%B",mktime(0, 0, 0, $mes, 1, 2000)); 
-  return $nombre;
-}  
+function nombremes($mes)
+{
+	// Lista de nombres de meses en español
+	$meses = [
+		1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
+		'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
+	];
+
+	// Retorna el nombre del mes si el número es válido
+	return $meses[$mes] ?? 'Mes inválido';
+}
 
 function nombre_mes_corto($mes){
    $dia_nombre = '';

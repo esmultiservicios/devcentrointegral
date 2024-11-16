@@ -346,6 +346,7 @@ toDataURL(
 
 //INICIO DATATABLE OPCIONES
 var lengthMenu = [[5, 10, 20, 50, 100, -1], [5, 10, 20, 50, 100, 'Todos']];
+var lengthMenu20 = [[20, 50, 100, -1], [20, 50, 100, 'Todos']];
 
 var dom = "<'row'<'col-sm-3'l><'col-sm-6 text-center'B><'col-sm-3'f>>" +
 	"<'row'<'col-sm-12'tr>>" +

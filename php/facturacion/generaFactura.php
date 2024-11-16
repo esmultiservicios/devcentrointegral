@@ -4,8 +4,7 @@ include "../funtions.php";
 
 header("Content-Type: text/html;charset=utf-8");
 
-include_once "../../dompdf/autoload.inc.php";
-require_once '../../pdf/vendor/autoload.php';
+require_once '../../dompdf/vendor/autoload.php';
 
 use Dompdf\Dompdf;
 	 	

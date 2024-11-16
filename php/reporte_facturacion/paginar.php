@@ -57,7 +57,7 @@ if($profesional != ""){
   $profesional_consulta = "AND f.colaborador_id = '$profesional'";
 }
 
-$query = "SELECT f.facturaS_id AS 'factura_id', f.fecha AS 'fecha', p.identidad AS 'identidad', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', sc.prefijo AS 'prefijo', f.number AS 'numero', s.nombre AS 'servicio', CONCAT(c.nombre,'',c.apellido) AS 'profesional', sc.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha1', f.pacientes_id AS 'pacientes_id', f.cierre AS 'cierre', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', f.tipo_factura
+$query = "SELECT f.facturaS_id AS 'factura_id', f.fecha AS 'fecha', p.identidad AS 'identidad', CONCAT(p.nombre,' ',p.apellido) AS 'paciente', sc.prefijo AS 'prefijo', f.number AS 'numero', s.nombre AS 'servicio', CONCAT(c.nombre,'',c.apellido) AS 'profesional', sc.relleno AS 'relleno', DATE_FORMAT(f.fecha, '%d/%m/%Y') AS 'fecha1', f.pacientes_id AS 'pacientes_id', f.cierre AS 'cierre', (CASE WHEN f.tipo_factura = 1 THEN 'Contado' ELSE 'Crédito' END) AS 'tipo_documento', f.tipo_factura, f.estado
 	FROM facturas AS f
 	INNER JOIN pacientes AS p
 	ON f.pacientes_id = p.pacientes_id
@@ -135,7 +135,7 @@ $tabla = $tabla.'<table class="table table-striped table-condensed table-hover">
 			<th width="8.66%">Servicio</th>
 			<th width="10.66%">Profesional</th>
 			<th width="2.66%">Imprimir</th>
-      <th width="2.66%">Cierre</th>
+      		<th width="2.66%">Cierre</th>
 			<th width="2.66%">Anular</th>
 			</tr>';
 $i = 1;

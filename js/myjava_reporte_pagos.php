@@ -3,7 +3,7 @@
 //INICIO CONTROLES DE ACCION
 $(document).ready(function() {
     //INICIO PAGINATION (PARA LAS BUSQUEDAS SEGUN SELECCIONES)
-	pagination(1);
+	listar_reporte_pagos();
 	getColaborador();
 	getEstado();
 	getTipoPago();
@@ -11,27 +11,27 @@ $(document).ready(function() {
 	getProfesionales();
 
 	$('#form_main #bs_regis').on('keyup',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 
 	$('#form_main #fecha_b').on('change',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 
 	$('#form_main #fecha_f').on('change',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 
 	$('#form_main #profesional').on('change',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 
 	$('#form_main #clientes').on('change',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 
 	$('#form_main #estado').on('change',function(){
-	  pagination(1);
+		listar_reporte_pagos();
 	});
 	//FIN PAGINATION (PARA LAS BUSQUEDAS SEGUN SELECCIONES)
 });
@@ -124,37 +124,8 @@ function getColaborador(){
 }
 //FIN FUNCION PARA OBTENER LOS PROFESIONALES
 
-$('#form_main #reporte').on('click', function(e){
-    e.preventDefault();
-    reporteEXCEL();
-});
 
 //INICIO REPORTE DE FACTURACION
-function reporteEXCEL(){
-	var profesional = '';
-	var desde = $('#form_main #fecha_b').val();
-	var hasta = $('#form_main #fecha_f').val();
-	var url = '';
-	var dato = '';
-
-    if($('#form_main #profesional').val() == "" || $('#form_main #profesional').val() == null){
-		profesional = '';
-	}else{
-		profesional = $('#form_main #profesional').val();
-	}
-
-	if($('#form_main #bs_regis').val() == "" || $('#form_main #bs_regis').val() == null){
-		dato = '';
-	}else{
-		dato = $('#form_main #bs_regis').val();
-	}
-
-	url = '<?php echo SERVERURL; ?>php/reporte_pagos/reporte.php?desde='+desde+'&hasta='+hasta+'&profesional='+profesional+'&dato='+dato;
-
-	window.open(url);
-}
-
-
 function invoicesDetails(facturas_id){
 	var url = '<?php echo SERVERURL; ?>php/reporte_pagos/detallesPago.php';
 
@@ -283,27 +254,166 @@ function getClientes(){
     var url = '<?php echo SERVERURL; ?>php/facturacion/getPacientes.php';
 
 	$.ajax({
-				type: "POST",
-				url: url,
-				success: function(data){
-					$('#form_main #clientes').html("");
-					$('#form_main #clientes').html(data);
-					$('#form_main #clientes').selectpicker('refresh');
-				}
-     });
+		type: "POST",
+		url: url,
+		success: function(data){
+			$('#form_main #clientes').html("");
+			$('#form_main #clientes').html(data);
+			$('#form_main #clientes').selectpicker('refresh');
+		}
+	});
 }
 
 function getProfesionales(){
     var url = '<?php echo SERVERURL; ?>php/facturacion/getColaborador.php';
 
 	$.ajax({
-				type: "POST",
-				url: url,
-				success: function(data){
-					$('#form_main #profesional').html("");
-					$('#form_main #profesional').html(data);
-					$('#form_main #profesional').selectpicker('refresh');
-				}
+		type: "POST",
+		url: url,
+		success: function(data){
+			$('#form_main #profesional').html("");
+			$('#form_main #profesional').html(data);
+			$('#form_main #profesional').selectpicker('refresh');
+		}
      });
+}
+
+var listar_reporte_pagos = function(){
+	var fechai = $('#form_main #fecha_b').val();
+	var fechaf = $('#form_main #fecha_f').val();
+	var clientes = $('#form_main #clientes').val();
+	var profesional = $('#form_main #profesional').val();
+	var estado = '';
+
+	if($('#form_main #estado').val() == ""){
+		estado = 1;
+	}else{
+		estado = $('#form_main #estado').val();
+	}
+
+	var table_reporte_pagos  = $("#dataTableReportePagosMain").DataTable({
+		"destroy":true,	
+		"ajax":{
+			"method":"POST",
+			"url": "<?php echo SERVERURL; ?>php/reporte_pagos/llenarDataTableReportePagos.php",
+            "data": function(d) {
+                d.fechai = fechai;
+                d.fechaf = fechaf;
+				d.clientes = clientes;
+                d.profesional = profesional;
+				d.estado = estado;
+            }		
+		},		
+		"columns":[
+			{
+				"data": "fecha_pago",
+				"render": function(data, type, row) {
+					return '<a href="#" class="showDetallesPago">' + data + '</a>';
+				}
+			},
+			{"data": "paciente"},
+			{"data": "identidad"},
+			{"data": "numero"},			
+			{"data": "importe"},
+			{"data": "efectivo"},
+			{"data": "tarjeta"},			
+			{
+				"data": null,
+				"defaultContent": 
+					'<div class="btn-group">' +
+						'<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+							'<i class="fas fa-cog"></i>' +
+						'</button>' +
+						'<div class="dropdown-menu">' +
+							'<a class="dropdown-item editarPago" href="#"><i class="fas fa-eye fa-lg"></i> Editar Pago</a>' +
+						'</div>' +
+					'</div>'
+			}
+		],		
+        "lengthMenu": lengthMenu20,
+		"stateSave": true,
+		"bDestroy": true,		
+		"language": idioma_español,//esta se encuenta en el archivo main.js
+		"dom": dom,			
+		"buttons":[		
+			{
+				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+				titleAttr: 'Actualizar Pago',
+				className: 'btn btn-info',
+				action: 	function(){
+					listar_pacientes();
+				}
+			},					
+			{
+				extend:    'excelHtml5',
+				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
+				titleAttr: 'Excel',
+				title: 'Reporte Pago',
+				className: 'btn btn-success',
+				exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6]
+                },				
+			},
+			{
+				extend: 'pdf',
+				orientation: 'landscape',
+				text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+				titleAttr: 'PDF',
+				title: 'Reporte Pago',
+				className: 'btn btn-danger',
+				exportOptions: {
+					modifier: {
+						page: 'current' // Solo exporta las filas visibles en la página actual
+					},
+					columns: [0, 1, 2, 3, 4, 5, 6] // Define las columnas a exportar
+				},
+				customize: function(doc) {
+					// Asegúrate de que `imagen` contenga la cadena base64 de la imagen
+					doc.content.splice(1, 0, {
+						margin: [0, 0, 0, 12],
+						alignment: 'left',
+						image: imagen, // Usando la variable que ya tiene la imagen base64
+						width: 170, // Ajusta el tamaño si es necesario
+						height: 45 // Ajusta el tamaño si es necesario
+					});
+				}
+			},
+			{
+				extend: 'print',
+				text: '<i class="fas fa-print fa-lg"></i> Imprimir',  // Correcta colocación del icono
+				titleAttr: 'Imprimir',
+				title: 'Reporte Pago',
+				className: 'btn btn-secondary',
+				exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6]
+                },
+			}
+		]		
+	});	 
+	table_reporte_pagos.search('').draw();
+	$('#buscar').focus();
+	
+	invoice_details_pay_dataTable("#dataTableReportePagosMain tbody", table_reporte_pagos);
+	edit_pay_dataTable("#dataTableReportePagosMain tbody", table_reporte_pagos);
+}
+
+var invoice_details_pay_dataTable = function(tbody, table){
+	$(tbody).off("click", "a.showDetallesPago");
+	$(tbody).on("click", "a.showDetallesPago", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		
+		invoicesDetails(data.facturas_id);
+	});
+}
+
+var edit_pay_dataTable = function(tbody, table){
+	$(tbody).off("click", "a.editarPago");
+	$(tbody).on("click", "a.editarPago", function(e){
+		e.preventDefault();
+		var data = table.row( $(this).parents("tr") ).data();
+		
+		editarRegistro(data.pagos_id);
+	});
 }
 </script>

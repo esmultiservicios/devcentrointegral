@@ -19,7 +19,7 @@ $fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
 $fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
 $nuevafecha = date("Y-m-d", strtotime ( '-1 day' , strtotime ( $fecha_sistema )));
 
-//CONSULTAR USUARIOS
+//CONSULTAR FACTURAS
 $query = "SELECT COUNT(facturas_id) AS 'total'
 FROM facturas
 WHERE fecha BETWEEN '$fecha_inicial' AND '$nuevafecha' AND estado = 1";
@@ -36,4 +36,3 @@ echo number_format($total);
 
 $result->free();//LIMPIAR RESULTADO
 $mysqli->close();//CERRAR CONEXIÓN
-?>
