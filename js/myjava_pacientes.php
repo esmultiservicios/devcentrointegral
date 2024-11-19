@@ -1246,7 +1246,7 @@ var listar_pacientes = function(){
 		"columns":[
 			{"data": "paciente"},
 			{
-				"data": "expediente_",
+				"data": "expediente",
 				"render": function(data, type, row) {
 					return '<a href="#" class="showExpedienteLink">' + data + '</a>';
 				}
@@ -1386,7 +1386,7 @@ var add_expediente_paciente_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		
-		modal_agregar_expediente(data.pacientes_id);
+		modal_agregar_expediente(data.pacientes_id, data.expediente_);
 	});
 }
 
