@@ -412,6 +412,7 @@ function asignarExpedienteaRegistro(pacientes_id) {
             swal.close();
             showExpediente(pacientes_id);
             listar_pacientes();
+            listar_pacientes();
             return false;
         }
     });
