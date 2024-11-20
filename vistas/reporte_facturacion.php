@@ -1,51 +1,51 @@
 <?php
 session_start();
-include "../php/funtions.php";
+include '../php/funtions.php';
 
-//CONEXION A DB
+// CONEXION A DB
 $mysqli = connect_mysqli();
 
-if( isset($_SESSION['colaborador_id']) == false ){
-   header('Location: login.php');
+if (isset($_SESSION['colaborador_id']) == false) {
+  header('Location: login.php');
 }
 
-$_SESSION['menu'] = "Reporte de Facturación";
+$_SESSION['menu'] = 'Reporte de Facturación';
 
-if(isset($_SESSION['colaborador_id'])){
- $colaborador_id = $_SESSION['colaborador_id'];
-}else{
-   $colaborador_id = "";
+if (isset($_SESSION['colaborador_id'])) {
+  $colaborador_id = $_SESSION['colaborador_id'];
+} else {
+  $colaborador_id = '';
 }
 
 $type = $_SESSION['type'];
 
-$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);//HOSTNAME
-$fecha = date("Y-m-d H:i:s");
-$comentario = mb_convert_case("Ingreso al Modulo de Reporte de Facturación", MB_CASE_TITLE, "UTF-8");
+$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);  // HOSTNAME
+$fecha = date('Y-m-d H:i:s');
+$comentario = mb_convert_case('Ingreso al Modulo de Reporte de Facturación', MB_CASE_TITLE, 'UTF-8');
 
-if($colaborador_id != "" || $colaborador_id != null){
-   historial_acceso($comentario, $nombre_host, $colaborador_id);
+if ($colaborador_id != '' || $colaborador_id != null) {
+  historial_acceso($comentario, $nombre_host, $colaborador_id);
 }
 
-//OBTENER NOMBRE DE EMPRESA
+// OBTENER NOMBRE DE EMPRESA
 $usuario = $_SESSION['colaborador_id'];
 
 $query_empresa = "SELECT e.nombre AS 'nombre'
-	FROM users AS u
-	INNER JOIN empresa AS e
-	ON u.empresa_id = e.empresa_id
-	WHERE u.colaborador_id = '$usuario'";
+\tFROM users AS u
+\tINNER JOIN empresa AS e
+\tON u.empresa_id = e.empresa_id
+\tWHERE u.colaborador_id = '$usuario'";
 $result = $mysqli->query($query_empresa) or die($mysqli->error);
 $consulta_registro = $result->fetch_assoc();
 
 $empresa = '';
 
-if($result->num_rows>0){
+if ($result->num_rows > 0) {
   $empresa = $consulta_registro['nombre'];
 }
 
-$mysqli->close();//CERRAR CONEXIÓN
- ?>
+$mysqli->close();  // CERRAR CONEXIÓN
+?>
 
 <!DOCTYPE html>
 <html lang="es">
@@ -57,12 +57,12 @@ $mysqli->close();//CERRAR CONEXIÓN
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Reporte de Facturación :: <?php echo $empresa; ?></title>
-	<?php include("script_css.php"); ?>
+	<?php include ('script_css.php'); ?>
 </head>
 <body>
    <!--Ventanas Modales-->
    <!-- Small modal -->
-  <?php include("templates/modals.php"); ?>
+  <?php include ('templates/modals.php'); ?>
 
 <!--INICIO MODAL-->
 <div class="modal fade" id="cobros">
@@ -93,7 +93,7 @@ $mysqli->close();//CERRAR CONEXIÓN
 				<div class="form-row" id="grupo_expediente">
 					<div class="col-md-4 mb-3">
 					  <label for="expedoente">Fecha <span class="priority">*<span/></label>
-				      <input type="date" name="fecha" id="fecha" class="form-control" value="<?php echo date("Y-m-d");?>" placeholder="Profesional" required readonly="readonly">
+				      <input type="date" name="fecha" id="fecha" class="form-control" value="<?php echo date('Y-m-d'); ?>" placeholder="Profesional" required readonly="readonly">
 					</div>
 					<div class="col-md-8 mb-3">
 					  <label for="edad">Comentario</label>
@@ -134,12 +134,12 @@ $mysqli->close();//CERRAR CONEXIÓN
       </div>
     </div>
 </div>
-   <?php include("modals/modals.php");?>
+   <?php include ('modals/modals.php'); ?>
 <!--FIN MODAL-->
 
    <!--Fin Ventanas Modales-->
 	<!--MENU-->
-       <?php include("templates/menu.php"); ?>
+       <?php include ('templates/menu.php'); ?>
     <!--FIN MENU-->
 
 <br><br><br>
@@ -189,20 +189,20 @@ $mysqli->close();//CERRAR CONEXIÓN
               <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
             </div>
             <input type="date" required="required" id="fecha_b" name="fecha_b" style="width:160px;" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php
-                $fecha = date ("Y-m-d");
+$fecha = date('Y-m-d');
 
-                $año = date("Y", strtotime($fecha));
-                $mes = date("m", strtotime($fecha));
-                $dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+$año = date('Y', strtotime($fecha));
+$mes = date('m', strtotime($fecha));
+$dia = date('d', mktime(0, 0, 0, $mes + 1, 0, $año));
 
-                $dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-                $dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+$dia1 = date('d', mktime(0, 0, 0, $mes, 1, $año));  // PRIMER DIA DEL MES
+$dia2 = date('d', mktime(0, 0, 0, $mes, $dia, $año));  // ULTIMO DIA DEL MES
 
-                $fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-                $fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
+$fecha_inicial = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia1));
+$fecha_final = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia2));
 
-                echo $fecha_inicial;
-              ?>" class="form-control"/>
+echo $fecha_inicial;
+?>" class="form-control"/>
           </div>
         </div>
         <div class="form-group mr-1">
@@ -210,7 +210,7 @@ $mysqli->close();//CERRAR CONEXIÓN
             <div class="input-group-append">
               <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
             </div>
-            <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date ("Y-m-d");?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
+            <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date('Y-m-d'); ?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
           </div>
         </div>
       </form>
@@ -233,7 +233,8 @@ $mysqli->close();//CERRAR CONEXIÓN
               <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th>Factura</th>                  
+                  <th>Tipo Pago</th> 
+                  <th>Factura</th>                 
                   <th>Identidad</th>
                   <th>Cliente</th>
                   <th>Número</th>
@@ -275,19 +276,19 @@ $mysqli->close();//CERRAR CONEXIÓN
     </div>
   </div>
 
-    <?php include("templates/footer.php"); ?>
+    <?php include ('templates/footer.php'); ?>
 </div>
 
     <!-- add javascripts -->
 	<?php
-		include "script.php";
+  include 'script.php';
 
-		include "../js/main.php";
-		include "../js/myjava_reportes_facturacion.php";
-		include "../js/select.php";
-		include "../js/functions.php";
-		include "../js/myjava_cambiar_pass.php";
-	?>
+  include '../js/main.php';
+  include '../js/myjava_reportes_facturacion.php';
+  include '../js/select.php';
+  include '../js/functions.php';
+  include '../js/myjava_cambiar_pass.php';
+  ?>
 
 </body>
 </html>

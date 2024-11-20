@@ -469,7 +469,8 @@ var listar_reporte_facturacion = function(){
 				"render": function(data, type, row) {
 					return '<a href="#" class="showInvoiceDetail">' + data + '</a>';
 				}
-			},			
+			},
+			{"data": "TipoPago"},			
 			{"data": "tipo_documento"},
 			{"data": "identidad"},			
 			{"data": "paciente"},	
@@ -524,7 +525,7 @@ var listar_reporte_facturacion = function(){
 				title: 'Reporte Facturación',
 				className: 'btn btn-success',
 				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6]
+                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11]
                 },				
 			},
 			{
@@ -538,7 +539,7 @@ var listar_reporte_facturacion = function(){
 					modifier: {
 						page: 'current' // Solo exporta las filas visibles en la página actual
 					},
-					columns: [0, 1, 2, 3, 4, 5, 6] // Define las columnas a exportar
+					columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11] // Define las columnas a exportar
 				},
 				customize: function(doc) {
 					// Asegúrate de que `imagen` contenga la cadena base64 de la imagen
@@ -558,7 +559,7 @@ var listar_reporte_facturacion = function(){
 				title: 'Reporte Facturación',
 				className: 'btn btn-secondary',
 				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6]
+                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11]
                 },
 			}
 		]		
