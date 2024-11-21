@@ -93,7 +93,7 @@ while ($data = $result->fetch_assoc()) {
         $tipoPago = $consulta_pago['TipoPago'];  // Using lowercase $tipoPago
     }
 
-    $data['TipoPago'] = $tipoPago;  // Assigning correctly to $data array
+    $data['TipoPago'] = $tipoPago; 
     $data['precio'] = $precio;
     $data['cantidad'] = $cantidad;
     $data['descuento'] = $descuento;
