@@ -348,6 +348,7 @@ var listar_reporte_pagos = function(){
 				extend:    'excelHtml5',
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
+				footer: true,
 				title: 'Reporte Pago',
 				className: 'btn btn-success',
 				exportOptions: {
@@ -359,6 +360,7 @@ var listar_reporte_pagos = function(){
 				orientation: 'landscape',
 				text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
+				footer: true,
 				title: 'Reporte Pago',
 				className: 'btn btn-danger',
 				exportOptions: {
@@ -382,13 +384,52 @@ var listar_reporte_pagos = function(){
 				extend: 'print',
 				text: '<i class="fas fa-print fa-lg"></i> Imprimir',  // Correcta colocación del icono
 				titleAttr: 'Imprimir',
+				footer: true,
 				title: 'Reporte Pago',
 				className: 'btn btn-secondary',
 				exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6]
                 },
 			}
-		]		
+		],
+        "footerCallback": function(row, data, start, end, display) {
+            var api = this.api();
+
+            // Helper para sumar valores
+            var intVal = function(i) {
+                return typeof i === 'string' ?
+                    i.replace(/[\$,]/g, '') * 1 :
+                    typeof i === 'number' ?
+                    i : 0;
+            };
+
+            // Sumar las columnas necesarias
+            var totalPagoRecibido = api
+                .column(4, { page: 'current' })
+                .data()
+                .reduce(function(a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            var totalEfectivo = api
+                .column(5, { page: 'current' })
+                .data()
+                .reduce(function(a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            var totalTarjeta = api
+                .column(6, { page: 'current' })
+                .data()
+                .reduce(function(a, b) {
+                    return intVal(a) + intVal(b);
+                }, 0);
+
+            // Actualizar los valores en el footer
+            $(api.column(4).footer()).html(totalPagoRecibido.toLocaleString('es-HN', { style: 'currency', currency: 'HNL' }));
+            $(api.column(5).footer()).html(totalEfectivo.toLocaleString('es-HN', { style: 'currency', currency: 'HNL' }));
+            $(api.column(6).footer()).html(totalTarjeta.toLocaleString('es-HN', { style: 'currency', currency: 'HNL' }));
+        }
 	});	 
 	table_reporte_pagos.search('').draw();
 	$('#buscar').focus();

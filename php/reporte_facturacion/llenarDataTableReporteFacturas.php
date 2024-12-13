@@ -14,23 +14,23 @@ $profesional = $_POST['profesional'];
 $estado = $_POST['estado'];
 $usuario = $_SESSION['colaborador_id'];
 
-if ($estado == 1) {
-    $in = 'IN(2,4)';
-} else if ($estado == 4) {
-    $in = 'IN(4)';
+if($estado == 1){
+   $in = "IN(2,4)";
+} else if($estado == 4){
+   $in = "IN(4)";
 } else {
-    $in = 'IN(3)';
+   $in = "IN(3)";
 }
 
-$busqueda_paciente = '';
-$profesional_consulta = '';
+$busqueda_paciente = "";
+$profesional_consulta = "";
 
-if ($clientes != '') {
-    $busqueda_paciente = "AND f.pacientes_id = '$clientes'";
+if($clientes != ""){
+   $busqueda_paciente = "AND f.pacientes_id = '$clientes'";
 }
 
-if ($profesional != '') {
-    $profesional_consulta = "AND f.colaborador_id = '$profesional'";
+if($profesional != ""){
+   $profesional_consulta = "AND f.colaborador_id = '$profesional'";
 }
 
 $consulta = "SELECT f.facturas_id AS 'facturas_id', f.fecha AS 'fecha', p.identidad AS 'identidad', 
@@ -55,67 +55,51 @@ $result = $mysqli->query($consulta) or die($mysqli->error);
 $arreglo = array();
 
 while ($data = $result->fetch_assoc()) {
-    $facturas_id = $data['facturas_id'];
+   $facturas_id = $data['facturas_id'];
 
-    $numero = $data['numero'] == 0 ? 'Aún no se ha generado' : $data['prefijo'] . rellenarDigitos($data['numero'], $data['relleno']);
-    $data['factura'] = $numero;
+   $numero = $data['numero'] == 0 ? "Aún no se ha generado" : $data['prefijo'] . rellenarDigitos($data['numero'], $data['relleno']);
+   $data['factura'] = $numero;
 
-    // Consultar detalle de facturación
-    $query_detalle = "SELECT cantidad, precio, descuento, isv_valor FROM facturas_detalle WHERE facturas_id = '$facturas_id'";
-    $result_detalles = $mysqli->query($query_detalle) or die($mysqli->error);
+   // Consultar detalle de facturación
+   $query_detalle = "SELECT cantidad, precio, descuento, isv_valor FROM facturas_detalle WHERE facturas_id = '$facturas_id'";
+   $result_detalles = $mysqli->query($query_detalle) or die($mysqli->error);
 
-    $cantidad = $descuento = $precio = $total_precio = $neto_antes_isv = $isv_neto = $total = 0;
+   $cantidad = $descuento = $precio = $total_precio = $neto_antes_isv = $isv_neto = $total = 0;
 
-    while ($registrodetalles = $result_detalles->fetch_assoc()) {
-        $precio += $registrodetalles['precio'];
-        $cantidad += $registrodetalles['cantidad'];
-        $descuento += $registrodetalles['descuento'];
-        $total_precio = $registrodetalles['precio'] * $registrodetalles['cantidad'];
-        $neto_antes_isv += $total_precio;
-        $isv_neto += $registrodetalles['isv_valor'];
-    }
+   while ($registrodetalles = $result_detalles->fetch_assoc()) {
+      $precio += $registrodetalles["precio"];
+      $cantidad += $registrodetalles["cantidad"];
+      $descuento += $registrodetalles["descuento"];
+      $total_precio = $registrodetalles["precio"] * $registrodetalles["cantidad"];
+      $neto_antes_isv += $total_precio;
+      $isv_neto += $registrodetalles["isv_valor"];
+   }
 
-    $total = ($neto_antes_isv + $isv_neto) - $descuento;
+   $total = ($neto_antes_isv + $isv_neto) - $descuento;
 
-    // CONSULTAMOS EL TIPO DE PAGO DE LA FACTURA
-    $query_pago = "SELECT tp.nombre AS 'TipoPago'
-   FROM pagos AS p
-   INNER JOIN pagos_detalles AS pd ON pd.pagos_id = p.pagos_id
-   INNER JOIN tipo_pago AS tp ON pd.tipo_pago_id = tp.tipo_pago_id
-   WHERE p.facturas_id = '$facturas_id'";
+   $data['precio'] = $precio;
+   $data['cantidad'] = $cantidad;
+   $data['descuento'] = $descuento;
+   $data['total_precio'] = $total_precio;
+   $data['neto_antes_isv'] = $neto_antes_isv;
+   $data['isv_neto'] = $isv_neto;
+   $data['total'] = $total;
 
-    $result_pago = $mysqli->query($query_pago) or die($mysqli->error);
+   $estado_ = match ($estado) {
+      1 => "Borrador",
+      2 => "Pagada",
+      3 => "Cancelada",
+      4 => "Crédito",
+      default => ""
+   };
 
-    $tipoPago = '';  // Lowercase variable
+   $data['estado'] = $estado_;
 
-    if ($result_pago->num_rows > 0) {
-        $consulta_pago = $result_pago->fetch_assoc();  // Corrected variable
-        $tipoPago = $consulta_pago['TipoPago'];  // Using lowercase $tipoPago
-    }
-
-    $data['TipoPago'] = $tipoPago; 
-    $data['precio'] = $precio;
-    $data['cantidad'] = $cantidad;
-    $data['descuento'] = $descuento;
-    $data['total_precio'] = $total_precio;
-    $data['neto_antes_isv'] = $neto_antes_isv;
-    $data['isv_neto'] = $isv_neto;
-    $data['total'] = $total;
-
-    $estado_ = match ($estado) {
-        1 => 'Borrador',
-        2 => 'Pagada',
-        3 => 'Cancelada',
-        4 => 'Crédito',
-        default => ''
-    };
-
-    $data['estado'] = $estado_;
-
-    $arreglo['data'][] = $data;
+   $arreglo['data'][] = $data;
 }
 
 echo json_encode($arreglo);
 
 $result->free();
 $mysqli->close();
+

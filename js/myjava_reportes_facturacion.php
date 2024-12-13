@@ -469,8 +469,7 @@ var listar_reporte_facturacion = function(){
 				"render": function(data, type, row) {
 					return '<a href="#" class="showInvoiceDetail">' + data + '</a>';
 				}
-			},
-			{"data": "TipoPago"},			
+			},			
 			{"data": "tipo_documento"},
 			{"data": "identidad"},			
 			{"data": "paciente"},	
@@ -495,7 +494,45 @@ var listar_reporte_facturacion = function(){
 						'</div>' +
 					'</div>'
 			}
-		],		
+		],	
+		"footerCallback": function(row, data, start, end, display) {
+			var api = this.api();
+
+			// Limpia el contenido del footer antes de recalcular
+			$('#footer-importe').html('');
+			$('#footer-isv').html('');
+			$('#footer-descuento').html('');
+			$('#footer-neto').html('');
+
+			// Función para sumar los valores de una columna
+			var sumaColumna = function(index) {
+				return api
+					.column(index, { page: 'current' }) // Cambia a 'all' si quieres sumar todos los datos
+					.data()
+					.reduce(function(a, b) {
+						return (parseFloat(a) || 0) + (parseFloat(b) || 0);
+					}, 0);
+			};
+
+			// Calcular los totales para las columnas específicas
+			var totalImporte = sumaColumna(5); // Índice de la columna de "Importe"
+			var totalISV = sumaColumna(6); // Índice de la columna de "ISV"
+			var totalDescuento = sumaColumna(7); // Índice de la columna de "Descuento"
+			var totalNeto = sumaColumna(8); // Índice de la columna de "Neto"
+
+			// Formatear los totales
+			var formatter = new Intl.NumberFormat('es-HN', {
+				style: 'currency',
+				currency: 'HNL',
+				minimumFractionDigits: 2,
+			});
+
+			// Actualizar el contenido del footer
+			$('#footer-importe').html(formatter.format(totalImporte));
+			$('#footer-isv').html(formatter.format(totalISV));
+			$('#footer-descuento').html(formatter.format(totalDescuento));
+			$('#footer-neto').html(formatter.format(totalNeto));
+		},
         "lengthMenu": lengthMenu20,
 		"stateSave": true,
 		"bDestroy": true,		
@@ -522,10 +559,11 @@ var listar_reporte_facturacion = function(){
 				extend:    'excelHtml5',
 				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
 				titleAttr: 'Excel',
+				footer: true,
 				title: 'Reporte Facturación',
 				className: 'btn btn-success',
 				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11]
+                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10]
                 },				
 			},
 			{
@@ -533,13 +571,14 @@ var listar_reporte_facturacion = function(){
 				orientation: 'landscape',
 				text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
 				titleAttr: 'PDF',
+				footer: true,
 				title: 'Reporte Facturación',
 				className: 'btn btn-danger',
 				exportOptions: {
 					modifier: {
 						page: 'current' // Solo exporta las filas visibles en la página actual
 					},
-					columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11] // Define las columnas a exportar
+					columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10] // Define las columnas a exportar
 				},
 				customize: function(doc) {
 					// Asegúrate de que `imagen` contenga la cadena base64 de la imagen
@@ -556,10 +595,11 @@ var listar_reporte_facturacion = function(){
 				extend: 'print',
 				text: '<i class="fas fa-print fa-lg"></i> Imprimir',  // Correcta colocación del icono
 				titleAttr: 'Imprimir',
+				footer: true,
 				title: 'Reporte Facturación',
 				className: 'btn btn-secondary',
 				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10,11]
+                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10]
                 },
 			}
 		]		
@@ -595,7 +635,7 @@ var print_bill_dataTable = function(tbody, table){
 		e.preventDefault();
 		var data = table.row( $(this).parents("tr") ).data();
 		
-		printBill(data.facturas_id);
+		printBill(data.facturas_id);	
 	});
 }
 

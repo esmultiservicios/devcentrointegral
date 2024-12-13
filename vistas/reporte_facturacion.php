@@ -233,7 +233,6 @@ echo $fecha_inicial;
               <thead>
                 <tr>
                   <th>Fecha</th>
-                  <th>Tipo Pago</th> 
                   <th>Factura</th>                 
                   <th>Identidad</th>
                   <th>Cliente</th>
@@ -247,6 +246,17 @@ echo $fecha_inicial;
                   <th>Acciones</th>
                 </tr>
               </thead>
+              <tfoot>
+                <tr>                  
+                  <th colspan="4"></th>
+                  <th colspan="1">Total:</th>
+                  <th id="footer-importe"></th>
+                  <th id="footer-isv"></th>
+                  <th id="footer-descuento"></th>
+                  <th id="footer-neto"></th>
+                  <th colspan="3"></th>
+                </tr>
+              </tfoot>            
             </table>
           </div>
         </form>
@@ -255,6 +265,7 @@ echo $fecha_inicial;
     <div class="card-footer small text-muted">
     </div>	
   </div>
+  
 
   <div class="card mb-4">
     <div class="card-header">

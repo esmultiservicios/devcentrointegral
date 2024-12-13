@@ -1,27 +1,27 @@
 <?php
 session_start();
-include "../php/funtions.php";
+include '../php/funtions.php';
 
-if( isset($_SESSION['colaborador_id']) == false ){
-   header('Location: login.php');
+if (isset($_SESSION['colaborador_id']) == false) {
+	header('Location: login.php');
 }
 
-$_SESSION['menu'] = "Reporte de Pagos";
+$_SESSION['menu'] = 'Reporte de Pagos';
 
-if(isset($_SESSION['colaborador_id'])){
- $colaborador_id = $_SESSION['colaborador_id'];
-}else{
-   $colaborador_id = "";
+if (isset($_SESSION['colaborador_id'])) {
+	$colaborador_id = $_SESSION['colaborador_id'];
+} else {
+	$colaborador_id = '';
 }
 
 $type = $_SESSION['type'];
 
-$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);//HOSTNAME
-$fecha = date("Y-m-d H:i:s");
-$comentario = mb_convert_case("Ingreso al Modulo de Reporte de Pagos", MB_CASE_TITLE, "UTF-8");
+$nombre_host = gethostbyaddr($_SERVER['REMOTE_ADDR']);  // HOSTNAME
+$fecha = date('Y-m-d H:i:s');
+$comentario = mb_convert_case('Ingreso al Modulo de Reporte de Pagos', MB_CASE_TITLE, 'UTF-8');
 
-if($colaborador_id != "" || $colaborador_id != null){
-   historial_acceso($comentario, $nombre_host, $colaborador_id);
+if ($colaborador_id != '' || $colaborador_id != null) {
+	historial_acceso($comentario, $nombre_host, $colaborador_id);
 }
 ?>
 
@@ -34,13 +34,13 @@ if($colaborador_id != "" || $colaborador_id != null){
 	<meta http-equiv="Content-type" content="text/html; charset=utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Reporte de Pagos :: <?php echo SERVEREMPRESA;?></title>
-	<?php include("script_css.php"); ?>
+    <title>Reporte de Pagos :: <?php echo SERVEREMPRESA; ?></title>
+	<?php include ('script_css.php'); ?>
 </head>
 <body>
    <!--Ventanas Modales-->
    <!-- Small modal -->
-  <?php include("templates/modals.php"); ?>
+  <?php include ('templates/modals.php'); ?>
 
 <!--INICIO MODAL-->
 <div class="modal fade" id="mensaje_show">
@@ -139,12 +139,12 @@ if($colaborador_id != "" || $colaborador_id != null){
       </div>
     </div>
 </div>
-   <?php include("modals/modals.php");?>
+   <?php include ('modals/modals.php'); ?>
 <!--FIN MODAL-->
 
    <!--Fin Ventanas Modales-->
 	<!--MENU-->
-       <?php include("templates/menu.php"); ?>
+       <?php include ('templates/menu.php'); ?>
     <!--FIN MENU-->
 
 <br><br><br>
@@ -194,21 +194,20 @@ if($colaborador_id != "" || $colaborador_id != null){
     					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Inicio</span>
     				</div>
             <input type="date" required="required" id="fecha_b" name="fecha_b" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php
-        						$fecha = date ("Y-m-d");
+$fecha = date('Y-m-d');
 
-        						$año = date("Y", strtotime($fecha));
-        						$mes = date("m", strtotime($fecha));
-        						$dia = date("d", mktime(0,0,0, $mes+1, 0, $año));
+$año = date('Y', strtotime($fecha));
+$mes = date('m', strtotime($fecha));
+$dia = date('d', mktime(0, 0, 0, $mes + 1, 0, $año));
 
-        						$dia1 = date('d', mktime(0,0,0, $mes, 1, $año)); //PRIMER DIA DEL MES
-        						$dia2 = date('d', mktime(0,0,0, $mes, $dia, $año)); // ULTIMO DIA DEL MES
+$dia1 = date('d', mktime(0, 0, 0, $mes, 1, $año));  // PRIMER DIA DEL MES
+$dia2 = date('d', mktime(0, 0, 0, $mes, $dia, $año));  // ULTIMO DIA DEL MES
 
-        						$fecha_inicial = date("Y-m-d", strtotime($año."-".$mes."-".$dia1));
-        						$fecha_final = date("Y-m-d", strtotime($año."-".$mes."-".$dia2));
+$fecha_inicial = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia1));
+$fecha_final = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia2));
 
-
-        						echo $fecha_inicial;
-        		?>" class="form-control"/>
+echo $fecha_inicial;
+?>" class="form-control"/>
     			</div>
         </div>
         <div class="form-group mr-1">
@@ -216,7 +215,7 @@ if($colaborador_id != "" || $colaborador_id != null){
     				<div class="input-group-append">
     					<span class="input-group-text"><div class="sb-nav-link-icon"></div>Fin</span>
     				</div>
-    				<input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date ("Y-m-d");?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
+    				<input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date('Y-m-d'); ?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
     			</div>
         </div>
       </form>
@@ -244,10 +243,20 @@ if($colaborador_id != "" || $colaborador_id != null){
 									<th>Factura</th>
 									<th>Pago Recibido</th>
 									<th>Efectivo</th>
-									<th>Tipo Pago</th>
+									<th>Tarjeta</th>
 									<th>Acciones</th>
 								</tr>
 							</thead>
+							<tfoot>
+								<tr>                  
+									<th colspan="3"></th>
+									<th colspan="1">Total:</th>
+									<th id="footer-pago-recibido"></th>
+									<th id="footer-efectivo"></th>
+									<th id="footer-tarjeta"></th>
+									<th colspan="1"></th>
+								</tr>
+							</tfoot>    							
 						</table>
 					</div>
 				</form>
@@ -256,18 +265,18 @@ if($colaborador_id != "" || $colaborador_id != null){
 		<div class="card-footer small text-muted">
 		</div>	
 	</div>
-    <?php include("templates/footer.php"); ?>
+    <?php include ('templates/footer.php'); ?>
 </div>
 
     <!-- add javascripts -->
 	<?php
-		include "script.php";
+	include 'script.php';
 
-		include "../js/main.php";
-		include "../js/myjava_reporte_pagos.php";
-		include "../js/select.php";
-		include "../js/functions.php";
-		include "../js/myjava_cambiar_pass.php";
+	include '../js/main.php';
+	include '../js/myjava_reporte_pagos.php';
+	include '../js/select.php';
+	include '../js/functions.php';
+	include '../js/myjava_cambiar_pass.php';
 	?>
 
 </body>
