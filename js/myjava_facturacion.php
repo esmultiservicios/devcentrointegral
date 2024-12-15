@@ -394,7 +394,7 @@ $('#acciones_atras').on('click', function(e){
 	 }
 });
 
-$('#form_main #factura').on('click', function(e){
+$('#main_facturacion #factura').on('click', function(e){
 	e.preventDefault();
 	formFactura();
 });
