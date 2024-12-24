@@ -222,48 +222,57 @@ echo $fecha_inicial;
 
   <div class="card mb-4">
     <div class="card-header">
-      <i class="fab fa-sellsy mr-1"></i>
-      Reporte de Facturación
+        <i class="fab fa-sellsy mr-1"></i>
+        Reporte de Facturación
     </div>
     <div class="card-body">
-      <div class="table-responsive">
-        <form id="formPrincipal">
-          <div class="col-md-12 mb-3">
-            <table id="dataTableReporteFacturacionMain" class="table table-striped table-condensed table-hover" style="width:100%">
-              <thead>
-                <tr>
-                  <th>Fecha</th>
-                  <th>Factura</th>                 
-                  <th>Identidad</th>
-                  <th>Cliente</th>
-                  <th>Número</th>
-                  <th>Importe</th>
-                  <th>ISV</th>
-                  <th>Descuento</th>
-                  <th>Neto</th>
-                  <th>Servicio</th>
-                  <th>Profesional</th>                  
-                  <th>Acciones</th>
-                </tr>
-              </thead>
-              <tfoot>
-                <tr>                  
-                  <th colspan="4"></th>
-                  <th colspan="1">Total:</th>
-                  <th id="footer-importe"></th>
-                  <th id="footer-isv"></th>
-                  <th id="footer-descuento"></th>
-                  <th id="footer-neto"></th>
-                  <th colspan="3"></th>
-                </tr>
-              </tfoot>            
-            </table>
-          </div>
-        </form>
-      </div>
+        <div class="table-responsive">
+            <form id="formPrincipal">
+                <div class="col-md-12 mb-3">
+                    <table id="dataTableReporteFacturacionMain" class="table table-striped table-condensed table-hover" style="width:100%">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Factura</th>
+                                <th>Identidad</th>
+                                <th>Cliente</th>
+                                <th>Número</th>
+                                <th>Importe</th>
+                                <th>ISV</th>
+                                <th>Descuento</th>
+                                <th>Neto</th>
+                                <th>Servicio</th>
+                                <th>Profesional</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tfoot>
+                            <tr>
+                                <th colspan="4"></th>
+                                <th colspan="1">Total:</th>
+                                <th id="footer-importe"></th>
+                                <th id="footer-isv"></th>
+                                <th id="footer-descuento"></th>
+                                <th id="footer-neto"></th>
+                                <th colspan="3"></th>
+                            </tr>
+                            <tr>
+                              <th colspan="2">Detalles de pago</th>    
+                              <th colspan="10"></th>
+                            </tr>
+                            <tr>
+                              <th id="tipo_pago"></th>
+                              <th id="total_pago"></th>
+                              <th colspan="10"></th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </form>
+        </div>
     </div>
     <div class="card-footer small text-muted">
-    </div>	
+    </div>
   </div>
   
 

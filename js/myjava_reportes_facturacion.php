@@ -461,7 +461,7 @@ var listar_reporte_facturacion = function(){
                 d.clientes = clientes;
                 d.profesional = profesional;			
 				d.estado = estado;
-            }		
+            }	
 		},		
 		"columns":[
 			{
@@ -496,44 +496,75 @@ var listar_reporte_facturacion = function(){
 			}
 		],	
 		"footerCallback": function(row, data, start, end, display) {
-			var api = this.api();
+            var api = this.api();
 
-			// Limpia el contenido del footer antes de recalcular
-			$('#footer-importe').html('');
-			$('#footer-isv').html('');
-			$('#footer-descuento').html('');
-			$('#footer-neto').html('');
+            // Limpiar el contenido del footer
+            $('#footer-importe').html('');
+            $('#footer-isv').html('');
+            $('#footer-descuento').html('');
+            $('#footer-neto').html('');
+            $('#tipo_pago').html('');
+            $('#total_pago').html('');
 
-			// Función para sumar los valores de una columna
-			var sumaColumna = function(index) {
-				return api
-					.column(index, { page: 'current' }) // Cambia a 'all' si quieres sumar todos los datos
-					.data()
-					.reduce(function(a, b) {
-						return (parseFloat(a) || 0) + (parseFloat(b) || 0);
-					}, 0);
-			};
+            // Función para calcular la suma de una columna específica
+            var sumaColumna = function(index) {
+                return api.column(index, { page: 'current' })
+                    .data()
+                    .reduce(function(a, b) {
+                        return (parseFloat(a) || 0) + (parseFloat(b) || 0);
+                    }, 0);
+            };
 
-			// Calcular los totales para las columnas específicas
-			var totalImporte = sumaColumna(5); // Índice de la columna de "Importe"
-			var totalISV = sumaColumna(6); // Índice de la columna de "ISV"
-			var totalDescuento = sumaColumna(7); // Índice de la columna de "Descuento"
-			var totalNeto = sumaColumna(8); // Índice de la columna de "Neto"
+            // Calcular totales para las columnas específicas
+            var totalImporte = sumaColumna(5);
+            var totalISV = sumaColumna(6);
+            var totalDescuento = sumaColumna(7);
+            var totalNeto = sumaColumna(8);
 
-			// Formatear los totales
-			var formatter = new Intl.NumberFormat('es-HN', {
-				style: 'currency',
-				currency: 'HNL',
-				minimumFractionDigits: 2,
-			});
+            var formatter = new Intl.NumberFormat('es-HN', {
+                style: 'currency',
+                currency: 'HNL',
+                minimumFractionDigits: 2,
+            });
 
-			// Actualizar el contenido del footer
-			$('#footer-importe').html(formatter.format(totalImporte));
-			$('#footer-isv').html(formatter.format(totalISV));
-			$('#footer-descuento').html(formatter.format(totalDescuento));
-			$('#footer-neto').html(formatter.format(totalNeto));
-		},
-        "lengthMenu": lengthMenu20,
+            // Mostrar totales de las columnas
+            $('#footer-importe').html(formatter.format(totalImporte));
+            $('#footer-isv').html(formatter.format(totalISV));
+            $('#footer-descuento').html(formatter.format(totalDescuento));
+            $('#footer-neto').html(formatter.format(totalNeto));
+
+            // Acceder a `tipos_de_pago` desde el JSON recibido
+            var json = api.ajax.json();
+            console.log("JSON recibido:", json);
+
+            if (json && json.tipos_de_pago) {
+                var tipos_de_pago = json.tipos_de_pago;
+                var tipo_pago_html = '';
+                var total_pago_html = '';
+
+                // Mostrar en consola para depuración
+                console.log("Tipos de pago recibidos:", tipos_de_pago);
+
+                // Recorrer los tipos de pago y mostrarlos
+                for (var tipo_pago in tipos_de_pago) {
+                    if (tipos_de_pago.hasOwnProperty(tipo_pago)) {
+                        var total_pago = parseFloat(tipos_de_pago[tipo_pago]) || 0;
+                        tipo_pago_html += '<div>' + tipo_pago + '</div>';
+                        total_pago_html += '<div>' + formatter.format(total_pago) + '</div>';
+                    }
+                }
+
+                // Actualizar la vista con los tipos de pago
+                $('#tipo_pago').html(tipo_pago_html);
+                $('#total_pago').html(total_pago_html);
+            } else {
+                console.log("No se encontraron tipos de pago en los datos.");
+                // Si no hay tipos de pago, mostramos un mensaje alternativo
+                $('#tipo_pago').html('<div>No se encontraron tipos de pago.</div>');
+                $('#total_pago').html('');
+            }
+        },
+		"lengthMenu": lengthMenu20,
 		"stateSave": true,
 		"bDestroy": true,		
 		"language": idioma_español,//esta se encuenta en el archivo main.js
