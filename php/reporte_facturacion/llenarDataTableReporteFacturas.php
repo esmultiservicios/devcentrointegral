@@ -93,6 +93,7 @@ ORDER BY f.number DESC";
 $result = $mysqli->query($consulta) or die($mysqli->error);
 
 $arreglo = array();
+$arreglo['data'] = array();
 
 while ($data = $result->fetch_assoc()) {
     $facturas_id = $data['facturas_id'];
