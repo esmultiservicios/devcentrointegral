@@ -120,9 +120,18 @@ SELECT
     tp.nombre AS tipo_pago,
     SUM(p.importe) AS total_pago
 FROM pagos AS p
-JOIN tipo_pago AS tp ON p.tipo_pago = tp.tipo_pago_id
-WHERE p.facturas_id IN (SELECT facturas_id FROM facturas WHERE fecha BETWEEN '$fechai' AND '$fechaf' AND estado = 2) 
-GROUP BY tp.nombre";
+INNER JOIN pagos_detalles AS pd ON p.pagos_id = pd.pagos_id
+INNER JOIN tipo_pago AS tp ON pd.tipo_pago_id = tp.tipo_pago_id
+WHERE p.facturas_id IN (SELECT facturas_id FROM facturas WHERE fecha BETWEEN '2024-12-01' AND '2024-12-31' AND estado = 2)
+GROUP BY tp.nombre
+UNION
+SELECT 
+    'Total',
+    SUM(p.importe) AS total_pago
+FROM pagos AS p
+INNER JOIN pagos_detalles AS pd ON p.pagos_id = pd.pagos_id
+INNER JOIN tipo_pago AS tp ON pd.tipo_pago_id = tp.tipo_pago_id
+WHERE p.facturas_id IN (SELECT facturas_id FROM facturas WHERE fecha BETWEEN '2024-12-01' AND '2024-12-31' AND estado = 2)";
 
 $resultados_pagos = $mysqli->query($consulta_pagos);
 $tipos_de_pago = [];
