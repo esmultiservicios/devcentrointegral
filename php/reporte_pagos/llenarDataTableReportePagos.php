@@ -44,7 +44,7 @@ $consulta = "SELECT p.pagos_id AS 'pagos_id', p.fecha AS 'fecha_pago', p.importe
 
 $result = $mysqli->query($consulta);
 
-$arreglo = array();
+$arreglo = array('data' => []);
 
 while ($data = $result->fetch_assoc()) {
 	$numero = $data['prefijo'].''.rellenarDigitos($data['numero'], $data['relleno']);

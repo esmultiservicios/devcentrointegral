@@ -35,7 +35,7 @@ define('PASS', 'Clin1c@r32022#');
 define('SERVER_MAIN', 'localhost');
 define('DB_MAIN', 'clinicarehn_clinicare');
 define('USER_MAIN', 'clinicarehn_clinicare');
-define('PASS_MAIN', 'Clin1c@r32022#%.');
+define('PASS_MAIN', 'Clin1c@r32022#');
 
 define('METHOD', 'AES-256-CBC');
 define('SECRET_KEY', '$DP_@2020');

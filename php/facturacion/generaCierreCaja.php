@@ -1,18 +1,29 @@
 <?php
-session_start();   
-include "../funtions.php";
+session_start();
+include "../funtions.php";  // Incluye funciones y conexión
 
 header("Content-Type: text/html;charset=utf-8");
 
 require_once '../../dompdf/vendor/autoload.php';
 
 use Dompdf\Dompdf;
-	 	
+use Dompdf\Options;
+
 //CONEXION A DB
-$mysqli = connect_mysqli();
+$mysqli = connect_mysqli();  // Usas la conexión definida en funtions.php
+$db_main = DB_MAIN;
+
+// Configurar Dompdf
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isRemoteEnabled', true);
+
+$dompdf = new Dompdf($options);
 
 $fecha = $_GET['fecha'];
 $anulada = '';
+
+$mysqli->set_charset('utf8');
 
 $query = "SELECT e.nombre AS 'empresa', CONCAT(c.nombre, ' ', c.apellido) AS 'usuario'
 	FROM facturas AS f
@@ -34,29 +45,24 @@ $query_factura_detalle = "SELECT CONCAT(sf.prefijo, '', LPAD(f.number,sf.relleno
 	ON f.secuencia_facturacion_id = f.secuencia_facturacion_id
 	WHERE f.estado = 2 AND f.fecha = '$fecha'
 	GROUP BY f.facturas_id";
-$result_factura_detalle = $mysqli->query($query_factura_detalle) or die($mysqli->error);								
+$result_factura_detalle = $mysqli->query($query_factura_detalle) or die($mysqli->error);	
 
-if($result->num_rows>0){
+if($result->num_rows > 0) {
 	$consulta_registro = $result->fetch_assoc();	
 
+	// Obtener fecha y hora actual para el nombre del archivo
+	$fecha_hora = date("Y-m-d_H-i-s");
+
+	// Incluir la plantilla HTML
 	ob_start();
-	include(dirname('__FILE__').'/cierreCaja.php');
+	include 'cierreCaja.php';
 	$html = ob_get_clean();
 
-	// instantiate and use the dompdf class
-	$dompdf = new Dompdf();
-	
-	$dompdf->set_option('isRemoteEnabled', true);
-
-	$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
-	// (Optional) Setup the paper size and orientation
+	// Generar el PDF
+	$dompdf->loadHtml($html);
 	$dompdf->setPaper('B7', 'portrait');
-	// Render the HTML as PDF
 	$dompdf->render();
-	
-	// Output the generated PDF to Browser
-	$dompdf->stream('Reporte Cierre de Caja.pdf',array('Attachment'=>0));
-	
-	exit;	
+
+	// Descargar o mostrar el PDF con la fecha y hora en el nombre
+	$dompdf->stream("Reporte_Cierre_de_Caja_{$fecha_hora}.pdf", ["Attachment" => false]);
 }
-?>
