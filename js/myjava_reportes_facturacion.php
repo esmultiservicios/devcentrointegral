@@ -491,7 +491,7 @@ var listar_reporte_facturacion = function(){
 						'<div class="dropdown-menu">' +
 							'<a class="dropdown-item printBill" href="#"><i class="fas fa-print fa-lg"></i> Imprimir</a>' +
 							'<a class="dropdown-item closeBill" href="#"><i class="fas fa-calculator fa-lg"></i> Cierre</a>' +
-							'<a class="dropdown-item deleteBill" href="#"><i class="fas fa-download fa-lg"></i> Anular</a>' +
+							'<a class="dropdown-item deleteBill" href="#"><i class="fa-solid fa-ban fa-lg"></i> Anular</a>' +
 						'</div>' +
 					'</div>'
 			}
@@ -542,7 +542,7 @@ var listar_reporte_facturacion = function(){
 		"buttons":[		
 			{
 				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Pacientes',
+				titleAttr: 'Actualizar Facturación',
 				className: 'btn btn-info',
 				action: 	function(){
 					listar_reporte_facturacion();

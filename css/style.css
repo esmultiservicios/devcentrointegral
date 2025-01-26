@@ -471,7 +471,22 @@ Se debe agregar unos codigos que estan en myjava_facturacion.php inician con Men
   color: #ecb4b4
 }
 
+/* Estilo general para el logo */
 .logo {
-	margin-left: 10px; /* Ajusta el margen izquierdo según tus necesidades */
-	max-height: 40px; /* Ajusta la altura máxima del logo según tus necesidades */
+    margin-left: 10px; /* Ajusta el margen izquierdo según tus necesidades */
+    max-height: 60px; /* Ajusta la altura máxima del logo según tus necesidades */
+}
+
+/* Media query para pantallas pequeñas (por ejemplo, móviles) */
+@media (max-width: 600px) {
+    .logo {
+        max-height: 60px; /* Ajusta la altura máxima para pantallas pequeñas */
+    }
+}
+
+/* Media query para pantallas mayores a 600px */
+@media (min-width: 601px) {
+    .logo {
+        max-height: 60px; /* Ajusta la altura máxima para pantallas más grandes */
+    }
 }

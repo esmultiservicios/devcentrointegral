@@ -35,7 +35,6 @@
 		  <li class="nav-item dropdown active">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown05">			  
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>			  
 			</div>
 		  </li>			  
@@ -87,7 +86,6 @@
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown05">
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_facturacion.php">Reporte de Facturación</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_pagos.php">Reporte de Pagos</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_enfermeria.php">Reporte de Confirmación</a>
@@ -180,7 +178,6 @@
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown05">
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_facturacion.php">Reporte de Facturación</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_pagos.php">Reporte de Pagos</a>	  
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_enfermeria.php">Reporte de Confirmación</a>
