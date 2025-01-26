@@ -72,11 +72,16 @@ function pay(facturas_id){
 			success: function(valores){
 				var datos = eval(valores);
 				$('#formulario_facturacion #facturas_id').val(facturas_id);
+
 				$('#formulario_facturacion #pacientes_id').val(datos[0]);
-				$('#formulario_facturacion #cliente_nombre').val(datos[1]);
+				$('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+
 				$('#formulario_facturacion #colaborador_id').val(datos[3]);
-				$('#formulario_facturacion #colaborador_nombre').val(datos[4]);
+				$('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+
 				$('#formulario_facturacion #servicio_id').val(datos[5]);
+				$('#formulario_facturacion #servicio_id').selectpicker('refresh');
+
 				$('#formulario_facturacion #notes').val(datos[6]);
 
 				$('#formulario_facturacion #fecha').attr("readonly", true);
@@ -86,9 +91,6 @@ function pay(facturas_id){
 				$('#formulario_facturacion #validar').show();
 				$('#formulario_facturacion #editar').hide();
 				$('#formulario_facturacion #eliminar').hide();
-				$('#formulario_facturacion #buscar_paciente').hide();
-	 			$('#formulario_facturacion #buscar_colaboradores').hide();
-				$('#formulario_facturacion #buscar_servicios').hide();
 
 				$('#formulario_facturacion #validar').show();
 			    $('#formulario_facturacion #guardar').show();
@@ -143,8 +145,8 @@ function pay(facturas_id){
 		swal({
 			title: "Acceso Denegado",
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 	}
 
@@ -162,10 +164,12 @@ function funciones(){
 
 	getServicio();
 	getBanco();
-	listar_pacientes_buscar();
-	listar_colaboradores_buscar();
-	listar_servicios_factura_buscar();
-	listar_productos_facturas_buscar();
+	getPacientesFacturas();
+	getColaboradoresFactura();
+	getServicioFactura();
+
+	getAseguradora();
+	getFactEmpresas();
 }
 //FIN FUNCION PARA OBTENER LAS FUNCIONES
 
@@ -243,8 +247,8 @@ function getEstado(){
 	    async: true,
 	        success: function(data){
 			    $('#form_main #estado').html("");
-				  $('#form_main #estado').html(data);
-				  $('#form_main #estado').selectpicker('refresh');
+				$('#form_main #estado').html(data);
+				$('#form_main #estado').selectpicker('refresh');
         }
      });
 }
@@ -272,17 +276,24 @@ function getBanco(){
 //INICIO ENVIAR FACTURA POR CORREO ELECTRONICO
 function mailBill(facturas_id){
 	swal({
-	  title: "¿Estas seguro?",
-	  text: "¿Desea enviar este numero de factura: # " + getNumeroFactura(facturas_id) + "?",
-	  type: "info",
-	  showCancelButton: true,
-	  confirmButtonClass: "btn-primary",
-	  confirmButtonText: "¡Sí, enviar la factura!",
-	  cancelButtonText: "Cancelar",
-	  closeOnConfirm: false
-	},
-	function(){
-		sendMail(facturas_id);
+		title: "¿Estas seguro?",
+		text: "¿Desea enviar este numero de factura: # " + getNumeroFactura(facturas_id) + "?",
+		icon: "info",
+		buttons: {
+			cancel: {
+			text: "Cancelar",
+			visible: true
+			},
+			confirm: {
+			text: "¡Sí, enviar la factura!",
+			className: "btn-primary"
+			}
+		},
+		closeOnClickOutside: false
+	}).then((willConfirm) => {
+		if (willConfirm === true) {
+			sendMail(facturas_id);
+		}
 	});
 }
 //FIN ENVIAR FACTURA POR CORREO ELECTRONICO
@@ -309,7 +320,7 @@ function sendMail(facturas_id){
 				swal({
 					title: "Success",
 					text: "La factura ha sido enviada por correo satisfactoriamente",
-					type: "success",
+					icon: "success",
 				});
 		  }
 	  }
@@ -362,26 +373,34 @@ function getNumeroNombrePaciente(facturas_id){
 //INICIOS FORMULARIOS
 $('#acciones_atras').on('click', function(e){
 	 e.preventDefault();
-	 if($('#formulario_facturacion #cliente_nombre').val() != "" || $('#formulario_facturacion #colaborador_nombre').val() != ""){
+	 if($('#formulario_facturacion #pacientes_id').val() != "" || $('#formulario_facturacion #colaborador_id').val() != ""){
 		swal({
-		  title: "Tiene datos en la factura",
-		  text: "¿Esta seguro que desea volver, recuerde que tiene información en la factura la perderá?",
-		  type: "warning",
-		  showCancelButton: true,
-		  confirmButtonClass: "btn-warning",
-		  confirmButtonText: "¡Si, deseo volver!",
-		  closeOnConfirm: false
-		},
-		function(){
-			$('#main_facturacion').show();
-			$('#label_acciones_factura').html("");
-			$('#facturacion').hide();
-			$('#acciones_atras').addClass("breadcrumb-item active");
-			$('#acciones_factura').removeClass("active");
-			$('#formulario_facturacion')[0].reset();
-			swal.close();
-			$('.footer').show();
-     		$('.footer1').hide();
+			title: "Tiene datos en la factura",
+			text: "¿Esta seguro que desea volver, recuerde que tiene información en la factura la perderá?",
+			icon: "warning",
+			buttons: {
+				cancel: {
+				text: "Cancelar",
+				visible: true
+				},
+				confirm: {
+				text: "¡Si, deseo volver!",
+				className: "btn-warning"
+				}
+			},
+			closeOnClickOutside: false
+		}).then((willConfirm) => {
+			if (willConfirm === true) {
+				$('#main_facturacion').show();
+				$('#label_acciones_factura').html("");
+				$('#facturacion').hide();
+				$('#acciones_atras').addClass("breadcrumb-item active");
+				$('#acciones_factura').removeClass("active");
+				$('#formulario_facturacion')[0].reset();
+				swal.close();
+				$('.footer').show();
+				$('.footer1').hide();
+			}
 		});
 	 }else{
 		 $('#main_facturacion').show();
@@ -433,53 +452,6 @@ $(document).ready(function() {
     $('.footer1').hide();
 });
 //FIN BUSQUEDA PACIENTES
-
-//INICIO BUSQUEDA COLABORADORES
-$('#formulario_facturacion #buscar_colaboradores').on('click', function(e){
-	e.preventDefault();
-	listar_colaboradores_buscar();
-	$('#modal_busqueda_colaboradores').modal({
-		show:true,
-		keyboard: false,
-		backdrop:'static'
-	});
-});
-
-var listar_colaboradores_buscar = function(){
-	var table_colaboradores_buscar = $("#dataTableColaboradores").DataTable({
-		"destroy":true,
-		"ajax":{
-			"method":"POST",
-			"url":"<?php echo SERVERURL; ?>php/facturacion/getColaboradoresTabla.php"
-		},
-		"columns":[
-			{"defaultContent":"<button class='view btn btn-primary'><span class='fas fa-copy'></span></button>"},
-			{"data":"colaborador"},
-			{"data":"identidad"},
-			{"data":"puesto"}
-		],
-		"pageLength" : 5,
-        "lengthMenu": lengthMenu,
-		"stateSave": true,
-		"bDestroy": true,
-		"language": idioma_español,
-	});
-	table_colaboradores_buscar.search('').draw();
-	$('#buscar').focus();
-
-	view_colaboradores_busqueda_dataTable("#dataTableColaboradores tbody", table_colaboradores_buscar);
-}
-
-var view_colaboradores_busqueda_dataTable = function(tbody, table){
-	$(tbody).off("click", "button.view");
-	$(tbody).on("click", "button.view", function(e){
-		e.preventDefault();
-		var data = table.row( $(this).parents("tr") ).data();
-		$('#formulario_facturacion #colaborador_id').val(data.colaborador_id);
-		$('#formulario_facturacion #colaborador_nombre').val(data.colaborador);
-		$('#modal_busqueda_colaboradores').modal('hide');
-	});
-}
 
 //INICIO MODAL PAGOS
 function pago(facturas_id){
@@ -636,24 +608,31 @@ $(document).ready(function(){
 function deleteBill(facturas_id){
 	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 		swal({
-		  title: "¿Estas seguro?",
-		  text: "¿Desea eliminar la factura para el paciente: " + getNumeroNombrePaciente(facturas_id) + "?",
-		  type: "info",
-		  showCancelButton: true,
-		  confirmButtonClass: "btn-primary",
-		  confirmButtonText: "¡Sí, Eliminar la!",
-		  cancelButtonText: "Cancelar",
-		  closeOnConfirm: false
-		},
-		function(){
-			eliminarFacturaBorrador(facturas_id);
+			title: "¿Estas seguro?",
+			text: "¿Desea eliminar la factura para el paciente: " + getNumeroNombrePaciente(facturas_id) + "?",
+			icon: "warning",
+			buttons: {
+				cancel: {
+				text: "Cancelar",
+				visible: true
+				},
+				confirm: {
+				text: "¡Si, deseo volver!",
+				className: "btn-warning"
+				}
+			},
+			closeOnClickOutside: false
+		}).then((willConfirm) => {
+			if (willConfirm === true) {
+				eliminarFacturaBorrador(facturas_id);
+			}
 		});
 	}else{
 		swal({
 			title: "Acceso Denegado",
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 	}
 }
@@ -669,7 +648,7 @@ function eliminarFacturaBorrador(facturas_id){
 				swal({
 					title: "Success",
 					text: "Registro eliminado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000,
 				});
 				pagination(1);
@@ -678,16 +657,16 @@ function eliminarFacturaBorrador(facturas_id){
 				swal({
 					title: "Error al eliminar el registro, por favor intentelo de nuevo o verifique que no tenga información almacenada",
 					text: "No tiene permisos para ejecutar esta acción",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 			    return false;
 			}else{
 				swal({
 					title: "No se puede procesar su solicitud, por favor intentelo de nuevo mas tarde",
 					text: "No tiene permisos para ejecutar esta acción",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 			    return false;
 			}

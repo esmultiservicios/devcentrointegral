@@ -50,7 +50,7 @@ $(function(){
 				title: "Error", 
 				text: "Error en la importación del CSV",
 				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				dangerMode: true
 			});			 
 			return false;
           }
@@ -62,7 +62,7 @@ $(function(){
 			title: "Error", 
 			text: "Selecciona un archivo CSV para importar",
 			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			dangerMode: true
 		});			
 		return false;
 	}

@@ -134,7 +134,7 @@ $datos = array(
 	 13 => $seguimiento_consulta,
 	 14 => $servicio_id,
 	 15 => $anos." ".$palabra_anos.", ".$meses." ".$palabra_mes." y ".$dias." ".$palabra_dia,
-	 16 => $preclincia,	 
+	 16 => $preclincia
 );	
 	
 echo json_encode($datos);

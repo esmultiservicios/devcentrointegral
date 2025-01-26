@@ -115,8 +115,8 @@ function reporteEXCEL(){
 	swal({
 		title: "Error", 
 		text: "Debe seleccionar por lo menos una opción de búsqueda",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		  
   }		
 }
@@ -139,8 +139,8 @@ function reporteEXCELDiario(){
 		swal({
 			title: "Error", 
 			text: "Debe seleccionar por lo menos una opción de búsqueda",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	  
 	}		
 }
@@ -166,31 +166,38 @@ function modal_eliminarPreclinica(preclinica_id, pacientes_id){
         }else{
 	        dato = nombre_usuario + " (Expediente: " + expediente_usuario + ")";
         }
-
+	
 		swal({
-		  title: "¿Esta seguro?",
+			title: "¿Esta seguro?",
 		  text: "¿Desea eliminar la preclínica de este usuario: " + dato + "?",
-		  type: "input",
-		  showCancelButton: true,
-		  closeOnConfirm: false,
-		  inputPlaceholder: "Comentario",
-		  cancelButtonText: "Cancelar",	
-		  confirmButtonText: "¡Sí, remover el usuario!",
-		  confirmButtonClass: "btn-warning"
-		}, function (inputValue) {
-		  if (inputValue === false) return false;
-		  if (inputValue === "") {
-			swal.showInputError("¡Necesita escribir algo!");
-			return false
-		  }
-			eliminarPreclinica(preclinica_id, inputValue);
-		});	  
+			content: {
+				element: "input",
+				attributes: {
+				placeholder: "Comentario",
+				type: "text",
+				},
+			},
+			icon: "warning",
+			buttons: {
+				cancel: "Cancelar",
+				confirm: {
+				text: "¡Sí, remover la preclnica!",
+				closeModal: false,
+				},
+			},
+		}).then((value) => {
+			if (value === null || value.trim() === "") {
+				swal("¡Necesita escribir algo!", { icon: "error" });
+				return false;
+			}
+			eliminarPreclinica(preclinica_id, value);
+		});		
    }else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	}	
 }
@@ -205,32 +212,39 @@ function modal_eliminarPostClinica(postclinica_id, pacientes_id){
            dato = nombre_usuario;
         }else{
 	        dato = nombre_usuario + " (Expediente: " + expediente_usuario + ")";
-        }
-		;
+        }		
+		
 		swal({
-		  title: "¿Esta seguro?",
-		  text: "¿Desea eliminar la postclinica de este usuario: " + dato + "?",
-		  type: "input",
-		  showCancelButton: true,
-		  closeOnConfirm: false,
-		  inputPlaceholder: "Comentario",
-		  cancelButtonText: "Cancelar",	
-		  confirmButtonText: "¡Sí, remover el usuario!",
-		  confirmButtonClass: "btn-warning"
-		}, function (inputValue) {
-		  if (inputValue === false) return false;
-		  if (inputValue === "") {
-			swal.showInputError("¡Necesita escribir algo!");
-			return false
-		  }
-			eliminarPreclinica(postclinica_id, inputValue);
-		});	   
+			title: "¿Esta seguro?",
+			text: "¿Desea eliminar la postclinica de este usuario: " + dato + "?",
+			content: {
+				element: "input",
+				attributes: {
+				placeholder: "Comentario",
+				type: "text",
+				},
+			},
+			icon: "warning",
+			buttons: {
+				cancel: "Cancelar",
+				confirm: {
+				text: "¡Sí, remover la postclinica!",
+				closeModal: false,
+				},
+			},
+		}).then((value) => {
+			if (value === null || value.trim() === "") {
+				swal("¡Necesita escribir algo!", { icon: "error" });
+				return false;
+			}
+			eliminarPreclinica(postclinica_id, value);
+		});		
    }else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	}	
 }
@@ -248,8 +262,8 @@ function eliminarPreclinica(id, comentario){
 			swal({
 				title: "Error", 
 				text: "No se puede agregar/modificar registros fuera de este periodo",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});	 		 
 			return false;	
 		}else{	
@@ -263,31 +277,31 @@ function eliminarPreclinica(id, comentario){
 					swal({
 						title: "Success", 
 						text: "Registro eliminado correctamente",
-						type: "success", 
+						icon: "success", 
 					});						 
 					pagination_preclinica(1);			 
 				 }else if(registro == 2){
 					swal({
 						title: "Error", 
 						text: "Error al Eliminar el Registro",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					pagination_preclinica(1);			 
 				 }else if(registro == 3){
 					swal({
 						title: "Error", 
 						text: "No se puede eliminar este registro, existe información en la atención del usuario",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					pagination_preclinica(1);			 
 				 }else{		
 					swal({
 						title: "Error", 
 						text: "No se puede eliminar este registro, por favor intente de nuevo más tarde",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 				 }
 				 return false;
@@ -297,8 +311,8 @@ function eliminarPreclinica(id, comentario){
 				swal({
 					title: "Error", 
 					text: "No se puede agregar/modificar registros fuera de esta fecha",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			   
 			   return false;			
 			}	
@@ -307,8 +321,8 @@ function eliminarPreclinica(id, comentario){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		
   }
 }
@@ -362,8 +376,8 @@ function editarPreclinica(preclinica_id){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		
 						 
    }  
@@ -377,8 +391,8 @@ $('#form_main #exportar').on('click', function(e){ // add event submit We don't 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  }		 
 });
@@ -391,8 +405,8 @@ $('#form_main #reporte_diario').on('click', function(e){ // add event submit We 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
  }		 
 });

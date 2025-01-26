@@ -23,7 +23,7 @@ $(document).ready(function(e) {
 			swal({
 				title: "Error", 
 				text: "Contraseñas no coinciden",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger",
 				allowEscapeKey: false,
 				allowOutsideClick: false
@@ -92,7 +92,7 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "La contraseña que ingreso no coincide con la anterior",
-							type: "error", 
+							icon: "error", 
 							confirmButtonClass: "btn-danger",
 							allowEscapeKey: false,
 							allowOutsideClick: false
@@ -117,28 +117,31 @@ function agregaRegistro_contraseña(){
 		data:$('#form-cambiarcontra').serialize(),
 		success: function(registro){
 			if (registro == 1){
-			   $('#form-cambiarcontra')[0].reset();
+			   $('#form-cambiarcontra')[0].reset();			
 				swal({
 					title: "Success",
 					text: "Contraseña cambiada correctamente",
-					type: "success",
-					showCancelButton: false,
-					confirmButtonText: "¡Bien Hecho!",
-					closeOnConfirm: false,
-					showLoaderOnConfirm: true,
-					allowEscapeKey: false,
-					allowOutsideClick: false
-				}, function () {
-				setTimeout(function () {
-					window.location = "<?php echo SERVERURL; ?>php/signin_out/signinout.php";
-				}, 500);
-				});				   
+					icon: "info",
+					buttons: {
+						confirm: {
+						text: "¡Bien Hecho!",
+						}
+					},
+					closeOnClickOutside: false
+				}).then((willConfirm) => {
+					if (willConfirm === true) {
+						setTimeout(function () {
+							window.location = "<?php echo SERVERURL; ?>php/signin_out/signinout.php";
+						}, 500);
+					}
+				});	
+
 			   return false;				
 			}else if (registro == 3){			
 				swal({
 					title: "Error", 
 					text: "No se puede cambiar la contraseña",
-					type: "error", 
+					icon: "error", 
 					confirmButtonClass: "btn-danger",
 					allowEscapeKey: false,
 					allowOutsideClick: false
@@ -148,7 +151,7 @@ function agregaRegistro_contraseña(){
 				swal({
 					title: "Error", 
 					text: "Error al cambiar los datos, por favor intente mas tarde",
-					type: "error", 
+					icon: "error", 
 					confirmButtonClass: "btn-danger",
 					allowEscapeKey: false,
 					allowOutsideClick: false

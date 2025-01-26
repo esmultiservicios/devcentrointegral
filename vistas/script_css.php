@@ -2,7 +2,6 @@
 <link href="<?php echo SERVERURL; ?>bootstrap/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous"/>
 <link href="<?php echo SERVERURL; ?>bootstrap/css/bootstrap-select.min.css" rel="stylesheet" crossorigin="anonymous"/>
 <link href="<?php echo SERVERURL; ?>bootstrap/css/dataTables.bootstrap4.min.css" rel="stylesheet" crossorigin="anonymous"/>
-<link rel="stylesheet" href="<?php echo SERVERURL; ?>sweetalert/sweetalert.css" type="text/css" media="screen">
 
 <link rel="stylesheet" href="<?php echo SERVERURL; ?>css/style.css" type="text/css" media="screen">
 <link rel="stylesheet" href="<?php echo SERVERURL; ?>css/error_bien.css" type="text/css" media="screen">	

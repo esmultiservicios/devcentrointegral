@@ -23,8 +23,8 @@ $(document).ready(pagination(1));
 			swal({
 				title: "Acceso Denegado", 
 				text: "No tiene permisos para ejecutar esta acción",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			 
          }
 	   });
@@ -61,22 +61,28 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 	swal({
 		title: "¿Esta seguro?",
 		text: "¿Desea resetear la contraseña al usuario: " + consultarNombre(id) + "?",
-		type: "warning",
-		showCancelButton: true,
-		confirmButtonClass: "btn-warning",
-		confirmButtonText: "¡Sí, modificar la contraseña!",
-		cancelButtonText: "Cancelar",
-		closeOnConfirm: false
-	},
-	function(){					
-		resetearContra(id);
+		icon: "warning",
+		buttons: {
+			cancel: {
+			text: "Cancelar",
+			visible: true
+			},
+			confirm: {
+			text: "¡Si, modificar la contraseña!",
+			}
+		},
+		closeOnClickOutside: false
+	}).then((willConfirm) => {
+		if (willConfirm === true) {
+			resetearContra(id);
+		}
 	});	
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
 }	
 }
@@ -95,7 +101,7 @@ function resetearContra(id){
 				swal({
 					title: "Success", 
 					text: "Contraseña cambiada correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close					
 				});		
 			    return false;					
@@ -105,8 +111,8 @@ function resetearContra(id){
 				swal({
 					title: "Error", 
 					text: "Error al resetear la contraseña",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				   
 			   return false;				
 			}						
@@ -203,22 +209,28 @@ function modal_eliminar(colaborador_id, id){
 		swal({
 			title: "¿Esta seguro?",
 			text: "¿Desea eliminar el usuario " + consultarNombre(id) + "",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonClass: "btn-warning",
-			confirmButtonText: "¡Sí, Eliminar el usuario!",
-			cancelButtonText: "Cancelar",
-			closeOnConfirm: false
-		},
-		function(){					
-			eliminarRegistro(colaborador_id);
-		});	
+			icon: "warning",
+			buttons: {
+				cancel: {
+				text: "Cancelar",
+				visible: true
+				},
+				confirm: {
+				text: "¡Si, Eliminar el usuario!",
+				}
+			},
+			closeOnClickOutside: false
+		}).then((willConfirm) => {
+			if (willConfirm === true) {
+				eliminarRegistro(colaborador_id);
+			}
+		});		
 	}else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});				 
 	}		
 }
@@ -237,7 +249,7 @@ function eliminarRegistro(colaborador_id){
 				swal({
 					title: "Success", 
 					text: "Registro eliminado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});			 			
 				return false;			   
@@ -245,24 +257,24 @@ function eliminarRegistro(colaborador_id){
 				swal({
 					title: "Error", 
 					text: "Error al eliminar este usuario",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 			 return false;			   
 		   }else if(registro == 3){	
 				swal({
 					title: "Error", 
 					text: "No se puede realizar esta operación con su propio usuario",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		
 			 return false;			   
 		   }else if(registro == 4){	
 				swal({
 					title: "Error", 
 					text: "Este registro cuenta con información almacenada no se puede eliminar",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		
 			 return false;			   
 		   }else{
@@ -270,8 +282,8 @@ function eliminarRegistro(colaborador_id){
 				swal({
 					title: "Error", 
 					text: "No se puede eliminar el registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				}); 			 
 			 return false;			   
 		   }
@@ -322,8 +334,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
 }	
 }
@@ -345,8 +357,8 @@ function reporteEXCEL(){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
    }	
 }

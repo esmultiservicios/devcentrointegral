@@ -14,63 +14,75 @@ $(document).ready(function() {
          if($('#form_agenda_main #fecha').val() == $('#form_agenda_main #fechaf').val()){
 		     if(consultarFecha($('#form_agenda_main #fecha').val()) == 1){				
 				swal({
-				  title: "¿Estas seguro?",
-				  text: "¿Desea enviar los <b>SMS</b> de forma masiva?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonClass: "btn-warning",
-				  confirmButtonText: "¡Sí, enviar los SMS!",
-				  cancelButtonText: "Cancelar",
-				  closeOnConfirm: false
-				},
-				function(){
-	               sendMultipleSMSUnDiaAntes($('#form_agenda_main #fecha').val(), $('#form_agenda_main #servicio').val());
-				});					
+					title: "¿Estas seguro?",
+				  	text: "¿Desea enviar los <b>SMS</b> de forma masiva?",
+					icon: "warning",
+					buttons: {
+						cancel: {
+						text: "Cancelar",
+						visible: true
+						},
+						confirm: {
+						text: "¡Sí, enviar los SMS!",
+						}
+					},
+					closeOnClickOutside: false
+				}).then((willConfirm) => {
+					if (willConfirm) {
+						sendMultipleSMSUnDiaAntes($('#form_agenda_main #fecha').val(), $('#form_agenda_main #servicio').val());
+					}
+				});				
 		     }else if(consultarFecha($('#form_agenda_main #fecha').val()) == 5){
 				mensajeConfirmacionCicoDias("Confirmación","");
 				
 				swal({
-				  title: "¿Estas seguro?",
-				  text: "¿Desea enviar los SMS de forma masiva?",
-				  type: "warning",
-				  showCancelButton: true,
-				  confirmButtonClass: "btn-warning",
-				  confirmButtonText: "¡Sí, enviar los SMS!",
-				  cancelButtonText: "Cancelar",
-				  closeOnConfirm: false
-				},
-				function(){
-					sendMultipleSMSDiasDespues($('#form_agenda_main #fecha').val(), $('#form_agenda_main #servicio').val());
+					title: "¿Estas seguro?",
+				  	text: "¿Desea enviar los SMS de forma masiva?",
+					icon: "warning",
+					buttons: {
+						cancel: {
+						text: "Cancelar",
+						visible: true
+						},
+						confirm: {
+						text: "¡Sí, enviar los SMS!",
+						}
+					},
+					closeOnClickOutside: false
+				}).then((willConfirm) => {
+					if (willConfirm) {
+						sendMultipleSMSDiasDespues($('#form_agenda_main #fecha').val(), $('#form_agenda_main #servicio').val());
+					}
 				});			 
 		     }else if(consultarFecha($('#form_agenda_main #fecha').val()) == 4){
 				swal({
 					title: "Error", 
 					text: "No se puede enviar SMS a los usuarios el dia actual de la consulta",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		     }else{
 				swal({
 					title: "Error", 
 					text: "No se puede ejecutar esta acción, por favor verifique los datos e intentelo de nuevo mas tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});					
 		     }
 	    }else{
 			swal({
 				title: "Error", 
 				text: "Lo sentimos las fechas seleccionadas no son correctas, por favor corregir",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			
 	    }		 
       }else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
       }
    });				
@@ -99,8 +111,8 @@ $('#formulario_enviar_sms #sms_send').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Lo sentimos el mensaje no puede quedar en blanco",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 	}
 });
@@ -140,8 +152,8 @@ function sendOneSMS(pacientes_id, agenda_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 	}
 }
@@ -176,43 +188,43 @@ function sendMultipleSMSUnDiaAntes(fecha, servicio){
 			swal({
 				title: "Success", 
 				text: "Mensaje enviado correctamente",
-				type: "success", 
+				icon: "success", 
 				timer: 3000, //timeOut for auto-close
 			});				 
 		  }else if(data == 2){
 				swal({
 					title: "Error", 
 					text: "Verifique su conexión a Internet",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 		  }else if(data == 3){
 				swal({
 					title: "Error", 
 					text: "No existen SMS que enviar, por favor seleccione un Servicio o verifique la información",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		  }else if(data == 4){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos ya había enviado los SMS para esta fecha",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				}); 
 		  }else if(data == 5){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos no hay suficiente balance para enviar los SMS",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		  }else{
 				swal({
 					title: "Error", 
 					text: "Lo sentimos no se puede procesar su solicitud, por favor intentelo de nuevo más tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 		  }  		  		  			  
 		},complete:function(){
@@ -240,43 +252,43 @@ function sendMultipleSMSDiasDespues(fecha, servicio){
 				swal({
 					title: "Success", 
 					text: "Mensaje enviado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});				 
 		  }else if(data == 2){
 				swal({
 					title: "Error", 
 					text: "Verifique su conexión a Internet",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		  }else if(data == 3){
 				swal({
 					title: "Error", 
 					text: "No existen SMS que enviar, por favor seleccione un Servicio o verifique la información",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		  }else if(data == 4){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos ya había enviado los SMS para esta fecha",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				}); 
 		  }else if(data == 5){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos no hay suficiente balance para enviar los SMS",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});  
 		  }else{
 				swal({
 					title: "Error", 
 					text: "Lo sentimos no se puede procesar su solicitud, por favor intentelo de nuevo más tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 		  }	 	  		  		  			  
 		},complete:function(){
@@ -299,36 +311,36 @@ function sendSMS(){
 				swal({
 					title: "Success", 
 					text: "Mensaje enviado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});	  
 		  }else if(data == 2){
 				swal({
 					title: "Error", 
 					text: "Verifique su conexión a Internet",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			 
 		  }else if(data == 3){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos ya había enviado este SMS para esta registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});;			 
 		  }else if(data == 4){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos no hay suficiente balance para enviar los SMS",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			 
 		  }else{
 				swal({
 					title: "Error", 
 					text: "El Mensaje no se pudo enviar, por favor verifique la información",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			  
 		  }  		  		  			  
 		}

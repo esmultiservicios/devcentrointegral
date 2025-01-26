@@ -11,12 +11,10 @@
 		<label for="inputCliente" class="col-sm-1 col-form-label-md">Paciente <span class="priority">*<span/></label>
 		<div class="col-sm-5">
 			<div class="input-group mb-3">
+				<select class="selectpicker" id="pacientes_id" name="pacientes_id"
+					data-live-search="true" title="Paciente" data-width="100%" data-size="7">
+				</select>				
 			  <input type="hidden" class="form-control" id="facturas_id" name="facturas_id" readonly required>
-			  <input type="hidden" class="form-control" id="pacientes_id" name="pacientes_id" readonly required>
-			  <input type="text" class="form-control" placeholder="Paciente" id="cliente_nombre" name="cliente_nombre" readonly required>
-			  <div class="input-group-append" id="grupo_buscar_colaboradores">				
-				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_paciente"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a>
-			  </div>
 			</div>	
 		</div>
 		<label for="inputFecha" class="col-sm-1 col-form-label-md">Fecha <span class="priority">*<span/></label>
@@ -28,20 +26,17 @@
 		<label for="inputCliente" class="col-sm-1 col-form-label-md">Profesional <span class="priority">*<span/></label>
 		<div class="col-sm-5">
 			<div class="input-group mb-3">
-			  <input type="hidden" class="form-control" placeholder="Profesional" id="colaborador_id" name="colaborador_id" readonly required>
-			  <input type="text" class="form-control" placeholder="Profesional" id="colaborador_nombre" name="colaborador_nombre" readonly required>
-			  <div class="input-group-append" id="grupo_buscar_colaboradores">				
-				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_colaboradores"><div class="sb-nav-link-icon"></div><i class="fas fa-search-plus fa-lg"></i></a>
-			  </div>
+				<select class="selectpicker" id="colaborador_id" name="colaborador_id"
+					data-live-search="true" title="Profesional" data-width="100%" data-size="7">
+				</select>	
 			</div>
 		</div>
 		<label for="inputFecha" class="col-sm-1 col-form-label-md">Servicio <span class="priority">*<span/></label>
 		<div class="col-sm-3">
 			<div class="input-group mb-3">
-			  <select id="servicio_id" name="servicio_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Servicio" required></select>
-			  <div class="input-group-append" id="grupo_buscar_colaboradores">				
-				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_servicios"><div class="sb-nav-link-icon"></div><i class="fab fa-servicestack fa-lg"></i></a>
-			  </div>
+				<select class="selectpicker" id="servicio_id" name="servicio_id"
+					data-live-search="true" title="Servicio" data-width="100%" data-size="7">
+				</select>
 			</div>
 		</div>	
 		<label class="switch mb-2" data-toggle="tooltip" data-placement="top" title="Tipo de Factura, Contado o Crédito">
@@ -212,24 +207,18 @@
 	  <div class="form-group row">
 		<label for="inputCliente" class="col-sm-1 col-form-label-md">Empresas </label>
 		<div class="col-sm-5">
-		<div class="input-group mb-3">
-			  <select id="fact_empresas_id" name="fact_empresas_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Empresas"></select>
-			  <div class="input-group-append">				
-				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_aseguradora"><div class="sb-nav-link-icon"></div><i class="fab fa-servicestack fa-lg"></i></a>
-			  </div>
-			</div>
+			<select class="selectpicker" id="fact_empresas_id" name="fact_empresas_id"
+				data-live-search="true" title="Empresas" data-width="100%" data-size="7">
+			</select>
 		</div>		
 	  </div>
 
 	  <div class="form-group row">
 		<label for="inputCliente" class="col-sm-1 col-form-label-md">Aseguradora </label>
 		<div class="col-sm-5">
-		<div class="input-group mb-3">
-			  <select id="aseguradora_id" name="aseguradora_id" class="custom-select" data-toggle="tooltip" data-placement="top" title="Aseguradora"></select>
-			  <div class="input-group-append">				
-				<a data-toggle="modal" href="#" class="btn btn-outline-success" id="buscar_aseguradora"><div class="sb-nav-link-icon"></div><i class="fab fa-servicestack fa-lg"></i></a>
-			  </div>
-			</div>
+			<select class="selectpicker" id="aseguradora_id" name="aseguradora_id"
+				data-live-search="true" title="Aseguradora" data-width="100%" data-size="7">
+			</select>
 		</div>		
 	  </div>	  
 	  

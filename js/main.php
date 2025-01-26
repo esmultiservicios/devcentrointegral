@@ -14,8 +14,8 @@ function reportePDF(agenda_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			
         return false;	  
     }
@@ -324,7 +324,7 @@ var editar_productos_busqueda_dataTable = function(tbody, table){
 			swal({
 				title: "Error", 
 				text: "Lo sentimos no se puede seleccionar un producto, por favor seleccione un cliente antes de poder continuar",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger"
 			});				
 		}
@@ -456,7 +456,7 @@ $("#formulario_facturacion #invoiceItem").on('click', '.producto', function() {
 			swal({
 				title: "Error", 
 				text: "Lo sentimos no se puede efectuar la búsqueda, por favor seleccione un cliente antes de poder continuar",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger"
 			});		   
 	   }
@@ -547,7 +547,7 @@ $("#formulario_facturacion #invoiceItem").on('click', '.producto', function() {
 			swal({
 				title: "Error", 
 				text: "Lo sentimos no se puede efectuar la búsqueda, por favor seleccione un cliente antes de poder continuar",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger"
 			});		   
 	   }

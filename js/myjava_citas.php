@@ -69,32 +69,32 @@ $(document).ready(function() {
 						swal({
 							title: "Error", 
 							text: "No se puede agregar una cita en esta fecha",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});								
 			         }*/										
 			         }else{
 						swal({
 							title: "Error", 
 							text: "Debe seleccionar un médico y un servcicio antes de agendar una cita",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});					
 		             }			   
 			   }else{
 					swal({
 						title: "Acceso Denegado", 
 						text: "No tiene permisos para ejecutar esta acción",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});				
 		       }	
 		  }else{			  
 				swal({
 					title: "Error", 
 					text: "El médico se encuentra ausente, no se le puede agendar una cita. " + getComentarioAusencia(moment(start).format('YYYY-MM-DD HH:mm:ss'))+ "",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		  
 		  }			   
 		},
@@ -127,8 +127,8 @@ $(document).ready(function() {
 					swal({
 						title: "Acceso Denegado", 
 						text: "No tiene permisos para ejecutar esta acción",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});			  
 		      }		  
 		    });
@@ -142,24 +142,24 @@ $(document).ready(function() {
 						swal({
 							title: "Error", 
 							text: "No se puede mover una cita en esta fecha",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});			
 			       }			   			  
 		        }else{
 					swal({
 						title: "Acceso Denegado", 
 						text: "No tiene permisos para ejecutar esta acción",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});				 
 		        }				   
 		   }else{			    
 				swal({
 					title: "Error", 
 					text: "El médico se encuentra ausente, no se le puede agendar una cita. " + getComentarioAusencia(moment(event.start).format('YYYY-MM-DD HH:mm:ss')) + "",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			   
 		   }	
 		},
@@ -171,16 +171,16 @@ $(document).ready(function() {
 				swal({
 					title: "Acceso Denegado", 
 					text: "No tiene permisos para ejecutar esta acción",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});					 
 		  }	
 		 }else{			  
 			swal({
 				title: "Error", 
 				text: "El médico se encuentra ausente, no se le puede agendar una cita",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});	  
 		  }	
 		}*///, events: "<?php echo SERVERURL; ?>php/citas/getCalendar.php",
@@ -251,16 +251,16 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 		swal({
 			title: "Error", 
 			text: "No se puede generar el reporte",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});		   
 	}
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  }		
 });
@@ -280,8 +280,8 @@ $('#botones_citas #ausencias').on('click', function(e){ // add event submit We d
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});							 
  }		 
 });
@@ -301,8 +301,8 @@ $('#botones_citas #config_edades').on('click', function(e){ // add event submit 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
  }		 
 });
@@ -322,8 +322,8 @@ $('#botones_citas #sobrecupo').on('click', function(e){ // add event submit We d
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  }		 
 });
@@ -342,8 +342,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  }		 
 });
@@ -363,8 +363,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  }		 
 });
@@ -383,11 +383,10 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
- }		 
-	 
+ }		 	 
 });
 
 $('#botones_citas #search').on('click', function(e){ // add event submit We don't want this to act as a link so cancel the link action
@@ -404,8 +403,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
  } 
 });
@@ -416,8 +415,8 @@ $('#ModalAdd_enviar').on('click', function(e){ // add event submit We don't want
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});		   
 		return false;
 	 }else{
@@ -431,8 +430,8 @@ $('#mensaje_status #mensaje_status_okay').on('click', function(e){ // add event 
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			 
 		return false;
 	 }else{
@@ -453,8 +452,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 		swal({
 			title: "Error", 
 			text: "No se puede eliminar el registro, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			 		   
 		return false;
 	 }else{
@@ -465,8 +464,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});			
 }	 
 });
@@ -477,8 +476,8 @@ $('#ModalImprimir_enviar').on('click', function(e){ // delete event clicked // W
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});		   
 		return false;
 	 }else{
@@ -493,8 +492,8 @@ $('#ModalEdit_enviar').on('click', function(e){ // delete event clicked // We do
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			   
 		return false;
 	 }else{
@@ -520,15 +519,15 @@ $('#botones_citas #refresh').on('click', function(e){ // delete event clicked //
 			swal({
 				title: "Error", 
 				text: "Debe seleccionar un servicio de la lista, antes de poder refrescar los eventos",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});		
 		 }else if ( $('#botones_citas #medico_general').val() == ""){
 			swal({
 				title: "Error", 
 				text: "Debe seleccionar un médico de la lista, antes de poder refrescar los eventos",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});
 		 }else{
 			actualizarEventos(); 
@@ -537,8 +536,8 @@ $('#botones_citas #refresh').on('click', function(e){ // delete event clicked //
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});						 
 	 }	 
 });
@@ -680,8 +679,8 @@ function agregaRegistro(){
 				swal({
 					title: "Error", 
 					text: "Los datos ingresados son incorrectos",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$("#mensaje_ModalAdd #mensaje_ModalAdd").attr('disabled', true);               
 				return false;
@@ -690,8 +689,8 @@ function agregaRegistro(){
 				swal({
 					title: "Error", 
 					text: "Usuario ya tiene cita agendada en ese dia",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 				$("#mensaje_ModalAdd #mensaje_ModalAdd").attr('disabled', true);  			   
 			   return false;
@@ -700,8 +699,8 @@ function agregaRegistro(){
 				swal({
 					title: "Error", 
 					text: "El médico ya tiene esta hora ocupada",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$("#mensaje_ModalAdd #mensaje_ModalAdd").attr('disabled', true);  			   
 				return false;
@@ -710,8 +709,8 @@ function agregaRegistro(){
 				swal({
 					title: "Error", 
 					text: "Error al completar el registro, por favor verifique la información",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$("#mensaje_ModalAdd #mensaje_ModalAdd").attr('disabled', true);  			   
 				return false;
@@ -730,7 +729,7 @@ function agregaRegistro(){
 				swal({
 					title: "Success", 
 					text: "Cita agendada correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000,
 				});
 				$('#ModalAdd').modal('hide');
@@ -744,8 +743,8 @@ function agregaRegistro(){
 			swal({
 				title: "Error", 
 				text: "No se enviaron los datos, favor corregir",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			
 		}
 	});
@@ -836,36 +835,36 @@ function edit(event){
 			swal({
 				title: "Error", 
 				text: "Error al modificar la fecha de la cita",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			 
 	   }else if(rep == 3){
 			swal({
 				title: "Error", 
 				text: "Usuario ya tiene cita agendada en ese dia",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});		 
 	   }else if(rep == 4){
 			swal({
 				title: "Error", 
 				text: "El médico ya tiene esta hora ocupada",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				
 		 }else if(rep == 5){	
 			swal({
 				title: "Error", 
 				text: "No se puede mover este usuario a esta hora",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				
 		 }else if(rep == 6){
 			swal({
 				title: "Error", 
 				text: "Este usuario ya tiene realizada su preclínica, no se puede realizar ningún cambio",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				
 		 }
 	  }
@@ -886,7 +885,7 @@ function actualizar(){
 						swal({
 							title: "Success", 
 							text: "Cita modificada correctamente",
-							type: "success",
+							icon: "success",
 							timer: 3000, //timeOut for auto-close							
 						});
 						$('#ModalEdit').modal('hide');
@@ -910,32 +909,32 @@ function actualizar(){
 						swal({
 							title: "Error", 
 							text: "Los datos ingresados son incorrectos",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
 						$("#ModalEdit_enviar").attr('disabled', true);  						  
 			        }else if(json == 3){
 						swal({
 							title: "Error", 
 							text: "Usuario ya tiene cita agendada en ese dia",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
                         $("#ModalEdit_enviar").attr('disabled', true); 						  
 			         }else if(json == 4){
 						swal({
 							title: "Error", 
 							text: "El médico ya tiene esta hora ocupada",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});						  
 						 $("#ModalEdit_enviar").attr('disabled', true); 
 			        }else if(json == 5){	
 						swal({
 							title: "Error", 
 							text: "Este usuario ya tiene realizada su preclínica, no se puede realizar ningún cambio",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});						  
 						$("#ModalEdit_enviar").attr('disabled', true); 
 			        }   
@@ -961,7 +960,7 @@ function eliminar(){
 						swal({
 							title: "Success", 
 							text: "Cita eliminada correctamente",
-							type: "success", 
+							icon: "success", 
 							timer: 3000, //timeOut for auto-close
 						});	
 						$('#ModalEdit').modal('hide');
@@ -974,32 +973,32 @@ function eliminar(){
 						swal({
 							title: "Error", 
 							text: "No se puedo eliminar el registro",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});				   				  
 						return false;					   					   
 				   }else if(json == 3){	
 						swal({
 							title: "Error", 
 							text: "No se puedo eliminar el registro ya se realizo la preclínica para este usuario",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});		   
 						return false;					   					   
 				   }else if(json == 4){	
 						swal({
 							title: "Error", 
 							text: "Lo sentimos, no se puede eliminar esta cita, debido a que sobrepasa el tiempo permitido, por favor proceda a reprogramar la cita, para poder continuar",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});			   
 						return false;					   					   
 				   }else{
 						swal({
 							title: "Error", 
 							text: "Error al procesar la solicitud",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
 						return false;
 				   }
@@ -1027,8 +1026,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "El Profesional ya tiene esa hora ocupada",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
 						$("#ModalAdd_enviar").attr('disabled', true);				  
 						return false;				  
@@ -1036,8 +1035,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "El paciente ya tiene esa hora ocupada",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});				  			  
 						$("#ModalAdd_enviar").attr('disabled', true);
 						return false;				  
@@ -1047,8 +1046,8 @@ $(document).ready(function(e) {
 							swal({
 								title: "Error", 
 								text: "No se puede agendar este usuario en esta hora",
-								type: "error", 
-								confirmButtonClass: 'btn-danger'
+								icon: "error", 
+								dangerMode: true
 							});
 							$("#ModalAdd_enviar").attr('disabled', true);
 							return false;	
@@ -1056,8 +1055,8 @@ $(document).ready(function(e) {
 							swal({
 								title: "Error", 
 								text: "No se puede agendar mas usuarios nuevos ya llego al límite",
-								type: "error", 
-								confirmButtonClass: 'btn-danger'
+								icon: "error", 
+								dangerMode: true
 							});
 							$("#ModalAdd_enviar").attr('disabled', true);
 							return false;	
@@ -1065,16 +1064,16 @@ $(document).ready(function(e) {
 							swal({
 								title: "Error", 
 								text: "No se puede agendar mas usuarios subsiguientes ya llego al límite",
-								type: "error", 
-								confirmButtonClass: 'btn-danger'
+								icon: "error", 
+								dangerMode: true
 							});
 							return false;	
 				         }else if (array[3] == 'Vacio'){
 							swal({
 								title: "Error", 
 								text: "El profesional no tiene asignada una jornada laboral",
-								type: "error", 
-								confirmButtonClass: 'btn-danger'
+								icon: "error", 
+								dangerMode: true
 							});
 							$("#ModalAdd_enviar").attr('disabled', true);
 							return false;	
@@ -1115,8 +1114,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1124,8 +1123,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar mas usuarios nuevos ya llego al límite",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});					
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1133,8 +1132,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar mas usuarios subsiguientes ya llego al límite",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});						
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1142,8 +1141,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "El profesional no tiene asignada una jornada laboral",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1151,8 +1150,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "El Profesional ya tiene esa hora ocupada",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1160,8 +1159,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "El Paciente ya tiene esa hora ocupada",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$("#ModalEdit_enviar").attr('disabled', true);
 				return false;
@@ -1177,8 +1176,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "No se puede realizar esta acción en esta fecha",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});		
 		$("#ModalEdit_enviar").attr('disabled', true);
 		return false;		
@@ -1209,8 +1208,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "No se puede agendar este usuario en esta hora",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});				
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1218,8 +1217,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "No se puede agendar mas usuarios nuevos ya llego al límite",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});					
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1227,8 +1226,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "No se puede agendar mas usuarios subsiguientes ya llego al límite",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});						
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1236,8 +1235,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "El profesional no tiene asignada una jornada laboral",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});	
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1245,8 +1244,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "El Profesional ya tiene esa hora ocupada",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1254,8 +1253,8 @@ $(document).ready(function(e) {
 						swal({
 							title: "Error", 
 							text: "El Paciente ya tiene esa hora ocupada",
-							type: "error", 
-							confirmButtonClass: 'btn-danger'
+							icon: "error", 
+							dangerMode: true
 						});
 						$("#ModalEdit_enviar").attr('disabled', true);
 						return false;
@@ -1271,8 +1270,8 @@ $(document).ready(function(e) {
 			swal({
 				title: "Error", 
 				text: "No se puede realizar esta acción en esta fecha",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});
 			 $("#ModalEdit_enviar").attr('disabled', true);
 			 $("#ModalEdit #hora_nueva").attr('disabled', false);
@@ -1283,8 +1282,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "l médico se encuentra ausente, no se le puede agendar una cita. " + getComentarioAusencia($('#ModalEdit #fecha_citaedit').val())+ "",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					   
 		$("#ModalEdit_enviar").attr('disabled', true);	
         $("#ModalEdit #hora_nueva").attr('disabled', true);			
@@ -1321,8 +1320,8 @@ function getColaborador_id(dato){
 				swal({
 					title: "Error", 
 					text: "Error en los datos",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				 
 				return false;				  
 		  }else{;			 			 
@@ -1408,8 +1407,8 @@ $(document).ready(function() {
 				swal({
 					title: "Error", 
 					text: "El médico se encuentra ausente, no se le puede mover una cita. " + getComentarioAusencia(fecha) + "",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			 
 	    }
     });					
@@ -1443,7 +1442,7 @@ function agregaAusencias(){
 				swal({
 					title: "Success", 
 					text: "Registro almacenado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});
 				$('#formulario_ausencias #medico_ausencia').html("");			   
@@ -1452,7 +1451,7 @@ function agregaAusencias(){
 				swal({
 					title: "Error", 
 					text: "No se puede procesar su solicitud",
-					type: "error",
+					icon: "error",
 				});				
 			}
 		}
@@ -1605,7 +1604,7 @@ function eliminarRegistro(id){
 				swal({
 					title: "Success", 
 					text: "Registro eliminado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});			
 				return false;				
@@ -1614,8 +1613,8 @@ function eliminarRegistro(id){
 				swal({
 					title: "Error", 
 					text: "No se puede elimiar este registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			
 				return false;					
 			}
@@ -1626,8 +1625,8 @@ function eliminarRegistro(id){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		
  } 
 }
@@ -1704,8 +1703,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "Registro no encontrado",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					$('#formulario_sobrecupo #paciente').val("");
 					clean_sobrecupo();
@@ -1715,8 +1714,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "Registro no encontrado o puede  ser un familiar, por favor corregir",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});		  
 					$('#paciente').val("");
 					clean_sobrecupo();
@@ -1758,8 +1757,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "El médico se encuentra asuente no se puede agendar una cita",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 		$("#formulario_sobrecupo #sobrecupo_agregar").attr('disabled', true);	
      }else{
@@ -1876,7 +1875,7 @@ function modificarStatus(){
 			swal({
 				title: "Success", 
 				text: "Estatus almacenado correctamente",
-				type: "success",
+				icon: "success",
 				timer: 3000, //timeOut for auto-close
 			});
 			$('#mensaje_status').modal('hide');
@@ -1884,8 +1883,8 @@ function modificarStatus(){
 			swal({
 				title: "Error", 
 				text: "Error, está acción no se puedo procesar",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			  
 		  }			  		  		  			  
 		}
@@ -2220,8 +2219,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "No se puede agregar un sobre cupo en esta fecha",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 		$("#formulario_sobrecupo #sobrecupo_agregar").attr('disabled', true);
 	}else{	

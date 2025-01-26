@@ -20,12 +20,12 @@
 		<tr>
 			<td class="logo_factura">
 				<div>
-					<img src="<?php echo SERVERURL; ?>img/logo_factura.jpg" width="250px" height="100px">
+					<img src="<?php echo SERVERURL; ?>img/logo_factura.jpg" width="200px" height="100px">
 				</div>
 			</td>
 			<td class="info_empresa">
 				<div>
-					<span class="h2"><?php echo $consulta_registro['empresa']; ?></span>
+					<span class="h2"><?php echo $consulta_registro['empresa_nombre']; ?></span>
 					<p><?php echo $consulta_registro['direccion_empresa']; ?></p>
 					<p>Teléfono: <?php echo $consulta_registro['empresa_telefono']; ?></p>
 					<p>Correo: <?php echo $consulta_registro['empresa_correo']; ?></p>

@@ -17,9 +17,9 @@ $pdf->SetMargins(6, 0.3 , 65);
 #Establecemos el margen inferior: 
 $pdf->SetAutoPageBreak(true,0.5);
 $pdf->AddPage();
-$pdf->Image('../../img/logo_icono.png' , 26,2, 20, 12,'PNG'); //float x , float y , float w , float h
+$pdf->Image(SERVERURLLOGO , 26,2, 20 , 12,'JPG'); //float x , float y , float w , float h
 
-$pdf->Ln(12);
+$pdf->Ln(15);
 
 //CONSULTA
 $agenda_id = $_GET['agenda_id'];

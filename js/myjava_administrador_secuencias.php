@@ -55,8 +55,8 @@ $(document).ready(function() {
 			swal({
 				title: "Acceso Denegado", 
 				text: "No tiene permisos para ejecutar esta acción",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});		 
 		}			
 	});
@@ -152,8 +152,8 @@ function editarRegistro(secuencias_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	}		
 }
@@ -221,8 +221,8 @@ function modal_eliminar(secuencias_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});				 
 	}	
 }

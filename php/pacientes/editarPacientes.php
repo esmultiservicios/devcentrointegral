@@ -16,8 +16,9 @@ $sexo = $_POST['sexo'];
 $telefono1 = $_POST['telefono1'];
 $telefono2 = $_POST['telefono2'];
 $correo = strtolower(cleanString($_POST['correo']));
-$departamento_id = $_POST['departamento_id'];
-$municipio_id = $_POST['municipio_id'];
+$pais_id = isset($_POST['pais_id']) && $_POST['pais_id'] !== '' ? $_POST['pais_id'] : 0;
+$departamento_id = isset($_POST['departamento_id']) && $_POST['departamento_id'] !== '' ? $_POST['departamento_id'] : 0;
+$municipio_id = isset($_POST['municipio_id']) && $_POST['municipio_id'] !== '' ? $_POST['municipio_id'] : 0;
 $localidad = cleanStringStrtolower($_POST['direccion']);
 $responsable = cleanStringStrtolower($_POST['responsable']);
 $fecha_nacimiento = $_POST['fecha_nac'];
@@ -40,6 +41,7 @@ $update = "UPDATE pacientes
 		telefono1 = '$telefono1',
 		telefono2 = '$telefono2',		
 		email = '$correo', 
+		pais_id = '$pais_id',
 		departamento_id = '$departamento_id',
 		municipio_id = '$municipio_id',
 		localidad = '$localidad',

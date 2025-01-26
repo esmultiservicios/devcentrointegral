@@ -53,8 +53,8 @@ $(document).ready(function() {
 			swal({
 				title: "Acceso Denegado", 
 				text: "No tiene permisos para ejecutar esta acción",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});		 
 		}			
 	});
@@ -69,8 +69,8 @@ $(document).ready(function() {
 			swal({
 				title: "Error", 
 				text: "La empresa y el estado no pueden quedar vacíos, por favor corregir",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				
 			return false;
 		 } 		 
@@ -86,8 +86,8 @@ $(document).ready(function() {
 			swal({
 				title: "Error", 
 				text: "Hay registros en blanco, por favor corregir",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				   
 			return false;
 		 } 		 
@@ -103,8 +103,8 @@ $(document).ready(function() {
 			swal({
 				title: "Error", 
 				text: "El comentario no puede quedar vacío, por favor corregir",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});				   
 			return false;
 		 } 		 
@@ -149,7 +149,7 @@ function agregar(){
 				swal({
 					title: "Success", 
 					text: "Registro almacenado correctamente",
-					type: "success", 
+					icon: "success", 
 					timer: 3000, //timeOut for auto-close
 				});	
 				$('#secuenciaFacturacion').modal('hide');
@@ -162,16 +162,16 @@ function agregar(){
 				swal({
 					title: "Error", 
 					text: "Error, no se puede almacenar este registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 			   return false;				
 			}else if(registro == 3){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos Solo se puede tener un administrador de secuencias activo",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				limpiarPago();
 				return false;				
@@ -179,8 +179,8 @@ function agregar(){
 				swal({
 					title: "Error", 
 					text: "Error al procesar su solicitud, por favor intentelo de nuevo mas tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;	
 			}
@@ -201,7 +201,7 @@ function agregarRegistro(){
 				swal({
 					title: "Success", 
 					text: "Registro modificado correctamente",
-					type: "success", 
+					icon: "success", 
 					timer: 3000, //timeOut for auto-close
 				});
 				//$('#secuenciaFacturacion').modal('hide');
@@ -211,16 +211,16 @@ function agregarRegistro(){
 				swal({
 					title: "Error", 
 					text: "Error, no se puede modifciar este registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 				return false;				
 			}else{
 				swal({
 					title: "Error", 
 					text: "Error al procesar su solicitud, por favor intentelo de nuevo mas tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 			    return false;	
 			}
@@ -242,7 +242,7 @@ function eliminarRegistro(){
 				swal({
 					title: "Success", 
 					text: "Registro eliminado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000,
 				});	
 				$('#secuenciaFacturacion').modal('hide');
@@ -255,24 +255,24 @@ function eliminarRegistro(){
 				swal({
 					title: "Error", 
 					text: "Error, no se puede eliminar este registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;				
 			}else if(registro == 3){
 				swal({
 					title: "Error", 
 					text: "Lo sentimos este registro cuenta con información almacenada, no se puede eliminar",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;				
 			}else{
 				swal({
 					title: "Error", 
 					text: "Error al procesar su solicitud, por favor intentelo de nuevo mas tarde",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;	
 			}
@@ -340,8 +340,8 @@ function editarRegistro(secuencia_facturacion_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	}		
 }
@@ -405,8 +405,8 @@ function modal_eliminar(secuencia_facturacion_id){
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});				 
 	}	
 }

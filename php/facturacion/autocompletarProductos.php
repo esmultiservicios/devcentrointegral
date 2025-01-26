@@ -16,9 +16,10 @@ $query = "SELECT p.productos_id AS productos_id, p.nombre AS producto, p.descrip
    ON p.medida_id = m.medida_id
    INNER JOIN categoria_producto AS cp
    ON p.categoria_producto_id = cp.categoria_producto_id
-   WHERE p.nombre LIKE "'.strip_tags($key).'%"
+   WHERE p.nombre LIKE '%" . strip_tags($key) . "%'
    GROUP BY p.nombre
    ORDER BY p.nombre DESC LIMIT 0,5";
+$result = $mysqli->query($query);
 $result = $mysqli->query($query);
 
 if ($result->num_rows>0) {

@@ -28,8 +28,8 @@ $(document).ready(pagination(1));getConsulta();getTipo();
 				swal({
 					title: "Acceso Denegado", 
 					text: "No tiene permisos para ejecutar esta acción",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});					 
            }
 	   });
@@ -110,7 +110,7 @@ function agregar(){
 				swal({
 					title: "Success", 
 					text: "Registro almacenado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});	
 				$('#registrar').modal('hide');
@@ -123,24 +123,24 @@ function agregar(){
 				swal({
 					title: "Error", 
 					text: "Error al guardar el registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				
 			}else if (registro == 3){
 			   $('#formulario_registros #mensaje').html('');				
 				swal({
 					title: "Error", 
 					text: "Este registro ya existe",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			   
 			}else{
 			   $('#formulario_registros #mensaje').html('');				
 				swal({
 					title: "Error", 
 					text: "Error al procesar su solicitud",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			
 			}
 		}
@@ -161,7 +161,7 @@ function modificar(){
 				swal({
 					title: "Success", 
 					text: "Registro modificado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});	
 				$('#registrar').modal('hide');
@@ -172,16 +172,16 @@ function modificar(){
 				swal({
 					title: "Error", 
 					text: "Error al modificar el registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				
 			}else{
 			   $('#formulario_registros #mensaje').html('');				
 				swal({
 					title: "Error", 
 					text: "Error al procesar su solicitud",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			
 			}
 		}
@@ -232,22 +232,29 @@ function modal_eliminar(id){
 		swal({
 			title: "¿Esta seguro?",
 			text: "¿Desea eliminar el correo: " + consultarCorreo(id) + "",
-			type: "warning",
-			showCancelButton: true,
-			confirmButtonClass: "btn-warning",
-			confirmButtonText: "¡Sí, Eliminar el correo!",
-			cancelButtonText: "Cancelar",
-			closeOnConfirm: false
-		},
-		function(){					
-			eliminarRegistro(id);
-		});	
+			icon: "warning",
+			buttons: {
+				cancel: {
+				text: "Cancelar",
+				visible: true
+				},
+				confirm: {
+				text: "¡Sí, Eliminar el correo!",
+				className: "btn-warning"
+				}
+			},
+			closeOnClickOutside: false
+		}).then((willConfirm) => {
+			if (willConfirm === true) {
+				eliminarRegistro(id);
+			}
+		});		
 	}else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});				 
 	}	
 }
@@ -264,7 +271,7 @@ function eliminarRegistro(id){
 				swal({
 					title: "Success", 
 					text: "Registro almacenado correctamente",
-					type: "success",
+					icon: "success",
 					timer: 3000, //timeOut for auto-close
 				});			       				
 			   pagination(1);
@@ -273,24 +280,24 @@ function eliminarRegistro(id){
 				swal({
 					title: "Error", 
 					text: "Error al intentar eliminar el registro, por favor intente de nuevo",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;			
 			}else if (registro == 3){
 				swal({
 					title: "Error", 
 					text: "Error al intentar eliminar el registro, cuenta con información almacenada",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false;			
 			}else{
 				swal({
 					title: "Error", 
 					text: "Error procesar su solicitud",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});	
 				return false;				
 			}
@@ -317,8 +324,8 @@ $('#formulario_registros #reg').on('click', function(e){ // add event submit We 
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 	   return false;	   
 	 }  
@@ -334,8 +341,8 @@ $('#formulario_registros #edi').on('click', function(e){ // add event submit We 
 		swal({
 			title: "Error", 
 			text: "No se pueden enviar los datos, los campos estan vacíos",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			
 		return false;	   
 	 }  
@@ -390,13 +397,13 @@ function testEmail(server, correo, password, port, smtpSecure){
 				swal({
 					title: "Success",
 					text: "Conexión realizada satisfactoriamente",
-					type: "success",
+					icon: "success",
 				});
 		  }else{
 			swal({
 					title: "Error",
 					text: "Credenciales invalidas, por favor corregir, también recuerde en su servidor de correo: Activar Aplicaciones poco seguras (SmtpClientAuthentication)",
-					type: "error",		  
+					icon: "error",		  
 		 	 });
 		  }		
 		}

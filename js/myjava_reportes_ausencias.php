@@ -150,29 +150,37 @@ function modal_eliminarAusencias(ausencia_id, pacientes_id){
         }
 
 		swal({
-		  title: "¿Esta seguro?",
-		  text: "¿Desea eliminar la preclínica de este usuario: " + dato + "?",
-		  type: "input",
-		  showCancelButton: true,
-		  closeOnConfirm: false,
-		  inputPlaceholder: "Comentario",
-		  cancelButtonText: "Cancelar",	
-		  confirmButtonText: "¡Sí, remover el usuario!",
-		  confirmButtonClass: "btn-warning"
-		}, function (inputValue) {
-		  if (inputValue === false) return false;
-		  if (inputValue === "") {
-			swal.showInputError("¡Necesita escribir algo!");
-			return false
-		  }
-			eliminarAusencias(ausencia_id, inputValue);
-		});	  
+			title: "¿Esta seguro?",
+			text: "¿Desea eliminar la preclínica de este usuario: " + dato + "?",
+			content: {
+				element: "input",
+				attributes: {
+				placeholder: "Comentario",
+				type: "text",
+				},
+			},
+			icon: "warning",
+			buttons: {
+				cancel: "Cancelar",
+				confirm: {
+				text: "¡Sí, remover la ausencia!",
+				closeModal: false,
+				},
+			},
+		}).then((value) => {
+			if (value === null || value.trim() === "") {
+				swal("¡Necesita escribir algo!", { icon: "error" });
+				return false;
+			}
+			eliminarAusencias(ausencia_id, value);
+			swal("Ausencia Removida", "La ausencia del usuario ha sido eliminada correctamente.", "success");
+		});		
    }else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	}	
 }
@@ -190,8 +198,8 @@ function eliminarAusencias(id, comentario){
 			swal({
 				title: "Error", 
 				text: "No se puede agregar/modificar registros fuera de este periodo",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});	 		 
 			return false;	
 		}else{	
@@ -205,23 +213,23 @@ function eliminarAusencias(id, comentario){
 					swal({
 						title: "Success", 
 						text: "Registro eliminado correctamente",
-						type: "success", 
+						icon: "success", 
 					});						 
 					pagination(1);			 
 				 }else if(registro == 2){
 					swal({
 						title: "Error", 
 						text: "Error al Eliminar el Registro",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					pagination(1);			 
 				 }else{		
 					swal({
 						title: "Error", 
 						text: "No se puede eliminar este registro, por favor intente de nuevo más tarde",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 				 }
 				 return false;
@@ -231,8 +239,8 @@ function eliminarAusencias(id, comentario){
 				swal({
 					title: "Error", 
 					text: "No se puede agregar/modificar registros fuera de esta fecha",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});			   
 			   return false;			
 			}	
@@ -241,8 +249,8 @@ function eliminarAusencias(id, comentario){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		
   }
 }
@@ -325,8 +333,8 @@ $('#form_main #reporte_excel').on('click', function(e){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
  }
 });
@@ -339,8 +347,8 @@ $('#form_main #reporte_diario').on('click', function(e){ // add event submit We 
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});					 
  }		 
 });

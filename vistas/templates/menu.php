@@ -21,7 +21,8 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>	
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/recetas.php">Recetas</a>
 			</div>
 		  </li>			
 		  <li class="nav-item dropdown active">
@@ -33,8 +34,8 @@
 
 		  <li class="nav-item dropdown active">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
-			<div class="dropdown-menu" aria-labelledby="dropdown05">
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_atenciones_medicas.php">Reporte de Atenciones</a>
+			<div class="dropdown-menu" aria-labelledby="dropdown05">			  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>			  
 			</div>
 		  </li>			  
@@ -66,6 +67,7 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/recetas.php">Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  	  
 			</div>
 		  </li>
@@ -84,8 +86,8 @@
 		  <li class="nav-item dropdown active">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown05">
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_atenciones_medicas.php">Reporte de Atenciones</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_facturacion.php">Reporte de Facturación</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_pagos.php">Reporte de Pagos</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_enfermeria.php">Reporte de Confirmación</a>
@@ -106,7 +108,8 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>	
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/recetas.php">Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reg_empresas.php">Configurar Empresas</a>				  		  
 			</div>
 		  </li>
@@ -146,7 +149,8 @@
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/pacientes.php">Pacientes</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/citas.php">Citas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/agenda.php">Agenda</a>
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>		  
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/facturacion.php">Facturación</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/recetas.php">Recetas</a>		  
 			</div>
 		  </li>
 		  <li class="nav-item dropdown active">
@@ -175,8 +179,8 @@
 		  <li class="nav-item dropdown active">
 			<a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa-solid fa-chart-bar fa-lg"></i>&nbsp;Reportes</a>
 			<div class="dropdown-menu" aria-labelledby="dropdown05">
-			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_atenciones_medicas.php">Reporte de Atenciones</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_ausencias.php">Reporte de Ausencias</a>
+			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_recetas.php">Reporte Recetas</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_facturacion.php">Reporte de Facturación</a>
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reporte_pagos.php">Reporte de Pagos</a>	  
 			  <a class="dropdown-item" href="<?php echo SERVERURL; ?>vistas/reportes_enfermeria.php">Reporte de Confirmación</a>

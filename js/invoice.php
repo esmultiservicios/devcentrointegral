@@ -99,7 +99,7 @@ $(document).ready(function(){
 			swal({
 				title: "Error", 
 				text: "Lo sentimos no puede agregar más filas, debe seleccionar un usuario antes de poder continuar",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger"
 			});				
 		}
@@ -119,7 +119,7 @@ $(document).ready(function(){
 			swal({
 				title: "Error", 
 				text: "Lo sentimos debe seleccionar un fila antes de intentar eliminarla",
-				type: "error", 
+				icon: "error", 
 				confirmButtonClass: "btn-danger"
 			});				
 		}
@@ -266,7 +266,7 @@ $(document).ready(function(){
 			swal({
 				title: "Error",
 				text: "Debe seleccionar un paciente y seleciconar un producto antes de continuar",
-				type: "error",
+				icon: "error",
 				confirmButtonClass: "btn-danger"
 			});				
 		  }
@@ -346,7 +346,7 @@ $("#reg_DescuentoFacturacion").on("click", function(e){
 		swal({
 			title: "warning",
 			text: "El valor del descuento es mayor al precio total del artículo, por favor corregir",
-			type: "warning",
+			icon: "warning",
 			confirmButtonClass: "btn-warning"
 		});		
 	}

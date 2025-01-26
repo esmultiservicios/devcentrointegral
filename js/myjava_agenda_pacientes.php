@@ -68,16 +68,16 @@ $('#form_agenda_main #reporte').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 	}
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		
 }	
 });
@@ -91,16 +91,16 @@ $('#form_agenda_main #Reporte_Agenda').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	
 	}
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
 }	
 });
@@ -115,16 +115,16 @@ $('#form_agenda_main #reporte_sms').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Debe seleccionar un servicio antes de continuar",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	  
    }
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});		 
 }	
 });
@@ -138,16 +138,16 @@ $('#form_agenda_main #reporte_smsDiasAntes').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Debe seleccionar un servicio antes de continuar",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});	 	   
    }
 }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});	
 }	
 });
@@ -160,8 +160,8 @@ $('#formulario #edi1').on('click', function(e){ // add event submit We don't wan
 		swal({
 			title: "Error", 
 			text: "El comentario no puede estar vacío",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});
 		return false;
 	}
@@ -176,7 +176,7 @@ $('#form_agenda_main #agenda_usuarios').on('click', function(e){
 		swal({
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
-			type: "error", 
+			icon: "error", 
 			confirmButtonClass: "btn-danger"
 		});	
 	}	
@@ -184,7 +184,7 @@ $('#form_agenda_main #agenda_usuarios').on('click', function(e){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
+		icon: "error", 
 		confirmButtonClass: "btn-danger"
 	});					 
 }	
@@ -208,15 +208,15 @@ function agregaRegistroComentario(){
 					swal({
 						title: "Error", 
 						text: "El médico ya tiene ocupada esa hora, por favor corregir",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 				   return false; 
 			  }else{
 					swal({
 						title: "Success", 
 						text: "Comentario almacenado correctamente",
-						type: "success",
+						icon: "success",
 						timer: 3000, //timeOut for auto-close
 					});	
 					$('#registrar').modal('hide');
@@ -290,8 +290,8 @@ function modal_eliminar(id){
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});				 
 	}	
 }
@@ -328,8 +328,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "No se puede reprogramar en esta fecha",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});
 		$("#formulario #edi").attr('disabled', true);
 	}else{	
@@ -343,8 +343,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora ya que es un usuario nuevo",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		   
 			   $('#formulario #edi').attr('disabled', true);
 			   return false;
@@ -353,7 +353,7 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora ya que es un usuario subsiguiente",
 					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					dangerMode: true
 				});		   
 			
 				$('#formulario #edi').attr('disabled', true);
@@ -362,8 +362,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		   
 			
 				$('#formulario #edi').attr('disabled', true);				
@@ -372,8 +372,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});		   
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -381,8 +381,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "El médico ya tiene la hora ocupada",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -390,8 +390,8 @@ $(document).ready(function(e) {
 				swal({
 					title: "Error", 
 					text: "Usuario ya tiene cita agendada ese día",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});				
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -428,8 +428,8 @@ $(document).ready(function(e) {
 			swal({
 				title: "Error", 
 				text: "No se puede reprogramar en esta fecha",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});
 			$("#formulario #edi").attr('disabled', true);
 		}else{
@@ -443,8 +443,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora ya que es un usuario nuevo",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -452,8 +452,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora ya que es un usuario subsiguiente",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -461,8 +461,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					$("#formulario #edi").attr('disabled', true);
 				  return false;
@@ -470,8 +470,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "No se puede reprogramar en esta fecha",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});	
 					$("#formulario #edi").attr('disabled', true);
 				  return false;
@@ -479,8 +479,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "El médico ya tiene la hora ocupada",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -488,8 +488,8 @@ $(document).ready(function(e) {
 					swal({
 						title: "Error", 
 						text: "Usuario ya tiene cita agendada ese día",
-						type: "error", 
-						confirmButtonClass: 'btn-danger'
+						icon: "error", 
+						dangerMode: true
 					});	
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -506,8 +506,8 @@ $(document).ready(function(e) {
 		swal({
 			title: "Error", 
 			text: "El médico se encuentra ausente, no se le puede agendar una cita. " + getComentarioAusencia($('#fecha_n').val(), $('#formulario #id-registro').val()) + "",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					
 		$("#edi").attr('disabled', true);
         $("#formulario #hora_nueva").attr('disabled', true);
@@ -576,16 +576,16 @@ function editarRegistro(agenda_id, colaborador_id, pacientes_id, servicio_id){
 		swal({
 			title: "Error", 
 			text: "No se puede reprogramar esta cita",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});			 
   }		
   }else{
 	swal({
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error", 
-		confirmButtonClass: 'btn-danger'
+		icon: "error", 
+		dangerMode: true
 	});						 
   }	
 }
@@ -771,38 +771,47 @@ function nosePresentoRegistro(agenda_id, pacientes_id){
 				  dato = nombre_usuario + " (Expediente: " + expediente_usuario + ")";
 			  }
 
-			swal({
-			  title: "¿Esta seguro?",
-			  text: "¿Desea remover este usuario: " + dato + " que no se presento a su cita?",
-			  type: "input",
-			  showCancelButton: true,
-			  closeOnConfirm: false,
-			  inputPlaceholder: "Comentario",
-			  cancelButtonText: "Cancelar",	
-			  confirmButtonText: "¡Sí, remover el usuario!",
-			  confirmButtonClass: "btn-warning",	  
-			}, function (inputValue) {
-			  if (inputValue === false) return false;
-			  if (inputValue === "") {
-				swal.showInputError("¡Necesita escribir algo!");
-				return false
-			  }
-				eliminarRegistro(agenda_id, inputValue);
-			});		
+			  swal({
+				title: "¿Está seguro?",
+				text: "¿Desea remover este usuario: " + dato + " que no se presentó a su cita?",
+				content: {
+					element: "input",
+					attributes: {
+					placeholder: "Comentario",
+					type: "text",
+					},
+				},
+				icon: "warning",
+				buttons: {
+					cancel: "Cancelar",
+					confirm: {
+					text: "¡Sí, remover el usuario!",
+					closeModal: false,
+					},
+				},
+				})
+			.then((value) => {
+				if (value === null || value.trim() === "") {
+					swal("¡Necesita escribir algo!", { icon: "error" });
+					return false;
+				}
+				eliminarRegistro(agenda_id, value);
+			});
+	
 	   }else{	
 			swal({
 				title: "Error", 
 				text: "Error al ejecutar esta acción, el usuario debe estar en estatus pendiente",
-				type: "error", 
-				confirmButtonClass: 'btn-danger'
+				icon: "error", 
+				dangerMode: true
 			});			  
 	   }
 	 }else{
 		swal({
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error", 
-			confirmButtonClass: 'btn-danger'
+			icon: "error", 
+			dangerMode: true
 		});					 
 	  }	
 }
@@ -822,7 +831,7 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 			swal({
 				title: "Success", 
 				text: "Ausencia almacenada correctamente",
-				type: "success",
+				icon: "success",
 				timer: 3000, //timeOut for auto-close
 			});
 			pagination(1);
@@ -831,32 +840,32 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 				swal({
 					title: "Error", 
 					text: "Error al remover este registro",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false; 
 		  }else if(registro == 3){	
 				swal({
 					title: "Error", 
 					text: "Este registro ya tiene almacenada una ausencia",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false; 
 		  }else if(registro == 4){	
 				swal({
 					title: "Error", 
 					text: "Este usuario ya ha sido precliniado, no puede marcarle una ausencia",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});
 				return false; 
 		  }else{		
 				swal({
 					title: "Error", 
 					text: "Error al ejecutar esta acción",
-					type: "error", 
-					confirmButtonClass: 'btn-danger'
+					icon: "error", 
+					dangerMode: true
 				});					 
 		  }
 	  }

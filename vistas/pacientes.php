@@ -108,10 +108,9 @@ if ($colaborador_id != '' || $colaborador_id != null) {
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="sexo">Sexo <span class="priority">*<span /></label>
-                                <select class="form-control" id="sexo" name="sexo" required data-toggle="tooltip"
-                                    data-placement="top" title="Sexo">
-                                    <option value="">Seleccione</option>
-                                </select>
+                                <select class="selectpicker" id="sexo" name="sexo"
+                                        data-live-search="true" title="Sexo" data-width="100%" data-size="7">
+                                 </select>
                             </div>
                             <div class="col-md-3 mb-3">
                                 <label for="telefono">Teléfono 1 <span class="priority">*<span /></label>
@@ -131,51 +130,33 @@ if ($colaborador_id != '' || $colaborador_id != null) {
                             <div class="col-md-4 mb-3">
                                 <label for="expedoente">País</label>
                                 <div class="input-group mb-3">
-                                    <select id="pais_id" name="pais_id" class="form-control" data-toggle="tooltip"
-                                        data-placement="top" title="País">
-                                        <option value="">Seleccione</option>
+                                    <select class="selectpicker" id="pais_id" name="pais_id"
+                                        data-live-search="true" title="País" data-width="100%" data-size="7">
                                     </select>
-                                    <div class="input-group-append" id="buscar_pais_pacientes">
-                                        <a data-toggle="modal" href="#" class="btn btn-outline-success">
-                                            <div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="expedoente">Departamentos</label>
                                 <div class="input-group mb-3">
-                                    <select id="departamento_id" name="departamento_id" class="form-control"
-                                        data-toggle="tooltip" data-placement="top" title="Departamentos">
-                                        <option value="">Seleccione</option>
+                                    <select class="selectpicker" id="departamento_id" name="departamento_id"
+                                        data-live-search="true" title="Departamentos" data-width="100%" data-size="7">
                                     </select>
-                                    <div class="input-group-append" id="buscar_departamento_pacientes">
-                                        <a data-toggle="modal" href="#" class="btn btn-outline-success">
-                                            <div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="expedoente">Municipios</label>
                                 <div class="input-group mb-3">
-                                    <select id="municipio_id" name="municipio_id" class="form-control"
-                                        data-toggle="tooltip" data-placement="top" title="Municipios">
-                                        <option value="">Seleccione</option>
+                                    <select class="selectpicker" id="municipio_id" name="municipio_id"
+                                        data-live-search="true" title="Municipios" data-width="100%" data-size="7">
                                     </select>
-                                    <div class="input-group-append" id="buscar_municipio_pacientes">
-                                        <a data-toggle="modal" href="#" class="btn btn-outline-success">
-                                            <div class="sb-nav-link-icon"></div><i class="fas fa-search fa-lg"></i>
-                                        </a>
-                                    </div>
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-row">
                             <div class="col-md-12 mb-3">
-                                <label for="direccion">Dirección <span class="priority">*<span /></label>
-                                <input type="text" required="required" id="direccion" name="direccion"
+                                <label for="direccion">Dirección </label>
+                                <input type="text" id="direccion" name="direccion"
                                     placeholder="Dirección Completa" placeholder="Dirección" class="form-control" />
                             </div>
                         </div>
@@ -314,9 +295,9 @@ if ($colaborador_id != '' || $colaborador_id != null) {
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="telefono">Sexo</label>
-                                <select required name="sexo_manual" id="sexo_manual" class="form-control" readonly
-                                    data-toggle="tooltip" data-placement="top" title="Género">
-                                </select>
+                                <select class="selectpicker" id="sexo_manual" name="sexo_manual"
+                                        data-live-search="true" title="Sexo" data-width="100%" data-size="7">
+                                 </select>
                             </div>
                         </div>
                         <div class="form-check-inline">

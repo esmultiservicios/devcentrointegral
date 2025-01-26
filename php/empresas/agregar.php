@@ -19,16 +19,55 @@ $sitio_web = cleanString($_POST['sitioweb_empresa']);
 $usuario = $_SESSION['colaborador_id'];
 $fecha_registro = date("Y-m-d H:i:s");
 $fecha = date("Y-m-d");
+$logotipo = "";
+$firma_documento = "";
+$mostrar_firma = 0;
 
 //VERIFICAMOS SI EXISTE LA EMPRESA
 $query = "SELECT empresa_id FROM empresa WHERE nombre = '$empresa' AND rtn = '$rtn'";
 $result_empresa = $mysqli->query($query) or die($mysqli->error);  
 
 if($result_empresa->num_rows==0){
-	//ALMACENAMOS EL REGISTRO DE LA EMPRESA
+	// ALMACENAMOS EL REGISTRO DE LA EMPRESA
 	$correlativo = correlativo('empresa_id', 'empresa');
-	$insert = "INSERT INTO empresa
-		VALUES('$correlativo','$empresa','$otra_info','$eslogan','$telefono','$celular','$correo','$rtn','$direccion','$facebook','$sitio_web','$horario_atencion','$usuario','$fecha_registro')";
+	$insert = "INSERT INTO empresa (
+		empresa_id, 
+		nombre, 
+		otra_informacion, 
+		eslogan, 
+		celular, 
+		telefono, 
+		correo, 
+		rtn, 
+		ubicacion, 
+		facebook, 
+		sitioweb, 
+		horario, 
+		usuario, 
+		fecha_registro, 
+		logotipo, 
+		firma_documento, 
+		MostrarFirma
+	) VALUES (
+		'$correlativo', 
+		'$empresa', 
+		'$otra_info', 
+		'$eslogan', 
+		'$celular', 
+		'$telefono', 
+		'$correo', 
+		'$rtn', 
+		'$direccion', 
+		'$facebook', 
+		'$sitio_web', 
+		'$horario_atencion', 
+		'$usuario', 
+		'$fecha_registro', 
+		'$logotipo', 
+		'$firma_documento', 
+		'$mostrar_firma'
+	)";
+	
 	$query = $mysqli->query($insert) or die($mysqli->error);
 	
 	if($query){

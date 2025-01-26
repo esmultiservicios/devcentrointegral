@@ -21,7 +21,9 @@ $sitio_web = cleanString($_POST['sitioweb_empresa']);
 $usuario = $_SESSION['colaborador_id'];
 $fecha_registro = date("Y-m-d H:i:s");
 $fecha = date("Y-m-d");
-
+$logotipo = "";
+$firma_documento = "";
+$mostrar_firma = 0;
 
 //ACTUALIZAMOS LOS REGISTROS DE LA EMPRESA
 $update = "UPDATE empresa 

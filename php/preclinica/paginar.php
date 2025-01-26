@@ -114,7 +114,7 @@ while($registro2 = $result->fetch_assoc()){
 	   <td>'.$registro2['comentario'].'</td>			   
 	   <td>
 		   <a style="text-decoration:none;" title = "Agregar Preclínica" href="javascript:editarRegistro('.$registro2['agenda_id'].','.$registro2['expediente'].');void(0);" class="fas fa-notes-medical fa-lg"></a>			   			   
-		   <a style="text-decoration:none;" title = "Usuario no se presentó  a su cita" href="javascript:nosePresntoRegistro('.$registro2['agenda_id'].','.$registro2['pacientes_id'].');void(0);" class="fas fa-times-circle fa-lg"></a>
+		   <a style="text-decoration:none;" title = "Usuario no se presentó  a su cita" href="javascript:nosePresentoRegistro('.$registro2['agenda_id'].','.$registro2['pacientes_id'].');void(0);" class="fas fa-times-circle fa-lg"></a>
 	   </td>
   </tr>';		
   $i++;

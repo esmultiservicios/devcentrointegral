@@ -196,8 +196,8 @@ function editarRegistro(pagos_id){
 		swal({
 			title: "Acceso Denegado",
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 	}
 }
@@ -281,15 +281,9 @@ function getProfesionales(){
 var listar_reporte_pagos = function(){
 	var fechai = $('#form_main #fecha_b').val();
 	var fechaf = $('#form_main #fecha_f').val();
-	var clientes = $('#form_main #clientes').val();
-	var profesional = $('#form_main #profesional').val();
-	var estado = '';
-
-	if($('#form_main #estado').val() == ""){
-		estado = 1;
-	}else{
-		estado = $('#form_main #estado').val();
-	}
+	var clientes = $('#form_main #clientes').val() || '';
+	var profesional = $('#form_main #profesional').val() || '';
+	var estado = $('#form_main #estado').val() || 1;
 
 	var table_reporte_pagos  = $("#dataTableReportePagosMain").DataTable({
 		"destroy":true,	

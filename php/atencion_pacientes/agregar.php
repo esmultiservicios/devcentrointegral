@@ -76,15 +76,14 @@ $consultar_expediente = "SELECT a.agenda_id
 	ON a.colaborador_id = c.colaborador_id
 	WHERE a.pacientes_id = '$pacientes_id' AND c.colaborador_id = '$colaborador_id' AND a.status = 1";
 $result = $mysqli->query($consultar_expediente) or die($mysqli->error);
-$consultar_expediente1 = $result->fetch_assoc(); 
 
-if ($consultar_expediente1['agenda_id']== ""){
-	$paciente = 'N';
-	$color = '#008000'; //VERDE;
-}else{ 
+$paciente = 'N';
+$color = '#008000'; //VERDE;
+
+if($result->num_rows > 0){
 	$paciente = 'S';
 	$color = '#0071c5'; //AZUL;
-}	
+}
 /*********************************************************************************************************************************************************************/
 
 //CONSULTA DATOS DEL PACIENTE

@@ -29,8 +29,8 @@ $(document).ready(function() {
 			swal({
 				title: "Error",
 				text: "Hay registros en blanco, por favor corregir",
-				type: "error",
-				confirmButtonClass: 'btn-danger'
+				icon: "error",
+				dangerMode: true
 			});
 			return false;
 		 }
@@ -84,8 +84,8 @@ function cierreBill(){
 		swal({
 			title: "Acceso Denegado",
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 		return false;
 	}		
@@ -102,8 +102,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 		swal({
 			title: "Error",
 			text: "Hay registros en blanco, por favor corregir",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 		return false;
 	}
@@ -111,8 +111,8 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 	swal({
 		title: "Acceso Denegado",
 		text: "No tiene permisos para ejecutar esta acción",
-		type: "error",
-		confirmButtonClass: 'btn-danger'
+		icon: "error",
+		dangerMode: true
 	});
 }
 });
@@ -190,7 +190,7 @@ function agregarCobros(){
 				swal({
 					title: "Success",
 					text: "Valores generados correctamente",
-					type: "success",
+					icon: "success",
 				});
 				$('#formCobros #comentario').val("");
 				$("#formCobros #generar").attr('disabled', true);
@@ -200,24 +200,24 @@ function agregarCobros(){
 				swal({
 					title: "Error",
 					text: "Error, no se puedieron generar los valores, por favor corregir",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 				return false;
 			}else if(registro == 3){
 				swal({
 					title: "Error",
 					text: "Error, este registro ya existe",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 				return false;
 			}else{
 				swal({
 					title: "Error",
 					text: "Error al procesar su solicitud, por favor intentelo de nuevo mas tarde",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 				return false;
 			}
@@ -253,29 +253,36 @@ function invoicesDetails(facturas_id){
 function modal_rollback(facturas_id, pacientes_id){
 	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3){
 		swal({
-		  title: "¿Esta seguro?",
-		  text: "¿Desea anular la factura para este registro: Paciente: " + consultarNombre(pacientes_id) + ". Factura N°:  " + getNumeroFactura(facturas_id) + "?",
-		  type: "input",
-		  showCancelButton: true,
-		  closeOnConfirm: false,
-		  inputPlaceholder: "Comentario",
-		  cancelButtonText: "Cancelar",
-		  confirmButtonText: "¡Sí, anular la factura!",
-		  confirmButtonClass: "btn-warning"
-		}, function (inputValue) {
-		  if (inputValue === false) return false;
-		  if (inputValue === "") {
-			swal.showInputError("¡Necesita escribir algo!");
-			return false
-		  }
-			rollback(facturas_id, inputValue);
-		});
+			title: "¿Esta seguro?",
+			text: "¿Desea anular la factura para este registro: Paciente: " + consultarNombre(pacientes_id) + ". Factura N°:  " + getNumeroFactura(facturas_id) + "?",
+			content: {
+				element: "input",
+				attributes: {
+				placeholder: "Comentario",
+				type: "text",
+				},
+			},
+			icon: "warning",
+			buttons: {
+				cancel: "Cancelar",
+				confirm: {
+				text: "¡Sí, anular la factura!",
+				closeModal: false,
+				},
+			},
+		}).then((value) => {
+			if (value === null || value.trim() === "") {
+				swal("¡Necesita escribir algo!", { icon: "error" });
+				return false;
+			}
+			rollback(facturas_id, value);
+		});		
 	}else{
 		swal({
 			title: "Acceso Denegado",
 			text: "No tiene permisos para ejecutar esta acción",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 		return false;
 	}
@@ -299,23 +306,23 @@ function rollback(facturas_id,comentario){
 				swal({
 					title: "Success",
 					text: "Factura anulada correctamente",
-					type: "success",
+					icon: "success",
 				});
 			    return false;
 			  }else if(registro == 2){
 				swal({
 					title: "Error",
 					text: "Error al anular la factura",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 			    return false;
 			  }else{
 				swal({
 					title: "Error",
 					text: "Error al ejecutar esta acción",
-					type: "error",
-					confirmButtonClass: 'btn-danger'
+					icon: "error",
+					dangerMode: true
 				});
 			  }
 		  }
@@ -325,8 +332,8 @@ function rollback(facturas_id,comentario){
 		swal({
 			title: "Error",
 			text: "No se puede ejecutar esta acción fuera de esta fecha",
-			type: "error",
-			confirmButtonClass: 'btn-danger'
+			icon: "error",
+			dangerMode: true
 		});
 	}
 }
@@ -438,18 +445,12 @@ function getProfesionales(){
 }
 
 var listar_reporte_facturacion = function(){
-  var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
-  var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
-  var clientes = $('#form_main_facturacion_reportes #clientes').val();
-  var profesional = $('#form_main_facturacion_reportes #profesional').val();
-  var estado = '';
+	var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
+	var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
+	var clientes = $('#form_main_facturacion_reportes #clientes').val() || '';
+	var profesional = $('#form_main_facturacion_reportes #profesional').val() || '';
+	var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
 
-  if($('#form_main_facturacion_reportes #estado').val() == ""){
-    estado = 1;
-  }else{
-    estado = $('#form_main_facturacion_reportes #estado').val();
-  }
-	
 	var table_reporte_facturacion  = $("#dataTableReporteFacturacionMain").DataTable({
 		"destroy":true,	
 		"ajax":{
@@ -531,38 +532,7 @@ var listar_reporte_facturacion = function(){
             $('#footer-importe').html(formatter.format(totalImporte));
             $('#footer-isv').html(formatter.format(totalISV));
             $('#footer-descuento').html(formatter.format(totalDescuento));
-            $('#footer-neto').html(formatter.format(totalNeto));
-
-            // Acceder a `tipos_de_pago` desde el JSON recibido
-            var json = api.ajax.json();
-            console.log("JSON recibido:", json);
-
-            if (json && json.tipos_de_pago) {
-                var tipos_de_pago = json.tipos_de_pago;
-                var tipo_pago_html = '';
-                var total_pago_html = '';
-
-                // Mostrar en consola para depuración
-                console.log("Tipos de pago recibidos:", tipos_de_pago);
-
-                // Recorrer los tipos de pago y mostrarlos
-                for (var tipo_pago in tipos_de_pago) {
-                    if (tipos_de_pago.hasOwnProperty(tipo_pago)) {
-                        var total_pago = parseFloat(tipos_de_pago[tipo_pago]) || 0;
-                        tipo_pago_html += '<div>' + tipo_pago + '</div>';
-                        total_pago_html += '<div>' + formatter.format(total_pago) + '</div>';
-                    }
-                }
-
-                // Actualizar la vista con los tipos de pago
-                $('#tipo_pago').html(tipo_pago_html);
-                $('#total_pago').html(total_pago_html);
-            } else {
-                console.log("No se encontraron tipos de pago en los datos.");
-                // Si no hay tipos de pago, mostramos un mensaje alternativo
-                $('#tipo_pago').html('<div>No se encontraron tipos de pago.</div>');
-                $('#total_pago').html('');
-            }
+            $('#footer-neto').html(formatter.format(totalNeto));            
         },
 		"lengthMenu": lengthMenu20,
 		"stateSave": true,
@@ -580,59 +550,20 @@ var listar_reporte_facturacion = function(){
 			},		
 			{
 				text:      '<i class="fas fa-calculator fa-lg"></i> Cierre',
-				titleAttr: 'Agregar Pacientes',
+				titleAttr: 'Cierre de Caja',
 				className: 'btn btn-primary',
 				action: 	function(){
 					cierreBill();
 				}
-			},		
-			{
-				extend:    'excelHtml5',
-				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
-				titleAttr: 'Excel',
-				footer: true,
-				title: 'Reporte Facturación',
-				className: 'btn btn-success',
-				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10]
-                },				
 			},
 			{
-				extend: 'pdf',
-				orientation: 'landscape',
-				text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
-				titleAttr: 'PDF',
-				footer: true,
-				title: 'Reporte Facturación',
+				text:      '<i class="fa-solid fa-file-pdf fa-lg"></i> Reporte',
+				titleAttr: 'Reporte de Facturación',
 				className: 'btn btn-danger',
-				exportOptions: {
-					modifier: {
-						page: 'current' // Solo exporta las filas visibles en la página actual
-					},
-					columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10] // Define las columnas a exportar
-				},
-				customize: function(doc) {
-					// Asegúrate de que `imagen` contenga la cadena base64 de la imagen
-					doc.content.splice(1, 0, {
-						margin: [0, 0, 0, 12],
-						alignment: 'left',
-						image: imagen, // Usando la variable que ya tiene la imagen base64
-						width: 170, // Ajusta el tamaño si es necesario
-						height: 45 // Ajusta el tamaño si es necesario
-					});
+				action: 	function(){
+					reporteFacturacion();
 				}
-			},
-			{
-				extend: 'print',
-				text: '<i class="fas fa-print fa-lg"></i> Imprimir',  // Correcta colocación del icono
-				titleAttr: 'Imprimir',
-				footer: true,
-				title: 'Reporte Facturación',
-				className: 'btn btn-secondary',
-				exportOptions: {
-                    columns: [0, 1, 2, 3, 4, 5, 6,7,8,9,10]
-                },
-			}
+			}			
 		]		
 	});	 
 	table_reporte_facturacion.search('').draw();
@@ -653,7 +584,7 @@ var show_invoice_detail_dataTable = function(tbody, table){
 		swal({
 			title: "Información",
 			text: "Esta opción se encuentra en desarrollo",
-			type: "warning",
+			icon: "warning",
 			confirmButtonClass: 'btn-warning'
 		});		
 		//invoicesDetails(data.pacientes_id)
@@ -679,7 +610,7 @@ var close_bill_dataTable = function(tbody, table){
 		swal({
 			title: "Información",
 			text: "Esta opción se encuentra en desarrollo",
-			type: "warning",
+			icon: "warning",
 			confirmButtonClass: 'btn-warning'
 		});
 	});
@@ -693,5 +624,48 @@ var delete_bill_dataTable = function(tbody, table){
 		
 		modal_rollback(data.facturas_id, data.pacientes_id)
 	});
+}
+
+function reporteFacturacion() {
+    var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
+    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
+    var clientes = $('#form_main_facturacion_reportes #clientes').val();
+    var profesional = $('#form_main_facturacion_reportes #profesional').val();
+    var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+
+    var url = "<?php echo SERVERURLWINDOWS; ?>";
+
+    // Crear un formulario dinámico
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+
+    // Añadir los parámetros al formulario
+    var params = {
+        "estado": estado,
+        "type": "Reporte_facturas",
+        "fechai": fechai,
+        "fechaf": fechaf,
+        "clientes": clientes,
+        "profesional": profesional,
+        "db": "<?php echo DB; ?>"
+    };
+
+    for (var key in params) {
+        var input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = params[key];
+        form.appendChild(input);
+    }
+
+    // Abrir una nueva ventana
+    var newWindow = window.open("", "_blank");
+
+    // Asegurarse de que la nueva ventana esté lista
+    newWindow.document.body.appendChild(form);
+    
+    // Enviar el formulario a la nueva ventana
+    form.submit();
 }
 </script>

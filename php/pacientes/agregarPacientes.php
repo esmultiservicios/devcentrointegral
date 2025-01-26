@@ -14,6 +14,7 @@ $telefono2 = $_POST['telefono2'];
 $fecha_nacimiento = $_POST['fecha_nac'];
 $correo = strtolower(cleanString($_POST['correo']));
 $fecha = date('Y-m-d');
+$pais_id = isset($_POST['pais_id']) && $_POST['pais_id'] !== '' ? $_POST['pais_id'] : 0;
 $departamento_id = isset($_POST['departamento_id']) && $_POST['departamento_id'] !== '' ? $_POST['departamento_id'] : 0;
 $municipio_id = isset($_POST['municipio_id']) && $_POST['municipio_id'] !== '' ? $_POST['municipio_id'] : 0;
 $responsable_id = isset($_POST['responsable_id']) && $_POST['responsable_id'] !== '' ? $_POST['responsable_id'] : 0;
@@ -53,7 +54,7 @@ $result = $mysqli->query($select) or die($mysqli->error);
 if ($result->num_rows == 0) {
 	$pacientes_id = correlativo('pacientes_id ', 'pacientes');
 	$insert = "INSERT INTO pacientes 
-	(`pacientes_id`, `expediente`, `identidad`, `nombre`, `apellido`, `genero`, `telefono1`, `telefono2`, `fecha_nacimiento`, `email`, `fecha`, `departamento_id`, `municipio_id`, `localidad`, `religion_id`, `profesion_id`, `responsable`, `responsable_id`, `usuario`, `estado`, `fecha_registro`) 
+	(`pacientes_id`, `expediente`, `identidad`, `nombre`, `apellido`, `genero`, `telefono1`, `telefono2`, `fecha_nacimiento`, `email`, `fecha`, `pais_id`, `departamento_id`, `municipio_id`, `localidad`, `religion_id`, `profesion_id`, `responsable`, `responsable_id`, `usuario`, `estado`, `fecha_registro`) 
 	VALUES 
 	(
 		'{$pacientes_id}', 
@@ -67,6 +68,7 @@ if ($result->num_rows == 0) {
 		'{$fecha_nacimiento}', 
 		'{$correo}', 
 		'{$fecha}', 
+		'{$pais_id}', 		
 		'{$departamento_id}', 
 		'{$municipio_id}', 
 		'{$localidad}', 
