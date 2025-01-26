@@ -38,7 +38,7 @@
 					<p><b>N° Factura:</b> <?php echo $consulta_registro['prefijo'].''.str_pad($consulta_registro['numero_factura'], $consulta_registro['relleno'], "0", STR_PAD_LEFT); ?></p>
 					<p><b>Fecha:</b> <?php echo $consulta_registro['fecha'].' '.date('g:i a',strtotime($consulta_registro['hora'])); ?></p>
 					<p><b>CAI:</b> <?php echo $consulta_registro['cai']; ?></p>
-					<p><b>RTN:</b> <?php echo $consulta_registro['rtn']; ?></p>
+					<p><b>RTN:</b> <?php echo $consulta_registro['empresa_rtn']; ?></p>
 					<p><b>Desde:</b> </b><?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_inicial']; ?> <b>Hasta:</b> <?php echo $consulta_registro['prefijo'].''.$consulta_registro['rango_final']; ?></p>
 					<p><b>Fecha de Activación:</b> <?php echo $consulta_registro['fecha_activacion']; ?></p>
 					<p><b>Fecha Limite de Emisión:</b> <?php echo $consulta_registro['fecha_limite']; ?></p>					
@@ -215,7 +215,7 @@
 				</tr>
 				<tr>
 					<td colspan="5" class="textright"><span><?php 
-						if ($consulta_registro['edad'] >= 60)
+						if ($edad >= 60)
 							echo "Descuentos y Rebajas Otorgados Tercera Edad"; 
 						else
 							echo "Descuentos y Rebajas Otorgados";

@@ -10,9 +10,17 @@ header('Content-Type: text/html;charset=utf-8');
 require_once '../../dompdf/vendor/autoload.php';
 
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 // CONEXION A DB
 $mysqli = connect_mysqli();
+
+// Configurar Dompdf
+$options = new Options();
+$options->set('isHtml5ParserEnabled', true);
+$options->set('isRemoteEnabled', true);
+
+$dompdf = new Dompdf($options);
 
 $noFactura = $_GET['facturas_id'];
 $anulada = '';
@@ -64,22 +72,11 @@ if ($result->num_rows > 0) {
 	include (dirname('__FILE__') . '/factura.php');
 	$html = ob_get_clean();
 
-	// instantiate and use the dompdf class
-	$dompdf = new Dompdf();
-
-	$dompdf->set_option('isRemoteEnabled', true);
-
-	$dompdf->loadHtml(utf8_decode(utf8_encode($html)));
-	// (Optional) Setup the paper size and orientation
+	// Generar el PDF
+	$dompdf->loadHtml($html);
 	$dompdf->setPaper('letter', 'portrait');
-	// Render the HTML as PDF
 	$dompdf->render();
 
-	file_put_contents(dirname('__FILE__') . '/Facturas/factura_' . $no_factura_ . '.pdf', $dompdf->output());
-
-	// Output the generated PDF to Browser
-	$dompdf->stream('factura_' . $no_factura . '.pdf', array('Attachment' => 0));
-
-	exit;
+	// Descargar o mostrar el PDF
+	$dompdf->stream("factura_$no_factura.pdf", ["Attachment" => false]);
 }
-?>
