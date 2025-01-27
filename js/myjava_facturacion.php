@@ -162,7 +162,6 @@ function funciones(){
 	getEstado();
 	getPacientes();
 
-	getServicio();
 	getBanco();
 	getPacientesFacturas();
 	getColaboradoresFactura();

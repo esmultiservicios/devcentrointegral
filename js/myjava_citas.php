@@ -1649,6 +1649,7 @@ function getJornada(){
 		success:function(data){		
 		   $('#formulario_sobrecupo #jornada').html("");
 		   $('#formulario_sobrecupo #jornada').html(data);
+		   $('#formulario_sobrecupo #jornada').selectpicker('refresh');
 		}
 	});
 	return false;		
@@ -1663,7 +1664,8 @@ function getServiciosobrecupo(){
 		async: true,
 		success:function(data){					 			 
 		 	  $('#formulario_sobrecupo #sobrecupo_servicio').html("");	
-			  $('#formulario_sobrecupo #sobrecupo_servicio').html(data);			  	  		  		  			  
+			  $('#formulario_sobrecupo #sobrecupo_servicio').html(data);	
+			  $('#formulario_sobrecupo #sobrecupo_servicio').selectpicker('refresh');
 		 }
 	});
 	return false;		
@@ -1680,7 +1682,8 @@ $(document).ready(function() {
 			async: true,
             data:'servicio='+servicio_id,
             success: function(data){
-				$('#formulario_sobrecupo #sobrecupo_unidad').html(data);					
+				$('#formulario_sobrecupo #sobrecupo_unidad').html(data);
+				$('#formulario_sobrecupo #sobrecupo_unidad').selectpicker('refresh');
             }
          });
 		 
@@ -1849,6 +1852,7 @@ function getHoraConsulta(){
         success: function(data){	
 		    $('#form-editevent #hora_nueva').html("");
 			$('#form-editevent #hora_nueva').html(data);
+			$('#form-editevent #hora_nueva').selectpicker('refresh');
 		}			
      });	
 }
@@ -1953,7 +1957,8 @@ function getServicio(){
         url: url,
         success: function(data){	
 		    $('#botones_citas #servicio').html("");
-			$('#botones_citas #servicio').html(data);				
+			$('#botones_citas #servicio').html(data);
+			$('#botones_citas #servicio').selectpicker('refresh');
 		}			
      });	
 }	
@@ -1967,12 +1972,15 @@ function getProfesionales(){
         success: function(data){	
 		    $('#botones_citas #medico_general').html("");
 			$('#botones_citas #medico_general').html(data);
+			$('#botones_citas #medico_general').selectpicker('refresh');
 
 		    $('#form-editevent #colaborador').html("");
 			$('#form-editevent #colaborador').html(data);
+			$('#form-editevent #colaborador').selectpicker('refresh');
 
 		    $('#formulario_ausencias #medico_ausencia').html("");
-			$('#formulario_ausencias #medico_ausencia').html(data);				
+			$('#formulario_ausencias #medico_ausencia').html(data);
+			$('#formulario_ausencias #medico_ausencia').selectpicker('refresh');				
 		}			
      });	
 }	

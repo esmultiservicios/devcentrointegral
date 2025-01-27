@@ -38,6 +38,7 @@ $(document).ready(function(){
 /****************************************************************************************************************************************************************/
 //INICIO CONTROLES DE ACCION
 $(document).ready(function() {
+	setInterval('pagination(1)',22000); //CADA 8 SEGUNDOS
 	$('.footer').show();
 	$('.footer1').hide();
 
@@ -1178,22 +1179,6 @@ function evaluarRegistrosPendientesEmail(){
 	});	
 }
 //FIN PARA EVALUAR SI HAY REGISTROS PENDIENTES PARA EL PROFESIONAL Y ENVIARLOS POR CORREO ELECTRONICO COMO RECORDATORIO
-
-function getConsultorio(){
-	var url = '<?php echo SERVERURL; ?>php/citas/getServicio.php';
-		
-	$.ajax({
-	   type:'POST',
-	   url:url,
-	   success:function(data){
-	      $('#formulario_atenciones #servicio_id').html("");
-		  $('#formulario_atenciones #servicio_id').html(data);
-		  $('#formulario_atenciones #servicio_id').selectpicker('refresh');  
-	  }
-	});
-	return false;	
-}
-
 function convertDate(inputFormat) {
 	function pad(s) { return (s < 10) ? '0' + s : s; }
 	var d = new Date(inputFormat);
@@ -1565,7 +1550,6 @@ $('#acciones_atras').on('click', function(e) {
 });
 
 $(document).ready(function(){
-	getServicio();
 	listar_productos_facturas_buscar();
 });
 

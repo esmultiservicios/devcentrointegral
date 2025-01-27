@@ -261,21 +261,6 @@ var editar_productos_busqueda_dataTable = function(tbody, table){
 	});
 }
 //FIN FUNCIONES PARA LLENAR DATOS EN LA TABLA
-
-function getServicio(){
-    var url = '<?php echo SERVERURL; ?>php/agenda_pacientes/servicios.php';		
-		
-	$.ajax({
-        type: "POST",
-        url: url,
-	    async: true,
-        success: function(data){	
-		    $('#formulario_facturacion #servicio_id').html("");
-			$('#formulario_facturacion #servicio_id').html(data);			
-		}			
-     });	
-}
-
 $(document).ready(function(){
     $("#modal_busqueda_pacientes").on('shown.bs.modal', function(){
         $(this).find('#formulario_busqueda_pacientes #buscar').focus();
