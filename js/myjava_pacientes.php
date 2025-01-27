@@ -461,6 +461,7 @@ function editarRegistro(pacientes_id) {
                 $('#formulario_pacientes #pro').val('Edición');
                 $('#formulario_pacientes #grupo_expediente').show();
                 $('#formulario_pacientes #pacientes_id').val(pacientes_id);
+
                 $('#formulario_pacientes #name').val(datos[0]);
                 $('#formulario_pacientes #lastname').val(datos[1]);
                 $('#formulario_pacientes #telefono1').val(datos[2]);

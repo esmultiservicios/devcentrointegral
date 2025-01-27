@@ -234,6 +234,9 @@ function editarRegistro(pacientes_id, agenda_id){
 					$('#formulario_atenciones #pacientes_id').val(array[6]);
 					$('#formulario_atenciones #pacientes_id').selectpicker('refresh');
 
+					$('#formulario_atenciones #paciente_consulta').val(array[6]);
+					$('#formulario_atenciones #paciente_consulta').selectpicker('refresh');
+					
 					$('#formulario_atenciones #fecha').val(array[7]);
 					$('#formulario_atenciones #fecha_nac').val(array[8]);
 					$('#formulario_atenciones #antecedentes').val(array[9]);
@@ -1565,7 +1568,6 @@ $('#acciones_atras').on('click', function(e) {
 $(document).ready(function(){
 	getServicio();
 	listar_pacientes_buscar();
-	listar_servicios_buscar();
 	listar_servicios_factura_buscar();
 	listar_productos_facturas_buscar();
 });
@@ -1596,9 +1598,15 @@ function showFactura(atencion_id){
 	        $('#formulario_facturacion')[0].reset();
 	        $('#formulario_facturacion #pro').val("Registro");
 			$('#formulario_facturacion #pacientes_id').val(datos[0]);
+			$('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+
             $('#formulario_facturacion #fecha').val(getFechaActual());
             $('#formulario_facturacion #colaborador_id').val(datos[3]);
-			$('#formulario_facturacion #servicio_id').val(datos[5]);		
+			$('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+
+			$('#formulario_facturacion #servicio_id').val(datos[5]);	
+			$('#formulario_facturacion #servicio_id').selectpicker('refresh');
+
 			$('#label_acciones_volver').html("ATA");
 			$('#label_acciones_receta').html("Receta");
 			
