@@ -471,7 +471,13 @@ var listar_reporte_facturacion = function(){
 					return '<a href="#" class="showInvoiceDetail">' + data + '</a>';
 				}
 			},			
-			{"data": "tipo_documento"},
+			{
+				"data": "tipo_documento",
+				"render": function(data, type, row) {
+					var color = data === 'Contado' ? '#FFA500' : '#9b59b6'; // Naranja para "Contado" y morado para "Crédito"
+					return '<span class="tipo-documento" style="border: 2px solid ' + color + '; border-radius: 12px; padding: 5px 10px; color: ' + color + ';">' + data + '</span>';
+				}
+			},
 			{"data": "identidad"},			
 			{"data": "paciente"},	
 			{"data": "factura"},

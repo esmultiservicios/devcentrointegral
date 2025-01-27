@@ -113,37 +113,10 @@ while ($data = $result->fetch_assoc()) {
     $arreglo['data'][] = $data;
 }
 
-// Consulta para obtener el total por tipo de pago
-$consulta_pagos = "
-SELECT 
-    tp.nombre AS tipo_pago,
-    SUM(p.importe) AS total_pago
-FROM pagos AS p
-INNER JOIN pagos_detalles AS pd ON p.pagos_id = pd.pagos_id
-INNER JOIN tipo_pago AS tp ON pd.tipo_pago_id = tp.tipo_pago_id
-WHERE p.facturas_id IN (SELECT facturas_id FROM facturas WHERE fecha BETWEEN '2024-12-01' AND '2024-12-31' AND estado = 2)
-GROUP BY tp.nombre
-UNION
-SELECT 
-    'Total',
-    SUM(p.importe) AS total_pago
-FROM pagos AS p
-INNER JOIN pagos_detalles AS pd ON p.pagos_id = pd.pagos_id
-INNER JOIN tipo_pago AS tp ON pd.tipo_pago_id = tp.tipo_pago_id
-WHERE p.facturas_id IN (SELECT facturas_id FROM facturas WHERE fecha BETWEEN '2024-12-01' AND '2024-12-31' AND estado = 2)";
-
-$resultados_pagos = $mysqli->query($consulta_pagos);
-$tipos_de_pago = [];
-while ($row = $resultados_pagos->fetch_assoc()) {
-    $tipos_de_pago[$row['tipo_pago']] = $row['total_pago'];
-}
-
 // Devolver tanto las facturas como los totales por tipo de pago
 echo json_encode([
-    'data' => $arreglo['data'],
-    'tipos_de_pago' => $tipos_de_pago  // Aquí estamos enviando el total por tipo de pago
+    'data' => $arreglo['data']
 ]);
 
 $result->free();
-$resultados_pagos->free();
 $mysqli->close();
