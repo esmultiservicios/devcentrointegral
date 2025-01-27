@@ -43,13 +43,13 @@ $(document).ready(function(){
      	    url:url,
      	    data:$('#loginform').serialize(), 
 			beforeSend: function(){
+				// Mostrar mensaje de espera con GIF
 				swal({
-				  title: "",
-				  text: "Por favor espere...",
-				  imageUrl: '<?php echo SERVERURL; ?>img/gif-load.gif',
-				  closeOnConfirm: false,
-				  showConfirmButton: false,
-				  imageSize: '150x150',
+					title: "",
+					text: "Por favor espere...",
+					icon: "<?php echo SERVERURL; ?>img/gif-load.gif", // Usando 'icon' para la imagen
+					buttons: false, // Deshabilitar botones
+					closeOnClickOutside: false, // Prevenir que el usuario cierre el modal al hacer clic afuera
 				});
 				$("#loginform #acceso").show();
             },		   

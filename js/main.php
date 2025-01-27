@@ -725,4 +725,86 @@ var listar_secuencia_fiscales_dashboard = function(){
 	table_secuencia_fiscales_dashboard.search('').draw();
 	$('#buscar').focus();
 }
+
+//INICIO FUNCION PARA OBTENER REPORTES DESDE IIS
+/**
+ * viewReport
+ * Función para generar y visualizar reportes en una nueva pestaña mediante un POST dinámico.
+ * 
+ * @param {Object} params Objeto con los parámetros necesarios para generar el reporte.
+ *                        Debe contener las claves y valores esperados por el servidor IIS.
+ * 
+ * @example
+ * // Ejemplo 1: Generar un reporte con parámetros básicos
+ * var params = {
+ *     "id": 123,              // ID del reporte o recurso
+ *     "type": "Reporte",      // Tipo de reporte
+ *     "db": "mi_base_datos"   // Nombre de la base de datos
+ * };
+ * viewReport(params);
+ * 
+ * @example
+ * // Ejemplo 2: Generar un reporte para usuarios específicos
+ * var params = {
+ *     "user_id": 456,         // ID del usuario
+ *     "type": "Usuario",      // Tipo de reporte
+ *     "year": 2024            // Año del reporte
+ * };
+ * viewReport(params);
+ * 
+ * @throws {Error} Si la URL del servidor no está definida o es inválida.
+ * @throws {Error} Si los parámetros enviados no son un objeto válido.
+ */
+function viewReport(params) {
+    // Asignar un valor vacío si SERVERURLWINDOWS no está definido
+    var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
+
+    // Verificar si la URL está vacía o no definida
+    if (!url || url.trim() === "") {
+        swal({
+            title: "Error",
+            text: "La URL de destino no está definida.",
+            icon: "error",
+            button: "Cerrar",
+        });
+        return; // Salir de la función si la URL no está definida
+    }
+
+    // Crear un formulario dinámico
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+
+    // Validar que params sea un objeto
+    if (typeof params !== "object" || params === null) {
+        swal({
+            title: "Error",
+            text: "Los parámetros enviados no son válidos.",
+            icon: "error",
+            button: "Cerrar",
+        });
+        return;
+    }
+
+    // Añadir los parámetros al formulario
+    for (var key in params) {
+        if (params.hasOwnProperty(key)) {
+            var input = document.createElement("input");
+            input.type = "hidden";
+            input.name = key;
+            input.value = params[key];
+            form.appendChild(input);
+        }
+    }
+
+    // Abrir una nueva ventana
+    var newWindow = window.open("", "_blank");
+
+    // Asegurarse de que la nueva ventana esté lista
+    newWindow.document.body.appendChild(form);
+
+    // Enviar el formulario a la nueva ventana
+    form.submit();
+}
+//FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 </script>

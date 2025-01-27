@@ -639,17 +639,10 @@ function reporteFacturacion() {
     var profesional = $('#form_main_facturacion_reportes #profesional').val();
     var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
 
-    var url = "<?php echo SERVERURLWINDOWS; ?>";
-
-    // Crear un formulario dinámico
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = url;
-
     // Añadir los parámetros al formulario
     var params = {
         "estado": estado,
-        "type": "Reporte_facturas",
+        "type": "Reporte_facturas_cami",
         "fechai": fechai,
         "fechaf": fechaf,
         "clientes": clientes,
@@ -657,21 +650,6 @@ function reporteFacturacion() {
         "db": "<?php echo DB; ?>"
     };
 
-    for (var key in params) {
-        var input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = params[key];
-        form.appendChild(input);
-    }
-
-    // Abrir una nueva ventana
-    var newWindow = window.open("", "_blank");
-
-    // Asegurarse de que la nueva ventana esté lista
-    newWindow.document.body.appendChild(form);
-    
-    // Enviar el formulario a la nueva ventana
-    form.submit();
+    viewReport(params);
 }
 </script>

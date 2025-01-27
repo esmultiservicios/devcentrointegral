@@ -6,40 +6,50 @@ function nologoneado(usuario){
    }	
 }
 
-$('#salir_sistema').on('click',function(){
-   swal({
-      title: "¿Está seguro?",
-      text: "¿Realmente desea salir del sistema?",
-      icon: "info",  // Cambié 'type' por 'icon'
-      buttons: {
-         cancel: {
-            text: "Cancelar",
-            value: null,
-            visible: true,
-            className: "btn btn-secondary",
-            closeModal: true
-         },
-         confirm: {
-            text: "¡Sí, deseo salir del sistema!",
-            value: true,
-            visible: true,
-            className: "btn btn-primary",
-            closeModal: true
-         }
-      },
-      closeOnConfirm: false,
-      showLoaderOnConfirm: true
-      }).then((willExit) => {
-         if (willExit) {
+$('#salir_sistema').on('click', function () {
+    swal({
+        title: "¿Está seguro?",
+        text: "¿Realmente desea salir del sistema?",
+        icon: "info",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                value: null,
+                visible: true,
+                className: "btn btn-secondary",
+                closeModal: true
+            },
+            confirm: {
+                text: "¡Sí, deseo salir del sistema!",
+                value: true,
+                visible: true,
+                className: "btn btn-primary",
+                closeModal: true
+            }
+        },
+        closeOnConfirm: false,
+        showLoaderOnConfirm: true
+    }).then((willExit) => {
+        if (willExit) {
+            // Mostrar mensaje de espera con GIF
+            swal({
+                title: "",
+                text: "Por favor espere...",
+                icon: "<?php echo SERVERURL; ?>img/gif-load.gif", // Usando 'icon' para la imagen
+                buttons: false, // Deshabilitar botones
+                closeOnClickOutside: false, // Prevenir que el usuario cierre el modal al hacer clic afuera
+            });
+
+            // Simular espera antes de redirigir
             setTimeout(function () {
-               redireccionarsalida();  // Realiza la redirección
+                redireccionarsalida(); // Realiza la redirección
             }, 1000);
-         }
-      });
+        }
+    });
 });
 
-function redireccionarsalida(){
-	window.location = "<?php echo SERVERURL; ?>vistas/login.php";	
+function redireccionarsalida() {
+    window.location = "<?php echo SERVERURL; ?>vistas/login.php";
 }
 
 /* ------------------------------------------------------------------------------------------------
