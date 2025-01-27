@@ -943,7 +943,6 @@ function funcionesFormPacientes(){
 	getServicioAtencion();
 	getEstado();
 	getPacientes();
-	getConsultorio();
 	pagination(1);
 }
 //FIN AGRUPAR FUNCIONES DE PACIENTES
@@ -1567,8 +1566,6 @@ $('#acciones_atras').on('click', function(e) {
 
 $(document).ready(function(){
 	getServicio();
-	listar_pacientes_buscar();
-	listar_servicios_factura_buscar();
 	listar_productos_facturas_buscar();
 });
 
@@ -1604,7 +1601,7 @@ function showFactura(atencion_id){
             $('#formulario_facturacion #colaborador_id').val(datos[3]);
 			$('#formulario_facturacion #colaborador_id').selectpicker('refresh');
 
-			$('#formulario_facturacion #servicio_id').val(datos[5]);	
+			$('#formulario_facturacion #servicio_id').val(datos[5]);
 			$('#formulario_facturacion #servicio_id').selectpicker('refresh');
 
 			$('#label_acciones_volver').html("ATA");

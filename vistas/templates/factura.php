@@ -27,7 +27,7 @@
 		<div class="col-sm-5">
 			<div class="input-group mb-3">
 				<select class="selectpicker" id="colaborador_id" name="colaborador_id"
-					data-live-search="true" title="Profesional" data-width="100%" data-size="7">
+					data-live-search="true" title="Profesional" data-width="100%" data-size="7" required>
 				</select>	
 			</div>
 		</div>
@@ -35,7 +35,7 @@
 		<div class="col-sm-3">
 			<div class="input-group mb-3">
 				<select class="selectpicker" id="servicio_id" name="servicio_id"
-					data-live-search="true" title="Servicio" data-width="100%" data-size="7">
+					data-live-search="true" title="Servicio" data-width="100%" data-size="7" required>
 				</select>
 			</div>
 		</div>	

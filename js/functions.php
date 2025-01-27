@@ -756,7 +756,7 @@ function getFactEmpresas(){
 }
 
 function getPacientesFacturas(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getFactEmpresas.php';		
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getPacientes.php';		
 		
 	$.ajax({
         type: "POST",
@@ -771,7 +771,7 @@ function getPacientesFacturas(){
 }
 
 function getColaboradoresFactura(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getFactEmpresas.php';		
+    var url = '<?php echo SERVERURL; ?>php/facturacion/getColaborador.php';		
 		
 	$.ajax({
         type: "POST",
@@ -786,7 +786,7 @@ function getColaboradoresFactura(){
 }
 
 function getServicioFactura(){
-    var url = '<?php echo SERVERURL; ?>php/facturacion/getFactEmpresas.php';		
+    var url = '<?php echo SERVERURL; ?>php/citas/getServicio.php';		
 		
 	$.ajax({
         type: "POST",
