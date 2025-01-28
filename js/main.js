@@ -58,7 +58,9 @@ $('.FormularioAjax').submit(function (e) {
 				closeModal: false
 			}
 		},
-		dangerMode: false
+		dangerMode: false,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera		
 	}).then((isConfirm) => {
 		if (isConfirm) {
 			$.ajax({
@@ -91,14 +93,17 @@ $('.FormularioAjax').submit(function (e) {
 							title: datos[0],
 							text: datos[1],
 							icon: datos[2],
-							confirmButtonClass: datos[3]
+							dangerMode: true,
+							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 						});
 					} else if (datos[0] == "Guardar") {
 						swal({
 							title: datos[0],
 							text: datos[1],
 							icon: datos[2],
-							confirmButtonClass: datos[3]
+							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 						});
 					} else {
 						swal({
@@ -106,7 +111,8 @@ $('.FormularioAjax').submit(function (e) {
 							text: datos[1],
 							icon: datos[2],
 							timer: 3000,
-							confirmButtonClass: datos[3]
+							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 						});
 					}
 

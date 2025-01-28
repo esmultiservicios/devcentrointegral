@@ -146,7 +146,9 @@ function modal_eliminarTransitoRecibida(transito_id, expediente){
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});		
 	}	
 }
@@ -160,7 +162,9 @@ function modal_eliminarTransitoEnviada(transito_id, expediente){
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});		 
 	}	
 }
@@ -190,7 +194,9 @@ function eliminarTransitoRecibida(){
 			title: "Error", 
 			text: "No se puede agregar/modificar registros fuera de este periodo",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	 
 		return false;	
   }else{	
@@ -206,6 +212,8 @@ function eliminarTransitoRecibida(){
 				text: "Registro eliminado correctamente",
 				icon: "success", 
 				timer: 3000, //timeOut for auto-close
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});	
 			$('#ModalAdd').modal('hide');
 			pagination_transito(1);
@@ -214,7 +222,9 @@ function eliminarTransitoRecibida(){
 				title: "Error", 
 				text: "Error al Eliminar el Registro",
 				icon: "error", 
-				dangerMode: true
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 			});				 
 		 }		 
 		 return false;
@@ -225,7 +235,9 @@ function eliminarTransitoRecibida(){
 			title: "Error", 
 			text: "No se puede agregar/modificar registros fuera de esta fecha",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});		   
 	   return false;		
 	}
@@ -235,7 +247,9 @@ function eliminarTransitoRecibida(){
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});
   }
 }
@@ -255,7 +269,9 @@ function eliminarTransitoEnviada(){
 			title: "Error", 
 			text: "No se puede agregar/modificar registros fuera de esta fecha",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});		 
 	 return false;	
   }else{	
@@ -271,6 +287,8 @@ function eliminarTransitoEnviada(){
 				text: "Registro eliminado correctamente",
 				icon: "success",
 				timer: 3000, //timeOut for auto-close
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});			 
 			pagination_transito(1);
 		 }else{
@@ -278,7 +296,9 @@ function eliminarTransitoEnviada(){
 				title: "Error", 
 				text: "Error al Eliminar el Registro",
 				icon: "error", 
-				dangerMode: true
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 			});				 
 		 }		 
 		 return false;
@@ -289,7 +309,9 @@ function eliminarTransitoEnviada(){
 			title: "Error", 
 			text: "No se puede agregar/modificar registros fuera de este periodo",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});			
 	    return false;		
 	}
@@ -299,7 +321,9 @@ function eliminarTransitoEnviada(){
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});
   }
 }
@@ -381,7 +405,9 @@ $('#form_main #reporte_excel').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});					 
  }
 });
@@ -395,7 +421,9 @@ $('#form_main #reporte_diario').on('click', function(e){ // add event submit We 
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});					 
  }		 
 });

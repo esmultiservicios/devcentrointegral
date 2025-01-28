@@ -62,7 +62,9 @@ $(document).ready(function(){
 						title: 'Error', 
 						text: 'Usuario y/o contraseña son incorrectos',
 						type: 'error', 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 					$("#loginform #acceso").hide();
 					$("#loginform #acceso").html("");
@@ -72,7 +74,9 @@ $(document).ready(function(){
 						title: 'Error', 
 						text: 'Su usuario no se encuentra activo',
 						type: 'error', 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 					$("#loginform #acceso").hide();
 					$("#loginform #acceso").html("");
@@ -85,7 +89,9 @@ $(document).ready(function(){
 					title: 'Error', 
 					text: 'No se enviaron los datos, favor corregir',
 					type: 'error', 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});	
 				$("#loginform #acceso").hide();
 				$("#loginform #acceso").html("");
@@ -110,27 +116,35 @@ $(document).ready(function(){
 						title: "Success", 
 						text: 'Contraseña reseteada, se ha enviado a su correo electrónico',
 						type: "success", 
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera						
 					});						
 				}else if (resp == 2){ 
 					swal({
 						title: "Error", 
 						text: "Error al resetear la contraseña",
 						type: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 				}else if (resp == 3){ 
 					swal({
 						title: "Error", 
 						text: "El usuario ingresado no existe",
 						type: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 				}else{
 					swal({
 						title: "Error", 
 						text: "Error al completar los datos",
 						type: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 				}
 										
@@ -140,7 +154,9 @@ $(document).ready(function(){
 					title: "Error", 
 					text: "Error al procesar su solicitud de inicio de sesión",
 					type: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});				
 			}
 	});
