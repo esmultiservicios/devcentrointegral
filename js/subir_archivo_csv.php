@@ -42,15 +42,19 @@ $(function(){
 			swal({
 				title: "Success", 
 				text: "Importación de CSV correctamente",
-				type: "success", 
+				icon: "success", 
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera					
 			});			 
 			 return false;	 
 		  }else{
 			swal({
 				title: "Error", 
 				text: "Error en la importación del CSV",
-				type: "error", 
-				dangerMode: true
+				icon: "error", 
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera	
 			});			 
 			return false;
           }
@@ -61,8 +65,10 @@ $(function(){
 		swal({
 			title: "Error", 
 			text: "Selecciona un archivo CSV para importar",
-			type: "error", 
-			dangerMode: true
+			icon: "error", 
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera	
 		});			
 		return false;
 	}

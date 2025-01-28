@@ -22,24 +22,19 @@ $('.FormularioAjax').submit(function (e) {
 
 	var textoAlerta;
 	var type;
-	var classButtom;
 
 	if (tipo == "save") {
 		textoAlerta = "Los datos que enviaras quedaran almacenados en el sistema";
 		type = "info";
-		classButtom = "btn-primary";
 	} else if (tipo == "delete") {
 		textoAlerta = "Los datos serán eliminados completamente del sistema";
 		type = "warning";
-		classButtom = "btn-warning";
 	} else if (tipo == "update") {
 		textoAlerta = "Los datos del sistema serán actualizados";
 		type = "info";
 	} else {
 		textoAlerta = "¿Quieres realizar la operación solicitada?";
 		type = "warning";
-		classButtom = "btn-primary";
-		classButtom = "btn-warning";
 	}
 
 	swal({
@@ -54,7 +49,6 @@ $('.FormularioAjax').submit(function (e) {
 			},
 			confirm: {
 				text: "Aceptar",
-				className: classButtom,
 				closeModal: false
 			}
 		},

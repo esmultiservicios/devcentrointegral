@@ -69,7 +69,9 @@ $('#form_agenda_main #reporte').on('click', function(e){
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	
 	}
 }else{
@@ -77,7 +79,9 @@ $('#form_agenda_main #reporte').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});		
 }	
 });
@@ -92,7 +96,9 @@ $('#form_agenda_main #Reporte_Agenda').on('click', function(e){
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	
 	}
 }else{
@@ -100,7 +106,9 @@ $('#form_agenda_main #Reporte_Agenda').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});						 
 }	
 });
@@ -116,7 +124,9 @@ $('#form_agenda_main #reporte_sms').on('click', function(e){
 			title: "Error", 
 			text: "Debe seleccionar un servicio antes de continuar",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	  
    }
 }else{
@@ -124,7 +134,9 @@ $('#form_agenda_main #reporte_sms').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});		 
 }	
 });
@@ -139,7 +151,9 @@ $('#form_agenda_main #reporte_smsDiasAntes').on('click', function(e){
 			title: "Error", 
 			text: "Debe seleccionar un servicio antes de continuar",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	 	   
    }
 }else{
@@ -147,7 +161,9 @@ $('#form_agenda_main #reporte_smsDiasAntes').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});	
 }	
 });
@@ -161,7 +177,9 @@ $('#formulario #edi1').on('click', function(e){ // add event submit We don't wan
 			title: "Error", 
 			text: "El comentario no puede estar vacío",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});
 		return false;
 	}
@@ -177,7 +195,9 @@ $('#form_agenda_main #agenda_usuarios').on('click', function(e){
 			title: "Error", 
 			text: "Error al exportar, debe seleccionar el servicio",
 			icon: "error", 
-			confirmButtonClass: "btn-danger"
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});	
 	}	
 }else{
@@ -185,7 +205,9 @@ $('#form_agenda_main #agenda_usuarios').on('click', function(e){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		confirmButtonClass: "btn-danger"
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});					 
 }	
 });
@@ -209,7 +231,9 @@ function agregaRegistroComentario(){
 						title: "Error", 
 						text: "El médico ya tiene ocupada esa hora, por favor corregir",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});
 				   return false; 
 			  }else{
@@ -218,6 +242,8 @@ function agregaRegistroComentario(){
 						text: "Comentario almacenado correctamente",
 						icon: "success",
 						timer: 3000, //timeOut for auto-close
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera						
 					});	
 					$('#registrar').modal('hide');
 					pagination(1);					   			  
@@ -291,7 +317,9 @@ function modal_eliminar(id){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});				 
 	}	
 }
@@ -329,7 +357,9 @@ $(document).ready(function(e) {
 			title: "Error", 
 			text: "No se puede reprogramar en esta fecha",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});
 		$("#formulario #edi").attr('disabled', true);
 	}else{	
@@ -344,7 +374,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora ya que es un usuario nuevo",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});		   
 			   $('#formulario #edi').attr('disabled', true);
 			   return false;
@@ -353,7 +385,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora ya que es un usuario subsiguiente",
 					type: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});		   
 			
 				$('#formulario #edi').attr('disabled', true);
@@ -363,7 +397,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});		   
 			
 				$('#formulario #edi').attr('disabled', true);				
@@ -373,7 +409,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "No se puede agendar este usuario en esta hora",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});		   
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -382,7 +420,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "El médico ya tiene la hora ocupada",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -391,7 +431,9 @@ $(document).ready(function(e) {
 					title: "Error", 
 					text: "Usuario ya tiene cita agendada ese día",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});				
 				$('#formulario #edi').attr('disabled', true);
 				return false;
@@ -429,7 +471,9 @@ $(document).ready(function(e) {
 				title: "Error", 
 				text: "No se puede reprogramar en esta fecha",
 				icon: "error", 
-				dangerMode: true
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 			});
 			$("#formulario #edi").attr('disabled', true);
 		}else{
@@ -444,7 +488,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora ya que es un usuario nuevo",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -453,7 +499,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora ya que es un usuario subsiguiente",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -462,7 +510,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "No se puede agendar este usuario en esta hora",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});
 					$("#formulario #edi").attr('disabled', true);
 				  return false;
@@ -471,7 +521,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "No se puede reprogramar en esta fecha",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 					$("#formulario #edi").attr('disabled', true);
 				  return false;
@@ -480,7 +532,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "El médico ya tiene la hora ocupada",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -489,7 +543,9 @@ $(document).ready(function(e) {
 						title: "Error", 
 						text: "Usuario ya tiene cita agendada ese día",
 						icon: "error", 
-						dangerMode: true
+						dangerMode: true,
+						closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+						closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 					});	
 					$("#formulario #edi").attr('disabled', true);
 					return false;
@@ -507,7 +563,9 @@ $(document).ready(function(e) {
 			title: "Error", 
 			text: "El médico se encuentra ausente, no se le puede agendar una cita. " + getComentarioAusencia($('#fecha_n').val(), $('#formulario #id-registro').val()) + "",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});					
 		$("#edi").attr('disabled', true);
         $("#formulario #hora_nueva").attr('disabled', true);
@@ -577,7 +635,9 @@ function editarRegistro(agenda_id, colaborador_id, pacientes_id, servicio_id){
 			title: "Error", 
 			text: "No se puede reprogramar esta cita",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});			 
   }		
   }else{
@@ -585,7 +645,9 @@ function editarRegistro(agenda_id, colaborador_id, pacientes_id, servicio_id){
 		title: "Acceso Denegado", 
 		text: "No tiene permisos para ejecutar esta acción",
 		icon: "error", 
-		dangerMode: true
+		dangerMode: true,
+		closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+		closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 	});						 
   }	
 }
@@ -772,24 +834,27 @@ function nosePresentoRegistro(agenda_id, pacientes_id){
 			  }
 
 			  swal({
-				title: "¿Está seguro?",
-				text: "¿Desea remover este usuario: " + dato + " que no se presentó a su cita?",
-				content: {
-					element: "input",
-					attributes: {
-					placeholder: "Comentario",
-					type: "text",
+					title: "¿Está seguro?",
+					text: "¿Desea remover este usuario: " + dato + " que no se presentó a su cita?",
+					content: {
+						element: "input",
+						attributes: {
+							placeholder: "Comentario",
+							type: "text",
+						},
 					},
-				},
-				icon: "warning",
-				buttons: {
-					cancel: "Cancelar",
-					confirm: {
-					text: "¡Sí, remover el usuario!",
-					closeModal: false,
+					icon: "warning",
+					buttons: {
+						cancel: "Cancelar",
+						confirm: {
+							text: "¡Sí, remover el usuario!",
+							closeModal: false,
+						},
 					},
-				},
-				})
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera					
+			})
 			.then((value) => {
 				if (value === null || value.trim() === "") {
 					swal("¡Necesita escribir algo!", { icon: "error" });
@@ -803,7 +868,9 @@ function nosePresentoRegistro(agenda_id, pacientes_id){
 				title: "Error", 
 				text: "Error al ejecutar esta acción, el usuario debe estar en estatus pendiente",
 				icon: "error", 
-				dangerMode: true
+				dangerMode: true,
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 			});			  
 	   }
 	 }else{
@@ -811,7 +878,9 @@ function nosePresentoRegistro(agenda_id, pacientes_id){
 			title: "Acceso Denegado", 
 			text: "No tiene permisos para ejecutar esta acción",
 			icon: "error", 
-			dangerMode: true
+			dangerMode: true,
+			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 		});					 
 	  }	
 }
@@ -833,6 +902,8 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 				text: "Ausencia almacenada correctamente",
 				icon: "success",
 				timer: 3000, //timeOut for auto-close
+				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera				
 			});
 			pagination(1);
 			return false; 
@@ -841,7 +912,9 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 					title: "Error", 
 					text: "Error al remover este registro",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera					
 				});
 				return false; 
 		  }else if(registro == 3){	
@@ -849,7 +922,9 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 					title: "Error", 
 					text: "Este registro ya tiene almacenada una ausencia",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});
 				return false; 
 		  }else if(registro == 4){	
@@ -857,7 +932,9 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 					title: "Error", 
 					text: "Este usuario ya ha sido precliniado, no puede marcarle una ausencia",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});
 				return false; 
 		  }else{		
@@ -865,7 +942,9 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 					title: "Error", 
 					text: "Error al ejecutar esta acción",
 					icon: "error", 
-					dangerMode: true
+					dangerMode: true,
+					closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+					closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
 				});					 
 		  }
 	  }
