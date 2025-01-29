@@ -815,4 +815,145 @@ function getServicioFactura(){
         }
      });		
 }
+
+// Función general para mostrar alertas SweetAlert con emojis y opciones
+function mostrarAlerta(tipo, titulo, mensaje, opciones = []) {
+    const opcionesAlerta = {
+        title: titulo,
+        text: mensaje,
+        icon: tipo,  // "success", "error", "warning", "info"
+        button: "Aceptar",
+        closeOnEsc: false, // Desactiva el cierre con la tecla Esc
+        closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+    };
+
+    // Si es un error o advertencia, agregar dangerMode
+    if (tipo === "error" || tipo === "warning") {
+        opcionesAlerta.dangerMode = true;
+    }
+
+    // Si hay opciones, se personaliza el botón
+    if (opciones.length > 0) {
+        opcionesAlerta.buttons = opciones;
+    }
+
+    swal(opcionesAlerta);
+}
+
+// Función para alertas con input
+function mostrarInput(titulo, mensaje, callback) {
+    swal({
+        title: titulo,
+        text: mensaje,
+        content: {
+            element: "input",
+            attributes: {
+                placeholder: "Comentario",
+                type: "text",
+            },
+        },
+        icon: "warning",
+        buttons: {
+            cancel: "Cancelar",
+            confirm: {
+                text: "¡Sí, remover el usuario!",
+                closeModal: false,
+            },
+        },
+        dangerMode: true,
+        closeOnEsc: false,
+        closeOnClickOutside: false,
+    }).then((value) => {
+        if (value === null || value.trim() === "") {
+            swal("¡Necesita escribir algo!", { icon: "error" });
+            return false;
+        }
+        callback(value);  // Llama al callback con el valor del input
+    });
+}
+
+// Función para alertas de confirmación (Sí/No o Aceptar/Cancelar)
+function mostrarConfirmacion(titulo, mensaje, callback) {
+    swal({
+        title: titulo,
+        text: mensaje,
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, eliminar!",
+            }
+        },
+        dangerMode: true,
+        closeOnEsc: false,
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm) {
+            callback();  // Llama al callback si el usuario confirma
+        }
+    });
+}
+
+// Función para alertas con contenido HTML
+function mostrarHTML(titulo, contenidoHTML, callback) {
+    swal({
+        title: titulo,
+        content: {
+            element: "span",
+            attributes: {
+                innerHTML: contenidoHTML
+            }
+        },
+        icon: "warning",
+        buttons: {
+            cancel: {
+                text: "Cancelar",
+                visible: true
+            },
+            confirm: {
+                text: "¡Sí, continuar!",
+            }
+        },
+        dangerMode: true,
+        closeOnEsc: false,
+        closeOnClickOutside: false
+    }).then((willConfirm) => {
+        if (willConfirm) {
+            callback();  // Llama al callback si el usuario confirma
+        }
+    });
+}
+
+// Funciones específicas para cada tipo de alerta con emojis
+function mostrarInfo(titulo, mensaje) {
+    mostrarAlerta("info", titulo, "ℹ️ " + mensaje + " 🔍");
+}
+
+function mostrarSuccess(titulo, mensaje) {
+    mostrarAlerta("success", titulo, "✅ " + mensaje + " 🎉");
+}
+
+function mostrarWarning(titulo, mensaje) {
+    mostrarAlerta("warning", titulo, "⚠️ " + mensaje + " 🚨");
+}
+
+function mostrarError(titulo, mensaje) {
+    mostrarAlerta("error", titulo, "❌ " + mensaje + " 🛑");
+}
+
+/* Ejemplo de uso de las alertas
+mostrarInput("¿Está seguro?", "¿Desea remover este usuario?", function(comentario) {
+    console.log("Comentario: " + comentario);
+});
+
+mostrarConfirmacion("¿Estás seguro?", "¿Deseas eliminar este registro?", function() {
+    console.log("Registro eliminado");
+});
+
+mostrarHTML("¿Estás seguro?", "¿Deseas enviar los <b>SMS</b> de forma masiva?", function() {
+    console.log("SMS enviados");
+});*/
 </script>

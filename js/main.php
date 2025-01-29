@@ -764,43 +764,59 @@ var listar_secuencia_fiscales_dashboard = function(){
  * @throws {Error} Si los parámetros enviados no son un objeto válido.
  */
 function viewReport(params) {
-    // Asignar un valor vacío si SERVERURLWINDOWS no está definido
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
     // Verificar si la URL está vacía o no definida
     if (!url || url.trim() === "") {
         swal({
-            title: "Error",
-            text: "La URL de destino no está definida.",
+            title: "Error de conexión",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "No se pudo acceder al servidor de reportes. Esto puede deberse a un problema de conexión o a que el servicio no está disponible.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_RESPONDE</b>."
+                }
+            },
             icon: "error",
-            button: "Cerrar",
-			dangerMode: true,
-			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-        });
-        return; // Salir de la función si la URL no está definida
-    }
-
-    // Crear un formulario dinámico
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = url;
-
-    // Validar que params sea un objeto
-    if (typeof params !== "object" || params === null) {
-        swal({
-            title: "Error",
-            text: "Los parámetros enviados no son válidos.",
-            icon: "error",
-            button: "Cerrar",
-			dangerMode: true,
-			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
+            button: "Entendido",
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
         });
         return;
     }
 
-    // Añadir los parámetros al formulario
+	// Verificar si la URL responde antes de enviar el formulario
+	fetch(url, { method: "HEAD" })
+	.then(response => {
+		if (!response.ok) {
+			throw new Error("El servidor de reportes no está disponible.");
+		}
+		enviarFormulario(url, params);
+	})
+	.catch(error => {
+		swal({
+			title: "Error al obtener el reporte",
+			content: {
+				element: "p",
+				attributes: {
+					innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
+				}
+			},
+			icon: "error",
+			button: "Entendido",
+			dangerMode: true,
+			closeOnEsc: false,
+			closeOnClickOutside: false
+		});
+	});
+}
+
+// 📝 Función para crear y enviar el formulario
+function enviarFormulario(url, params) {
+    var form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+
     for (var key in params) {
         if (params.hasOwnProperty(key)) {
             var input = document.createElement("input");
@@ -811,13 +827,8 @@ function viewReport(params) {
         }
     }
 
-    // Abrir una nueva ventana
     var newWindow = window.open("", "_blank");
-
-    // Asegurarse de que la nueva ventana esté lista
     newWindow.document.body.appendChild(form);
-
-    // Enviar el formulario a la nueva ventana
     form.submit();
 }
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
