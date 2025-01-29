@@ -127,7 +127,9 @@ if($colaborador_id != "" || $colaborador_id != null){
 					<div class="card-block">
 						<h6 class="m-b-20">Atenciones Pendientes</h6>
 						<h2 class="text-right"><i class="fas fa-users f-left"></i><span id="main_prendiente_atenciones"></span></h2>
-						<p class="m-b-0"><?php echo nombremes(date("m")).", ".date("Y"); ?> <span class="f-right"></span></p>
+						<p class="m-b-0"><?php 
+							echo nombremes(date("m")).", ".date("Y"); 
+						?> <span class="f-right"></span></p>
 					</div>
 				</div>
 			</a>

@@ -216,14 +216,22 @@ function rellenarDigitos($valor, $long){
 
 function nombremes($mes)
 {
-	// Lista de nombres de meses en español
-	$meses = [
-		1 => 'enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio',
-		'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'
-	];
+    // Lista de nombres de meses en español
+    $meses = [
+        1 => 'enero', 2 => 'febrero', 3 => 'marzo', 4 => 'abril',
+        5 => 'mayo', 6 => 'junio', 7 => 'julio', 8 => 'agosto',
+        9 => 'septiembre', 10 => 'octubre', 11 => 'noviembre', 12 => 'diciembre'
+    ];
 
-	// Retorna el nombre del mes si el número es válido
-	return $meses[$mes] ?? 'Mes inválido';
+    // Convierte el mes a entero para evitar ceros a la izquierda
+    $mes = (int)$mes;
+
+    // Verifica que el mes esté dentro del rango válido (1 a 12)
+    if ($mes >= 1 && $mes <= 12) {
+        return $meses[$mes];  // Retorna el nombre del mes
+    } else {
+        return 'Mes inválido';  // Si el mes no está en el rango válido
+    }
 }
 
 function nombre_mes_corto($mes){
