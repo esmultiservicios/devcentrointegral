@@ -786,7 +786,7 @@ function viewReport(params) {
     }
 
 	// Verificar si la URL responde antes de enviar el formulario
-	fetch(url, { method: "HEAD" })
+	fetch(url, { method: "GET" })
 	.then(response => {
 		if (!response.ok) {
 			throw new Error("El servidor de reportes no está disponible.");
