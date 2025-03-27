@@ -766,7 +766,6 @@ var listar_secuencia_fiscales_dashboard = function(){
 function viewReport(params) {
     var url = "<?php echo defined('SERVERURLWINDOWS') ? SERVERURLWINDOWS : ''; ?>";
 
-    // Verificar si la URL está vacía o no definida
     if (!url || url.trim() === "") {
         swal({
             title: "Error de conexión",
@@ -785,51 +784,47 @@ function viewReport(params) {
         return;
     }
 
-	// Verificar si la URL responde antes de enviar el formulario
-	fetch(url, { method: "GET" })
-	.then(response => {
-		if (!response.ok) {
-			throw new Error("El servidor de reportes no está disponible.");
-		}
-		enviarFormulario(url, params);
-	})
-	.catch(error => {
-		swal({
-			title: "Error al obtener el reporte",
-			content: {
-				element: "p",
-				attributes: {
-					innerHTML: "No fue posible conectarse con el servidor de reportes.<br><br>🔍 <b>Posibles causas:</b><br>✅ El servidor puede estar en mantenimiento.<br>✅ Puede haber un problema de conexión.<br><br>📌 <b>Pasos recomendados:</b><br>1️⃣ Verifique su conexión a internet.<br>2️⃣ Intente nuevamente en unos minutos.<br>3️⃣ Si el problema persiste, comuníquese con soporte e informe el siguiente código de error: <b>SERVIDOR_NO_DISPONIBLE</b>."
-				}
-			},
-			icon: "error",
-			button: "Entendido",
-			dangerMode: true,
-			closeOnEsc: false,
-			closeOnClickOutside: false
-		});
-	});
-}
+    // 📌 Intentar abrir la ventana emergente antes de la redirección para evitar bloqueos
+    var reporteWindow = window.open("", "_blank");
 
-// 📝 Función para crear y enviar el formulario
-function enviarFormulario(url, params) {
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = url;
-
-    for (var key in params) {
-        if (params.hasOwnProperty(key)) {
-            var input = document.createElement("input");
-            input.type = "hidden";
-            input.name = key;
-            input.value = params[key];
-            form.appendChild(input);
-        }
+    if (!reporteWindow || reporteWindow.closed || typeof reporteWindow.closed === "undefined") {
+        swal({
+            title: "⚠️ Ventana emergente bloqueada",
+            content: {
+                element: "p",
+                attributes: {
+                    innerHTML: "Tu navegador ha bloqueado la ventana emergente del reporte.<br><br>📌 <b>Cómo permitir ventanas emergentes:</b><br>🔹 <b>Google Chrome (Windows/Mac):</b> Haz clic en el ícono de la barra de direcciones (🔕 con una X), selecciona <b>Permitir siempre</b> y recarga la página.<br>🔹 <b>Microsoft Edge:</b> Ve a <b>Configuración > Cookies y permisos del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio.<br>🔹 <b>Mozilla Firefox:</b> Ve a <b>Configuración > Privacidad y seguridad</b>, busca <b>Permitir ventanas emergentes</b> y agrégalo.<br>🔹 <b>Safari en iPhone:</b> Ve a <b>Ajustes > Safari</b> y desactiva <b>Bloquear emergentes, o bloquear ventanas emergentes</b>. Luego, selecciona <b>Permitir</b> cuando Safari pregunte <b>El sitio Web esta intentando abrir una vewntana emergente o algo parecido</b>.<br>🔹 <b>Safari en Mac:</b> Ve a <b>Safari > Configuración > Sitios web > Ventanas emergentes</b> y permite las ventanas para este sitio.<br>🔹 <b>Android (Chrome/Edge):</b> Ve a <b>Configuración > Configuración del sitio > Ventanas emergentes y redirecciones</b> y permite este sitio."
+                }
+            },
+            icon: "warning",
+            button: "OK",
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+        return;
     }
 
-    var newWindow = window.open("", "_blank");
-    newWindow.document.body.appendChild(form);
+    // 📌 Redirigir a la URL del reporte
+    reporteWindow.location.href = url + "?" + new URLSearchParams(params).toString();
+}
+
+function enviarFormulario(url, params, ventana) {
+    let form = document.createElement("form");
+    form.method = "POST";
+    form.action = url;
+    form.target = ventana ? ventana.name : "_blank";
+
+    for (let key in params) {
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = key;
+        input.value = params[key];
+        form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
     form.submit();
+    document.body.removeChild(form);
 }
 //FIN FUNCION PARA OBTENER REPORTES DESDE IIS
 </script>
