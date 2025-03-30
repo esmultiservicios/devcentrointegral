@@ -387,11 +387,24 @@ if($colaborador_id != "" || $colaborador_id != null){
                             </button>
                         </div>
                                         
-                        <div class="form-group" id="grupo_paciente_receta">
-                            <select class="form-control selectpicker" id="receta_select_pacientes_id" name="receta_select_pacientes_id" data-size="7" data-live-search="true" title="Seleccione un paciente">
-                                <!-- Las opciones se llenarán dinámicamente con JavaScript -->
-                            </select>
+                        <div class="form-row" id="grupo_paciente_receta">
+                            <div class="col-md-6 mb-3">
+                                <label for="estado_civil">Paciente <span class="priority">*</span></label>
+                                <div class="input-group mb-3">
+                                    <select class="form-control selectpicker" id="receta_select_pacientes_id" name="receta_select_pacientes_id" data-size="7" data-live-search="true" title="Seleccione un paciente">
+                                    <!-- Las opciones se llenarán dinámicamente con JavaScript -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="servicio_id">Servicio <span class="priority">*</span></label>
+                                <div class="input-group mb-3">
+                                    <select class="selectpicker" id="servicio_id_receta" name="servicio_id_receta" data-live-search="true" title="Seleccione un Servicio" data-width="100%" data-size="7">
+                                    </select>
+                                </div>
+                            </div>
                         </div>
+						
                         <div class="form-group">
                             <table class="table table-bordered" id="tablaReceta">
                                 <thead>

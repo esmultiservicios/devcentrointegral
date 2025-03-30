@@ -4,7 +4,7 @@ include "../funtions.php";
 
 // Obtener los datos del formulario
 $pacientes_id = $_POST['receta_pacientes_id'];
-$colaboradorId = $_POST['receta_colaboradorId'];
+$colaboradorId = !empty($_POST['receta_colaboradorId']) ? $_POST['receta_colaboradorId'] : $_SESSION['colaborador_id'];
 $servicioId = $_POST['receta_servicioId'];
 $empresa_id = $_SESSION['empresa_id'];
 $estado = 1;
@@ -32,7 +32,7 @@ if (!empty($pacientes_id) && !empty($productos) && !empty($descripciones)) {
     try {
         // Insertar en la tabla recetas
         $stmt_receta = $mysqli->prepare("INSERT INTO recetas (pacientes_id, colaborador_id , servicio_id , empresa_id, fecha, estado) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt_receta->bind_param("iiiis", $pacientes_id, $colaboradorId, $servicioId, $empresa_id, $fecha, $estado);
+        $stmt_receta->bind_param("iiiisi", $pacientes_id, $colaboradorId, $servicioId, $empresa_id, $fecha, $estado);
         $stmt_receta->execute();
         $receta_id = $stmt_receta->insert_id; // Obtener el ID de la receta insertada
 

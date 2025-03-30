@@ -17,7 +17,7 @@ $pdf->SetMargins(6, 0.3 , 65);
 #Establecemos el margen inferior: 
 $pdf->SetAutoPageBreak(true,0.5);
 $pdf->AddPage();
-$pdf->Image(SERVERURLLOGO , 26,2, 20 , 12,'JPG'); //float x , float y , float w , float h
+$pdf->Image(SERVERURLLOGO , 11,2, 45 , 10,'JPG'); //float x , float y , float w , float h
 
 $pdf->Ln(15);
 
@@ -176,49 +176,49 @@ $hora = date('g:i a',strtotime($hora_cita));
 
 //ENCABEZADO DEL CONTENIDO DEL REPORTE
 $pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(8, 3, utf8_decode('Cita N°:').' '.$agenda_id.'', 0);
+$pdf->Cell(8, 3, 'Cita #:'.' '.$agenda_id.'', 0);
 $pdf->Ln(1);
 $pdf->SetFont('helvetica', 'B', 9);
 $pdf->Cell(8, 8, 'Fecha Cita: '.$fecha_cita.' Hora: '.$hora, 0);
 $pdf->Ln(1);
 $pdf->SetFont('helvetica', '', 9);
-$pdf->Cell(8, 14, 'Tipo de Cita: '. $usuario.' '.utf8_decode($reprogramo_cita), 0);
+$pdf->Cell(8, 14, 'Tipo de Cita: '. $usuario.' '.$reprogramo_cita, 0);
 $pdf->Ln(1);
-$pdf->Cell(8, 20, 'Nombre: '.utf8_decode($nombre_usuario), 0);
+$pdf->Cell(8, 20, 'Nombre: '.$nombre_usuario, 0);
 $pdf->Ln(1);
 $pdf->Cell(8, 26, 'Identidad: '.$identidad_usuario.'  Exp: '.$exp, 0);
 $pdf->Ln(1);
-$pdf->Cell(8, 32, utf8_decode('Profesional:').' '.utf8_decode($nombre_medico), 0);
+$pdf->Cell(8, 32, 'Profesional:'.' '.$nombre_medico, 0);
 $pdf->Ln(1);
-$pdf->Cell(8, 37, 'Servicio: '.utf8_decode($servicio), 0);
+$pdf->Cell(8, 37, 'Servicio: '.$servicio, 0);
 $pdf->Ln(1);
-$pdf->Cell(8, 43, 'Especialidad: '.utf8_decode($puesto), 0);
+$pdf->Cell(8, 43, 'Especialidad: '.$puesto, 0);
 $pdf->Ln(1);
-$pdf->Cell(8, 49, 'Usuario: '.utf8_decode($usuario_sistema_nombre), 0);
+$pdf->Cell(8, 49, 'Usuario: '.$usuario_sistema_nombre, 0);
 
 //LLENA EL CUEROP DEL REPORTE			  
 $pdf->Ln(7);
 $pdf->SetFont('helvetica', 'B', 8);
-$pdf->Cell(8, 45, utf8_decode('Nota:'), 0);
+$pdf->Cell(8, 45, 'Nota:', 0);
 $pdf->Ln(3);
 $pdf->SetFont('helvetica', '', 8);
-$pdf->Cell(8,47,utf8_decode("Por favor estar 15 minutos antes de su cita"), 0);
+$pdf->Cell(8,47,"Por favor estar 15 minutos antes de su cita", 0);
 $pdf->Ln(3);
-$pdf->Cell(8,49,utf8_decode("Tomando las medidas de bioseguridad"), 0);
+$pdf->Cell(8,49,"Tomando las medidas de bioseguridad", 0);
 $pdf->Ln(3);
-$pdf->Cell(8,52,utf8_decode($eslogan), 0);
+$pdf->Cell(8,52,$eslogan, 0);
 $pdf->Ln(3);
 
 $pdf->SetFont('helvetica', '', 8);
 $pdf->Ln(3);
-$pdf->Cell(8,97,utf8_decode("__________________________"), 0);
+$pdf->Cell(8,97,"__________________________", 0);
 $pdf->Ln(2);
-$pdf->Cell(8,99,utf8_decode("Firma y Sello"), 0);
+$pdf->Cell(8,99,"Firma y Sello", 0);
 $pdf->Ln(2);
-$pdf->Cell(8,101,utf8_decode("Nos puede llamar al siguiente número"), 0);
+$pdf->Cell(8,101,"Nos puede llamar al siguiente número", 0);
 $pdf->Ln(2);
 $pdf->SetFont('helvetica', 'B', 8);
-$pdf->Cell(8,104,utf8_decode  ("PBX: ".$telefono), 0);
+$pdf->Cell(8,104, "PBX: ".$telefono, 0);
 
 $pdf->Ln(3);
 $pdf->SetFont('helvetica', 'B', 9);

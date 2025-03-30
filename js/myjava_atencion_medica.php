@@ -1180,6 +1180,26 @@ function getServicioAtencion(agenda_id){
 }
 //FIN PARA OBTENER EL SERVICIO DEL FORMULARIO DE PACIENTES
 
+function getConsultorioReceta() {
+    var url = '<?php echo SERVERURL; ?>php/atencion_pacientes/servicios_transito.php';
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        success: function(data) {
+            $('#form_receta #servicio_id_receta').html("");
+            $('#form_receta #servicio_id_receta').html(data);
+            $('#form_receta #servicio_id_receta').selectpicker('refresh');            
+        }
+    });
+    return false;
+}
+
+$('#form_receta #servicio_id_receta').on('change', function() {
+    var servicio_id_receta = $('#form_receta #servicio_id_receta').val();
+    
+    $('#form_receta #receta_servicioId').val(servicio_id_receta);
+});
 //INICIO PARA OBTENER EL ESTADO DE LOS PACIENTES (ATENDIDOS, AUSENTES)
 function getEstado(){
     var url = '<?php echo SERVERURL; ?>php/atencion_pacientes/getEstado.php';		
@@ -1448,6 +1468,7 @@ function mostrarRecetaMedica(pacientes_id, colaboradorId, servicioId, colaborado
         $('#form_receta #receta_servicioId').val(servicioId);
         $('#form_receta #receta_pacienteNombre').val(pacienteNombre);
             
+		$('#form_receta #datos_paciente').show();
         $('#form_receta #datos_paciente').html("<b>Paciente:</b> " + pacienteNombre + " <b>Medico Tratante:</b> " + colaboradorNombre);
 
         $('#form_receta #grupo_paciente_receta').hide();
@@ -1455,6 +1476,7 @@ function mostrarRecetaMedica(pacientes_id, colaboradorId, servicioId, colaborado
         // Si pacientes_id está vacío, mostrar el select
         $('#form_receta #receta_pacientes_id').val('');
         $('#form_receta #grupo_paciente_receta').show();
+        $('#form_receta #datos_paciente').hide();
     }
 
     // Limpiar todas las filas de la tabla
@@ -2042,6 +2064,7 @@ $('.selectpicker.producto').selectpicker();
 obtenerProductos($('.selectpicker.producto'));
 
 getPacientes();
+getConsultorioReceta();
 
 // Evento para agregar fila
 $('#agregarFila').on('click', () => {
@@ -2153,9 +2176,31 @@ function registarReceta() {
 // Guardar receta con AJAX
 $('#form_receta').on('submit', (e) => {
     e.preventDefault();
+	
+    var pacienteNombre = $("#form_receta #receta_pacienteNombre").val();
+    var pacienteId = $("#receta_select_pacientes_id").val();
+    var servicioId = $("#servicio_id_receta").val();
+
+        // Validar si los campos no están ocultos y están vacíos
+    if (!$('#receta_select_pacientes_id').is(':hidden') && !pacienteId) {
+        swal("Error", "Debes seleccionar un paciente.", "error");
+        return;
+    }
+
+    if (!$('#servicio_id_receta').is(':hidden') && !servicioId) {
+        swal("Error", "Debes seleccionar un servicio.", "error");
+        return;
+    }
+
+
+    // Si está vacío, tomar el texto del select
+    if (!pacienteNombre) {
+        pacienteNombre = $("#receta_select_pacientes_id option:selected").text();
+    }
+	
 	swal({
 		title: "¿Estás seguro?",
-		text: "¿Desea registrar la receta para el paciente: " + $("#form_receta #receta_pacienteNombre").val() + "?",
+		text: "¿Desea registrar la receta para el paciente: " + pacienteNombre + "?",
 		icon: "info",
 		buttons: {
 			cancel: {
@@ -2181,36 +2226,14 @@ $('#form_receta').on('submit', (e) => {
 });
 
 function getRecetaReporte(receta_id) {
-    var url = "<?php echo SERVERURLWINDOWS; ?>";
-
-    // Crear un formulario dinámico
-    var form = document.createElement("form");
-    form.method = "POST";
-    form.action = url;
-
     // Añadir los parámetros al formulario
     var params = {
         "id": receta_id,
         "type": "Receta",
-        "db": "<?php echo DB; ?>"
+        "db": <?php echo DB; ?>
     };
 
-    for (var key in params) {
-        var input = document.createElement("input");
-        input.type = "hidden";
-        input.name = key;
-        input.value = params[key];
-        form.appendChild(input);
-    }
-
-    // Abrir una nueva ventana
-    var newWindow = window.open("", "_blank");
-
-    // Asegurarse de que la nueva ventana esté lista
-    newWindow.document.body.appendChild(form);
-    
-    // Enviar el formulario a la nueva ventana
-    form.submit();
+    viewReport(params);	
 }
 //FIN RECETA MEDICA
 </script>
