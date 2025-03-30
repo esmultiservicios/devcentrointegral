@@ -273,19 +273,10 @@ function editarRegistro(pacientes_id, agenda_id){
 					$('#formulario_atenciones').attr({ 'data-form': 'save' }); 
 					$('#formulario_atenciones').attr({ 'action': '<?php echo SERVERURL; ?>php/atencion_pacientes/agregarRegistro.php' });						
 					
-					caracteresSeguimiento();
-					caracteresDiagnostico();
-					caracteresExamenFisico();
-					caracteresHistoriaClinica();
-					caracteresAntecedentes();
+					inicializarContadores(limites); // Iniciar el contador de caracteres con los límites
+                    inicializarSpeechRecognition(limites); // Inicializar reconocimiento de voz con los límites
 
 					FormAtencionMedica();
-
-					/*$('#modal_registro_atenciones').modal({
-						show:true,
-						keyboard: false,
-						backdrop:'static'
-					});*/
 
 					return false;
 				}
@@ -438,124 +429,108 @@ function eliminarRegistro(agenda_id, comentario, fecha){
 //FIN FUNCION AUSENCIA DE USUARIOS
 
 //ATENCION A USUARIOS
-$('#formulario_atenciones #antecedentes').keyup(function() {
-	    var max_chars = 3200;
-        var chars = $(this).val().length;
-        var diff = max_chars - chars;
-		
-		$('#formulario_atenciones #charNum_antecedentes').html(diff + ' Caracteres'); 
-		
-		if(diff == 0){
-			return false;
-		}
-});
+function actualizarCaracteres(idCampo, idContador) {
+    var max_chars = 3200;
+    var chars = $('#' + idCampo).val().length;
+    var diff = max_chars - chars;
 
-function caracteresAntecedentes(){
-	var max_chars = 3200;
-	var chars = $('#formulario_atenciones #antecedentes').val().length;
-	var diff = max_chars - chars;
-	
-	$('#formulario_atenciones #charNum_antecedentes').html(diff + ' Caracteres'); 
-	
-	if(diff == 0){
-		return false;
-	}
+    $('#' + idContador).html(diff + ' Caracteres');
+
+    if (diff == 0) {
+        return false;
+    }
 }
 
-$('#formulario_atenciones #historia_clinica').keyup(function() {
-	    var max_chars = 3200;
-        var chars = $(this).val().length;
-        var diff = max_chars - chars;
-		
-		$('#formulario_atenciones #charNum_historia').html(diff + ' Caracteres'); 
-		
-		if(diff == 0){
-			return false;
-		}
+// Llama a la función para inicializar los contadores al cargar el DOM
+// Definir los límites de caracteres globalmente
+var limites = {
+    'antecedentes': 3200,
+    'historia_clinica': 3200,
+    'exame_fisico': 3200,
+    'diagnostico': 3200,
+    'seguimiento': 3200,
+};
+
+$(function() {
+    inicializarContadores(limites); // Iniciar el contador de caracteres con los límites
+    inicializarSpeechRecognition(limites); // Inicializar reconocimiento de voz con los límites
 });
 
-function caracteresHistoriaClinica(){
-	var max_chars = 3200;
-	var chars = $('#formulario_atenciones #historia_clinica').val().length;
-	var diff = max_chars - chars;
-	
-	$('#formulario_atenciones #charNum_historia').html(diff + ' Caracteres'); 
-	
-	if(diff == 0){
-		return false;
-	}
+function inicializarContadores(limites) {
+    Object.keys(limites).forEach(function(campo) {
+        $('#' + campo).on('input', function() {
+            actualizarCaracteres(campo, 'charNum_' + campo, limites[campo]);
+        });
+
+        // Para inicializar el contador cuando se carga la página
+        actualizarCaracteres(campo, 'charNum_' + campo, limites[campo]);
+    });
 }
 
-$('#formulario_atenciones #exame_fisico').keyup(function() {
-	    var max_chars = 3200;
-        var chars = $(this).val().length;
-        var diff = max_chars - chars;
-		
-		$('#formulario_atenciones #charNum_examen').html(diff + ' Caracteres'); 
-		
-		if(diff == 0){
-			return false;
-		}
-});
+function actualizarCaracteres(campo, contadorId, max_chars) {
+    var texto = $('#' + campo).val();
+    
+    // Verificar si el campo tiene un valor
+    if (texto !== undefined) {
+        var longitudTexto = texto.length;
 
-function caracteresExamenFisico(){
-	var max_chars = 3200;
-	var chars = $('#formulario_atenciones #exame_fisico').val().length;
-	var diff = max_chars - chars;
-	
-	$('#formulario_atenciones #charNum_examen').html(diff + ' Caracteres'); 
-	
-	if(diff == 0){
-		return false;
-	}
+        // Si se supera el límite de caracteres, cortar el texto al límite
+        if (longitudTexto > max_chars) {
+            $('#' + campo).val(texto.substring(0, max_chars));
+            longitudTexto = max_chars;
+        }
+
+        $('#' + contadorId).text(longitudTexto + '/' + max_chars); // Muestra el número de caracteres y el límite
+    } else {
+        console.error('El campo con id ' + campo + ' no tiene un valor definido.');
+    }
 }
 
-$('#formulario_atenciones #diagnostico').keyup(function() {
-	    var max_chars = 3200;
-        var chars = $(this).val().length;
-        var diff = max_chars - chars;
-		
-		$('#formulario_atenciones #charNum_diagnostico').html(diff + ' Caracteres'); 
-		
-		if(diff == 0){
-			return false;
-		}
-});
+function inicializarSpeechRecognition(limites) {
+    Object.keys(limites).forEach(function(campo) {
+        // Ocultar los botones de parada al iniciar
+        $('#formulario_atenciones #search_' + campo + '_stop').hide();
 
-function caracteresDiagnostico(){
-	var max_chars = 3200;
-	var chars = $('#formulario_atenciones #diagnostico').val().length;
-	var diff = max_chars - chars;
-	
-	$('#formulario_atenciones #charNum_diagnostico').html(diff + ' Caracteres'); 
-	
-	if(diff == 0){
-		return false;
-	}
-}
+        // Inicializar el reconocimiento de voz
+        var recognition = new webkitSpeechRecognition();
+        recognition.continuous = true;
+        recognition.lang = "es";
 
-$('#formulario_atenciones #seguimiento').keyup(function() {
-	    var max_chars = 3200;
-        var chars = $(this).val().length;
-        var diff = max_chars - chars;
-		
-		$('#formulario_atenciones #charNum_seguimiento').html(diff + ' Caracteres'); 
-		
-		if(diff == 0){
-			return false;
-		}
-});
+        // Evento al hacer clic en el botón de inicio de reconocimiento
+        $('#formulario_atenciones #search_' + campo + '_start').on('click', function(event) {
+            $('#formulario_atenciones #search_' + campo + '_start').hide();
+            $('#formulario_atenciones #search_' + campo + '_stop').show();
+            recognition.start();
 
-function caracteresSeguimiento(){
-	var max_chars = 3200;
-	var chars = $('#formulario_atenciones #seguimiento').val().length;
-	var diff = max_chars - chars;
-	
-	$('#formulario_atenciones #charNum_seguimiento').html(diff + ' Caracteres'); 
-	
-	if(diff == 0){
-		return false;
-	}
+            recognition.onresult = function(event) {
+                var finalResult = '';
+                var valor_anterior = $('#formulario_atenciones #' + campo).val();
+                for (var i = event.resultIndex; i < event.results.length; ++i) {
+                    if (event.results[i].isFinal) {
+                        finalResult = event.results[i][0].transcript;
+
+                        // Combinar texto anterior con el nuevo resultado, respetando el límite de caracteres
+                        var nuevoTexto = valor_anterior + ' ' + finalResult;
+                        if (nuevoTexto.length > limites[campo]) {
+                            nuevoTexto = nuevoTexto.substring(0, limites[campo]);
+                        }
+                        $('#formulario_atenciones #' + campo).val(nuevoTexto);
+                        actualizarCaracteres(campo, 'charNum_' + campo, limites[campo]);
+                    }
+                }
+            };
+
+            return false;
+        });
+
+        // Evento al hacer clic en el botón de detener reconocimiento
+        $('#formulario_atenciones #search_' + campo + '_stop').on('click', function(event) {
+            recognition.stop();
+            $('#formulario_atenciones #search_' + campo + '_stop').hide();
+            $('#formulario_atenciones #search_' + campo + '_start').show();
+            return false;
+        });
+    });
 }
 
 //TANSITO ENVIADA
