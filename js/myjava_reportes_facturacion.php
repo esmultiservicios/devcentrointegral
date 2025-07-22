@@ -592,13 +592,21 @@ var listar_reporte_facturacion = function(){
 				}
 			},
 			{
-				text:      '<i class="fa-solid fa-file-pdf fa-lg"></i> Reporte',
-				titleAttr: 'Reporte de Facturación',
+				text:      '<i class="fa-solid fa-file-pdf fa-lg"></i> Reporte PDF',
+				titleAttr: 'Reporte de Facturación PDF',
 				className: 'btn btn-danger',
 				action: 	function(){
 					reporteFacturacion();
 				}
-			}			
+			},
+			{
+				text:      '<i class="fa-solid fa-file-excel fa-lg"></i> Reporte Excel',
+				titleAttr: 'Reporte de Facturación Excel',
+				className: 'btn btn-success',
+				action: 	function(){
+					reporteFacturacionExcel();
+				}
+			}		
 		]		
 	});	 
 	table_reporte_facturacion.search('').draw();
@@ -680,6 +688,28 @@ function reporteFacturacion() {
         "fechaf": fechaf,
         "clientes": clientes,
         "profesional": profesional,
+        "db": "<?php echo DB; ?>"
+    };
+
+    viewReport(params);
+}
+
+function reporteFacturacionExcel() {
+    var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
+    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
+    var clientes = $('#form_main_facturacion_reportes #clientes').val();
+    var profesional = $('#form_main_facturacion_reportes #profesional').val();
+    var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+
+    // Añadir los parámetros al formulario
+    var params = {
+        "estado": estado,
+        "type": "Reporte_facturas_cami",
+        "fechai": fechai,
+        "fechaf": fechaf,
+        "clientes": clientes,
+        "profesional": profesional,
+		"tipo": "Excel",
         "db": "<?php echo DB; ?>"
     };
 

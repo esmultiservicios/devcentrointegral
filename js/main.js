@@ -81,33 +81,14 @@ $('.FormularioAjax').submit(function (e) {
 				},
 				success: function (data) {
 					var datos = eval(data);
+					swal.close();
 
 					if (datos[0] == "Error") {
-						swal({
-							title: datos[0],
-							text: datos[1],
-							icon: datos[2],
-							dangerMode: true,
-							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-						});
+						showNotify(datos[2], datos[0], datos[1]);
 					} else if (datos[0] == "Guardar") {
-						swal({
-							title: datos[0],
-							text: datos[1],
-							icon: datos[2],
-							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-						});
+						showNotify(datos[2], datos[0], datos[1]);
 					} else {
-						swal({
-							title: datos[0],
-							text: datos[1],
-							icon: datos[2],
-							timer: 3000,
-							closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-							closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-						});
+						showNotify(datos[2], datos[0], datos[1]);
 					}
 
 					if (datos[4] != "") {
@@ -162,11 +143,13 @@ $('.FormularioAjax').submit(function (e) {
 				},
 				error: function () {
 					respuesta.html(msjError);
+					swal.close();
 				}
 			});
 		} else {
 			// Si el usuario hizo clic en "Cancelar", habilita el botón del formulario
 			form.find('button[type="submit"]').prop('disabled', false);
+			swal.close();
 		}
 	});
 });

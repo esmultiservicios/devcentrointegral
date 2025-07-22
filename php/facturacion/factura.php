@@ -194,7 +194,7 @@
 							<td>'.$registro_detalles["producto"].'</td>
 							<td class="textleft">'.$registro_detalles["cantidad"].'</td>
 							<td class="textright">L. '.number_format($registro_detalles["precio"],2).'</td>
-							<td class="textright">L. '.number_format($descuentos,2).'</td>
+							<td class="textright">L. '.number_format($registro_detalles["descuento"],2).'</td>
 							<td class="textright">L. '.number_format($total_,2).'</td>
 						  </tr>
 						';
