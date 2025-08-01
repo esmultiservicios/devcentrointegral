@@ -154,7 +154,161 @@ $('.FormularioAjax').submit(function (e) {
 	});
 });
 
+const notyf = new Notyf({
+    position: {
+        x: 'right',
+        y: 'top',
+    },
+    dismissible: true, // Permite cerrar manualmente
+    closeOnClick: true, // Cierra al hacer clic
+    types: [
+        {
+            type: 'warning',
+            background: 'orange',
+            duration: 5000, // 5 segundos
+            icon: {
+                className: 'fas fa-exclamation-triangle fa-lg',
+                tagName: 'i',
+                color: 'white',
+            },
+            closeIcon: {
+                className: 'fas fa-times',
+                color: 'white',
+                tagName: 'span',
+                position: 'right',
+				style: 'margin-right: 15px;'
+            }
+        },
+        {
+            type: 'error',
+            background: 'indianred',
+            duration: 10000, // 10 segundos (más tiempo para errores)
+            dismissible: true,
+            icon: {
+                className: 'fas fa-times-circle fa-lg',
+                tagName: 'i',
+                color: 'white'
+            },
+            closeIcon: {
+                className: 'fas fa-times',
+                color: 'white',
+                tagName: 'span',
+                position: 'right'
+            }
+        },
+        {
+            type: 'info',
+            background: '#1e88e5',
+            duration: 5000, // 5 segundos
+            dismissible: true,
+            icon: {
+                className: 'fas fa-info-circle fa-lg',
+                tagName: 'i',
+                color: 'white'
+            },
+            closeIcon: {
+                className: 'fas fa-times',
+                color: 'white',
+                tagName: 'span',
+                position: 'right'
+            }
+        },
+        {
+            type: 'success',
+            background: '#4caf50',
+            duration: 5000, // 5 segundos
+            dismissible: true,
+            icon: {
+                className: 'fas fa-check-circle fa-lg',
+                tagName: 'i',
+                color: 'white'
+            },
+            closeIcon: {
+                className: 'fas fa-times',
+                color: 'white',
+                tagName: 'span',
+                position: 'right'
+            }
+        },
+        {
+            type: 'loading',
+            background: '#3498db',  // Azul profesional
+            duration: 5000,         //5 segundos
+            icon: {
+                className: 'fas fa-circle-notch fa-spin', // Icono giratorio
+                tagName: 'i',
+                color: 'white'
+            },
+            dismissible: false,     // No se puede cerrar manualmente
+            closeIcon: false        // Sin botón de cerrar
+        }        
+    ]
+});
 
+// Variable para controlar la notificación de loading
+let loadingNotification = null;
+
+/**
+ * Muestra un indicador de carga con Notyf
+ * @param {string} [message='Procesando solicitud'] - Mensaje a mostrar
+ */
+function showLoading(message = 'Procesando solicitud') {
+    // Cierra cualquier notificación de carga previa
+    if (loadingNotification) {
+        loadingNotification.dismiss();
+    }
+
+    loadingNotification = notyf.open({
+        type: 'info',
+        message: `<strong>Procesando</strong><br>${message}`, // Usar backticks (`) para template literal
+        duration: 0, // Notificación persistente
+        dismissible: false,
+        icon: {
+            className: 'fas fa-spinner fa-spin fa-xl', // Icono con animación de giro
+            tagName: 'i',
+            color: 'white'
+        },
+        settings: {
+            allowHtml: true
+        }
+    });
+}
+
+function hideLoading() {
+    if (loadingNotification) {
+        notyf.dismiss(loadingNotification);
+        loadingNotification = null;
+    }
+}
+
+/**
+ * Muestra una notificación estilizada al usuario.
+ * @param {string} title - El título de la notificación (ej: 'Éxito', 'Error', 'Advertencia')
+ * @param {string} message - El mensaje detallado a mostrar (ej: 'Los datos se guardaron correctamente')
+ * @param {'success'|'error'|'warning'|'info'} type - Tipo de notificación (valores válidos: 'success', 'error', 'warning', 'info')
+ * @example
+ * // Muestra una notificación de éxito
+ * showNotify('Éxito', 'Los datos se guardaron correctamente', 'success');
+ * @example
+ * // Muestra una notificación de error
+ * showNotify('Error', 'No se pudo conectar al servidor', 'error');
+ */
+function showNotify(type, title, message) {
+    const validTypes = ['success', 'error', 'warning', 'info', 'loading'];
+    
+    if (validTypes.includes(type)) {
+        notyf.open({
+            type: type,
+            message: `<strong>${title}</strong><br>${message}`,
+            settings: {
+                ripple: true,
+                allowHtml: true,
+            }
+        });
+    } else {
+        console.error('Tipo de notificación no válido');
+    }
+}
 /*##########################################################################################################################################################################################################################################################################################################################*/
 /*##########################################################################################################################################################################################################################################################################################################################*/
 //INICIO IDIOMA
