@@ -156,64 +156,91 @@ $mysqli->close();  // CERRAR CONEXIÓN
     </div>
     <div class="card-body">
       <form id="form_main_facturacion_reportes" class="form-inline">
-        <div class="form-group mr-1">
-          <div class="input-group">
-            <div class="input-group-append">
-              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Profesional</span>
-            </div>
-            <select id="profesional" name="profesional" class="selectpicker" title="Profesional" data-live-search="true">
-            </select>
-          </div>
-        </div>
-        <div class="form-group mr-1">
-          <div class="input-group">
-            <div class="input-group-append">
-              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Cliente</span>
-            </div>
-            <select id="clientes" name="clientes" class="selectpicker" title="Cliente" data-live-search="true">
-            </select>
-          </div>
-        </div>
-        <div class="form-group mr-1">
-          <div class="input-group">
-            <div class="input-group-append">
-            <span class="input-group-text"><div class="sb-nav-link-icon"></div>Estado</span>
-            </div>
-            <select id="estado" name="estado" class="selectpicker" title="Estado" data-live-search="true">
-            </select>
-          </div>
-        </div>
-        <div class="form-group mr-1">
-          <div class="input-group">
-            <div class="input-group-append">
-              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Inicio</span>
-            </div>
-            <input type="date" required="required" id="fecha_b" name="fecha_b" style="width:160px;" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php
-              $fecha = date('Y-m-d');
 
-              $año = date('Y', strtotime($fecha));
-              $mes = date('m', strtotime($fecha));
-              $dia = date('d', mktime(0, 0, 0, $mes + 1, 0, $año));
-
-              $dia1 = date('d', mktime(0, 0, 0, $mes, 1, $año));  // PRIMER DIA DEL MES
-              $dia2 = date('d', mktime(0, 0, 0, $mes, $dia, $año));  // ULTIMO DIA DEL MES
-
-              $fecha_inicial = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia1));
-              $fecha_final = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia2));
-
-              echo $fecha_inicial;
-              ?>" class="form-control"/>
-          </div>
-        </div>
-        <div class="form-group mr-1">
-          <div class="input-group">
-            <div class="input-group-append">
-              <span class="input-group-text"><div class="sb-nav-link-icon"></div>Fecha Fin</span>
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Documento
+                    </span>
+                </div>
+                <select id="documento_id" name="documento_id" class="selectpicker" title="Documento" data-live-search="true">
+                </select>
             </div>
-            <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date('Y-m-d'); ?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
-          </div>
         </div>
-      </form>
+
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Profesional
+                    </span>
+                </div>
+                <select id="profesional" name="profesional" class="selectpicker" title="Profesional" data-live-search="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Cliente
+                    </span>
+                </div>
+                <select id="clientes" name="clientes" class="selectpicker" title="Cliente" data-live-search="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Estado
+                    </span>
+                </div>
+                <select id="estado" name="estado" class="selectpicker" title="Estado" data-live-search="true">
+                </select>
+            </div>
+        </div>
+
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Fecha Inicio
+                    </span>
+                </div>
+                <input type="date" required="required" id="fecha_b" name="fecha_b" style="width:160px;" data-toggle="tooltip" data-placement="top" title="Fecha Inicial" value="<?php
+                    $fecha = date('Y-m-d');
+
+                    $año = date('Y', strtotime($fecha));
+                    $mes = date('m', strtotime($fecha));
+                    $dia = date('d', mktime(0, 0, 0, $mes + 1, 0, $año));
+
+                    $dia1 = date('d', mktime(0, 0, 0, $mes, 1, $año));
+                    $dia2 = date('d', mktime(0, 0, 0, $mes, $dia, $año));
+
+                    $fecha_inicial = date('Y-m-d', strtotime($año . '-' . $mes . '-' . $dia1));
+
+                    echo $fecha_inicial;
+                ?>" class="form-control"/>
+            </div>
+        </div>
+
+        <div class="form-group mr-1 mb-2">
+            <div class="input-group">
+                <div class="input-group-append">
+                    <span class="input-group-text">
+                        <div class="sb-nav-link-icon"></div>Fecha Fin
+                    </span>
+                </div>
+                <input type="date" required="required" id="fecha_f" name="fecha_f" style="width:160px;" value="<?php echo date('Y-m-d'); ?>" data-toggle="tooltip" data-placement="top" title="Fecha Final" class="form-control"/>
+            </div>
+        </div>
+
+        </form>
     </div>
     <div class="card-footer small text-muted">
 

@@ -1,3 +1,7 @@
+####01/09/2026####
+ejecutar esto
+ALTER TABLE facturas ADD proforma_id INT NULL;
+
 ####01/07/2023####
 tabla => movimientos
 se agrego al final los siguientes campos

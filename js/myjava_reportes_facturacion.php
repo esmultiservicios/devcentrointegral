@@ -40,25 +40,37 @@ $(document).ready(function() {
 	//FIN PARA EL REGISTRO DE COBROS A PROFESIONALES
 
     //INICIO PAGINATION (PARA LAS BUSQUEDAS SEGUN SELECCIONES)
-  $('#form_main_facturacion_reportes #estado').on('change',function(){
-    listar_reporte_facturacion();
-  });
+	$('#form_main_facturacion_reportes #estado').on('change',function(){
+		listar_reporte_facturacion();
+	});
 
-  $('#form_main_facturacion_reportes #clientes').on('change',function(){
-    listar_reporte_facturacion();
-  });
+	$('#form_main_facturacion_reportes #clientes').on('change',function(){
+		listar_reporte_facturacion();
+	});
 
-  $('#form_main_facturacion_reportes #profesional').on('change',function(){
-    listar_reporte_facturacion();
-  });
+	$('#form_main_facturacion_reportes #profesional').on('change',function(){
+		listar_reporte_facturacion();
+	});
 
-  $('#form_main_facturacion_reportes #fecha_b').on('change',function(){
-    listar_reporte_facturacion();
-  });
+	$('#form_main_facturacion_reportes #fecha_b').on('change',function(){
+		listar_reporte_facturacion();
+	});
 
-  $('#form_main_facturacion_reportes #fecha_f').on('change',function(){
-    listar_reporte_facturacion();
-  });
+	$('#form_main_facturacion_reportes #fecha_f').on('change',function(){
+		listar_reporte_facturacion();
+	});
+
+  	$('#form_main_facturacion_reportes #documento_id').on('changed.bs.select change', function () {
+		var documento_id = parseInt($(this).val() || 1);
+
+		// Si selecciona Proforma, normalmente debe consultar estado 1
+		if (documento_id === 4) {
+			$('#form_main_facturacion_reportes #estado').selectpicker('val', '1');
+			$('#form_main_facturacion_reportes #estado').selectpicker('refresh');
+		}
+
+		listar_reporte_facturacion();
+	});
 	//FIN PAGINATION (PARA LAS BUSQUEDAS SEGUN SELECCIONES)
 });
 
@@ -127,10 +139,10 @@ if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() 
 
 //INICIO AGRUPAR FUNCIONES DE PACIENTES
 function funciones(){
-  getEstado();
-  getClientes();
-  getProfesionales();
-  listar_reporte_facturacion();
+    getEstado();
+    getClientes();
+    getProfesionales();
+    getDocumentos(); // Este carga documentos y luego llama listar_reporte_facturacion()
 }
 //FIN AGRUPAR FUNCIONES DE PACIENTES
 
@@ -473,68 +485,162 @@ function getProfesionales(){
      });
 }
 
-var listar_reporte_facturacion = function(){
-	var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
-	var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
-	var clientes = $('#form_main_facturacion_reportes #clientes').val() || '';
-	var profesional = $('#form_main_facturacion_reportes #profesional').val() || '';
-	var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+function getDocumentos() {
+    var url = '<?php echo SERVERURL; ?>php/secuencia_facturacion/getDocumentos.php';
 
-	var table_reporte_facturacion  = $("#dataTableReporteFacturacionMain").DataTable({
-		"destroy":true,	
-		"ajax":{
-			"method":"POST",
-			"url": "<?php echo SERVERURL; ?>php/reporte_facturacion/llenarDataTableReporteFacturas.php",
-            "data": function(d) {
-                d.fechai = fechai;
-                d.fechaf = fechaf;
-                d.clientes = clientes;
-                d.profesional = profesional;			
-				d.estado = estado;
-            }	
-		},		
-		"columns":[
-			{
-				"data": "fecha",
-				"render": function(data, type, row) {
-					return '<a href="#" class="showInvoiceDetail">' + data + '</a>';
-				}
-			},			
-			{
-				"data": "tipo_documento",
-				"render": function(data, type, row) {
-					var color = data === 'Contado' ? '#FFA500' : '#9b59b6'; // Naranja para "Contado" y morado para "Crédito"
-					return '<span class="tipo-documento" style="border: 2px solid ' + color + '; border-radius: 12px; padding: 5px 10px; color: ' + color + ';">' + data + '</span>';
-				}
-			},
-			{"data": "identidad"},			
-			{"data": "paciente"},	
-			{"data": "factura"},
-			{"data": "precio"},
-			{"data": "isv_neto"},	
-			{"data": "descuento"},
-			{"data": "total"},
-			{"data": "servicio"},
-			{"data": "profesional"},								
-			{
-				"data": null,
-				"defaultContent": 
-					'<div class="btn-group">' +
-						'<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-							'<i class="fas fa-cog"></i>' +
-						'</button>' +
-						'<div class="dropdown-menu">' +
-							'<a class="dropdown-item printBill" href="#"><i class="fas fa-print fa-lg"></i> Imprimir</a>' +
-							'<a class="dropdown-item closeBill" href="#"><i class="fas fa-calculator fa-lg"></i> Cierre</a>' +
-							'<a class="dropdown-item deleteBill" href="#"><i class="fa-solid fa-ban fa-lg"></i> Anular</a>' +
-						'</div>' +
-					'</div>'
-			}
-		],	
-		"footerCallback": function(row, data, start, end, display) {
+    $.ajax({
+        type: "POST",
+        url: url,
+        dataType: "json",
+        success: function (data) {
+            var html = '';
+
+            if (data.error) {
+                console.log(data.mensaje);
+                html = '<option value="1">Factura Electrónica</option>';
+            } else {
+                data.forEach(function (item) {
+                    var selected = parseInt(item.documento_id) === 1 ? 'selected' : '';
+                    html += '<option value="' + item.documento_id + '" ' + selected + '>' + item.nombre + '</option>';
+                });
+            }
+
+            $('#form_main_facturacion_reportes #documento_id').html(html);
+            $('#form_main_facturacion_reportes #documento_id').selectpicker('refresh');
+
+            listar_reporte_facturacion();
+        },
+        error: function (xhr) {
+            console.log("Error cargando documentos:", xhr.responseText);
+
+            $('#form_main_facturacion_reportes #documento_id').html(
+                '<option value="1" selected>Factura Electrónica</option>'
+            );
+            $('#form_main_facturacion_reportes #documento_id').selectpicker('refresh');
+
+            listar_reporte_facturacion();
+        }
+    });
+}
+
+var listar_reporte_facturacion = function () {
+    var tableId = "#dataTableReporteFacturacionMain";
+
+    if ($.fn.DataTable.isDataTable(tableId)) {
+        $(tableId).DataTable().clear().destroy();
+        $(tableId + ' tbody').empty();
+    }
+
+    var table_reporte_facturacion = $(tableId).DataTable({
+        "destroy": true,
+        "stateSave": false,
+        "ajax": {
+            "method": "POST",
+            "url": "<?php echo SERVERURL; ?>php/reporte_facturacion/llenarDataTableReporteFacturas.php",
+            "cache": false,
+            "data": function (d) {
+                d.fechai = $('#form_main_facturacion_reportes #fecha_b').val();
+                d.fechaf = $('#form_main_facturacion_reportes #fecha_f').val();
+                d.clientes = $('#form_main_facturacion_reportes #clientes').val() || '';
+                d.profesional = $('#form_main_facturacion_reportes #profesional').val() || '';
+                d.estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+                d.documento_id = $('#form_main_facturacion_reportes #documento_id').val() || 1;
+
+                console.log("Filtros enviados:", {
+                    fechai: d.fechai,
+                    fechaf: d.fechaf,
+                    clientes: d.clientes,
+                    profesional: d.profesional,
+                    estado: d.estado,
+                    documento_id: d.documento_id
+                });
+            },
+            "dataSrc": function (json) {
+                if (json.error) {
+                    console.log("Error PHP:", json.mensaje);
+                    return [];
+                }
+
+                return json.data || [];
+            },
+            "error": function (xhr) {
+                console.log("Error AJAX DataTable:", xhr.responseText);
+            }
+        },
+        "columns": [
+            {
+                "data": "fecha",
+                "render": function (data, type, row) {
+                    return '<a href="#" class="showInvoiceDetail text-primary font-weight-bold">' + data + '</a>';
+                }
+            },
+            {
+                "data": "tipo_documento",
+                "render": function (data, type, row) {
+                    var badge = '';
+
+                    if (parseInt(row.documento_id) === 4 || parseInt(row.tipo_factura) === 3) {
+                        badge = 'badge-info';
+                    } else if (parseInt(row.tipo_factura) === 1) {
+                        badge = 'badge-warning text-dark';
+                    } else if (parseInt(row.tipo_factura) === 2) {
+                        badge = 'badge-primary';
+                    } else {
+                        badge = 'badge-secondary';
+                    }
+
+                    return '<span class="badge ' + badge + ' px-3 py-2" style="font-size: 13px; border-radius: 20px; min-width: 95px;">' +
+                        '<i class="fas fa-file-invoice mr-1"></i>' + data +
+                    '</span>';
+                }
+            },
+            { "data": "identidad" },
+            { "data": "paciente" },
+            { "data": "factura" },
+            { "data": "precio" },
+            { "data": "isv_neto" },
+            { "data": "descuento" },
+            { "data": "total" },
+            { "data": "servicio" },
+            { "data": "profesional" },
+            {
+                "data": null,
+                "render": function (data, type, row) {
+                    var acciones = '';
+
+                    acciones += '<a class="dropdown-item printBill" href="#">' +
+                        '<i class="fas fa-print text-primary mr-2"></i> Imprimir documento' +
+                    '</a>';
+
+                    if (parseInt(row.documento_id) !== 4 && parseInt(row.tipo_factura) !== 3) {
+                        acciones += '<a class="dropdown-item closeBill" href="#">' +
+                            '<i class="fas fa-calculator text-success mr-2"></i> Cierre' +
+                        '</a>';
+
+                        acciones += '<a class="dropdown-item deleteBill text-danger" href="#">' +
+                            '<i class="fa-solid fa-ban mr-2"></i> Anular factura' +
+                        '</a>';
+                    } else {
+                        acciones += '<span class="dropdown-item text-muted">' +
+                            '<i class="fas fa-info-circle mr-2"></i> Proforma sin cierre' +
+                        '</span>';
+                    }
+
+                    return '' +
+                        '<div class="btn-group">' +
+                            '<button type="button" class="btn btn-primary btn-sm dropdown-toggle px-3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                '<i class="fas fa-cog"></i> Acciones' +
+                            '</button>' +
+                            '<div class="dropdown-menu dropdown-menu-right shadow">' +
+                                acciones +
+                            '</div>' +
+                        '</div>';
+                }
+            }
+        ],
+        "footerCallback": function (row, data, start, end, display) {
             var api = this.api();
 
-            // Limpiar el contenido del footer
             $('#footer-importe').html('');
             $('#footer-isv').html('');
             $('#footer-descuento').html('');
@@ -542,16 +648,22 @@ var listar_reporte_facturacion = function(){
             $('#tipo_pago').html('');
             $('#total_pago').html('');
 
-            // Función para calcular la suma de una columna específica
-            var sumaColumna = function(index) {
+            var limpiarNumero = function (valor) {
+                if (typeof valor === 'string') {
+                    return parseFloat(valor.replace(/,/g, '')) || 0;
+                }
+
+                return parseFloat(valor) || 0;
+            };
+
+            var sumaColumna = function (index) {
                 return api.column(index, { page: 'current' })
                     .data()
-                    .reduce(function(a, b) {
-                        return (parseFloat(a) || 0) + (parseFloat(b) || 0);
+                    .reduce(function (a, b) {
+                        return limpiarNumero(a) + limpiarNumero(b);
                     }, 0);
             };
 
-            // Calcular totales para las columnas específicas
             var totalImporte = sumaColumna(5);
             var totalISV = sumaColumna(6);
             var totalDescuento = sumaColumna(7);
@@ -560,63 +672,62 @@ var listar_reporte_facturacion = function(){
             var formatter = new Intl.NumberFormat('es-HN', {
                 style: 'currency',
                 currency: 'HNL',
-                minimumFractionDigits: 2,
+                minimumFractionDigits: 2
             });
 
-            // Mostrar totales de las columnas
             $('#footer-importe').html(formatter.format(totalImporte));
             $('#footer-isv').html(formatter.format(totalISV));
             $('#footer-descuento').html(formatter.format(totalDescuento));
-            $('#footer-neto').html(formatter.format(totalNeto));            
+            $('#footer-neto').html(formatter.format(totalNeto));
         },
-		"lengthMenu": lengthMenu20,
-		"stateSave": true,
-		"bDestroy": true,		
-		"language": idioma_español,//esta se encuenta en el archivo main.js
-		"dom": dom,			
-		"buttons":[		
-			{
-				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Facturación',
-				className: 'btn btn-info',
-				action: 	function(){
-					listar_reporte_facturacion();
-				}
-			},		
-			{
-				text:      '<i class="fas fa-calculator fa-lg"></i> Cierre',
-				titleAttr: 'Cierre de Caja',
-				className: 'btn btn-primary',
-				action: 	function(){
-					cierreBill();
-				}
-			},
-			{
-				text:      '<i class="fa-solid fa-file-pdf fa-lg"></i> Reporte PDF',
-				titleAttr: 'Reporte de Facturación PDF',
-				className: 'btn btn-danger',
-				action: 	function(){
-					reporteFacturacion();
-				}
-			},
-			{
-				text:      '<i class="fa-solid fa-file-excel fa-lg"></i> Reporte Excel',
-				titleAttr: 'Reporte de Facturación Excel',
-				className: 'btn btn-success',
-				action: 	function(){
-					reporteFacturacionExcel();
-				}
-			}		
-		]		
-	});	 
-	table_reporte_facturacion.search('').draw();
-	$('#buscar').focus();
-	
-	show_invoice_detail_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
-	print_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
-	close_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
-	delete_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);	
-}
+        "lengthMenu": lengthMenu20,
+        "bDestroy": true,
+        "language": idioma_español,
+        "dom": dom,
+        "buttons": [
+            {
+                text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+                titleAttr: 'Actualizar Facturación',
+                className: 'btn btn-info',
+                action: function () {
+                    listar_reporte_facturacion();
+                }
+            },
+            {
+                text: '<i class="fas fa-calculator fa-lg"></i> Cierre',
+                titleAttr: 'Cierre de Caja',
+                className: 'btn btn-primary',
+                action: function () {
+                    cierreBill();
+                }
+            },
+            {
+                text: '<i class="fa-solid fa-file-pdf fa-lg"></i> Reporte PDF',
+                titleAttr: 'Reporte de Facturación PDF',
+                className: 'btn btn-danger',
+                action: function () {
+                    reporteFacturacion();
+                }
+            },
+            {
+                text: '<i class="fa-solid fa-file-excel fa-lg"></i> Reporte Excel',
+                titleAttr: 'Reporte de Facturación Excel',
+                className: 'btn btn-success',
+                action: function () {
+                    reporteFacturacionExcel();
+                }
+            }
+        ]
+    });
+
+    table_reporte_facturacion.search('').draw();
+    $('#buscar').focus();
+
+    show_invoice_detail_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
+    print_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
+    close_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
+    delete_bill_dataTable("#dataTableReporteFacturacionMain tbody", table_reporte_facturacion);
+};
 
 var show_invoice_detail_dataTable = function(tbody, table){
 	$(tbody).off("click", "a.showInvoiceDetail");
@@ -675,12 +786,12 @@ var delete_bill_dataTable = function(tbody, table){
 
 function reporteFacturacion() {
     var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
-    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
+    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();
     var clientes = $('#form_main_facturacion_reportes #clientes').val();
     var profesional = $('#form_main_facturacion_reportes #profesional').val();
     var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+    var documento_id = $('#form_main_facturacion_reportes #documento_id').val() || 1;
 
-    // Añadir los parámetros al formulario
     var params = {
         "estado": estado,
         "type": "Reporte_facturas_cami",
@@ -688,6 +799,7 @@ function reporteFacturacion() {
         "fechaf": fechaf,
         "clientes": clientes,
         "profesional": profesional,
+        "documento_id": documento_id,
         "db": "<?php echo DB; ?>"
     };
 
@@ -696,12 +808,12 @@ function reporteFacturacion() {
 
 function reporteFacturacionExcel() {
     var fechai = $('#form_main_facturacion_reportes #fecha_b').val();
-    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();  
+    var fechaf = $('#form_main_facturacion_reportes #fecha_f').val();
     var clientes = $('#form_main_facturacion_reportes #clientes').val();
     var profesional = $('#form_main_facturacion_reportes #profesional').val();
     var estado = $('#form_main_facturacion_reportes #estado').val() || 1;
+    var documento_id = $('#form_main_facturacion_reportes #documento_id').val() || 1;
 
-    // Añadir los parámetros al formulario
     var params = {
         "estado": estado,
         "type": "Reporte_facturas_cami",
@@ -709,7 +821,8 @@ function reporteFacturacionExcel() {
         "fechaf": fechaf,
         "clientes": clientes,
         "profesional": profesional,
-		"tipo": "Excel",
+        "documento_id": documento_id,
+        "tipo": "Excel",
         "db": "<?php echo DB; ?>"
     };
 

@@ -218,90 +218,138 @@ function getColaborador(){
      });		
 }
 
-function editarRegistro(pacientes_id, agenda_id){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5){	
-	   if( $('#form_main #estado').val() == 0 ){
-			$('#formulario_atenciones')[0].reset();		
-			var url = '<?php echo SERVERURL; ?>php/atencion_pacientes/editar.php';
+function editarRegistro(pacientes_id, agenda_id) {
+    if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 3 || getUsuarioSistema() == 5) {
 
-				$.ajax({
-				type:'POST',
-				url:url,
-				data:'pacientes_id='+pacientes_id+'&agenda_id='+agenda_id,
-				success: function(valores){
-					var array = eval(valores);
-					$('#reg_atencion').hide();
-					$('#edi_atencion').show();
-					$('#formulario_atenciones #pro').val('Registro');
-					
-					$('#formulario_atenciones #agenda_id').val(agenda_id);
-					$('#formulario_atenciones #identidad').val(array[0]);
-					$('#formulario_atenciones #nombre').val(array[1]);					 
-					$('#formulario_atenciones #edad').val(array[2]);		
-					$('#formulario_atenciones #procedencia').val(array[3]);				
-										
-					$('#formulario_atenciones #pacientes_id').val(array[6]);
-					$('#formulario_atenciones #pacientes_id').selectpicker('refresh');
+        if ($('#form_main #estado').val() == 0) {
 
-					$('#formulario_atenciones #paciente_consulta').val(array[6]);
-					$('#formulario_atenciones #paciente_consulta').selectpicker('refresh');
-					
-					$('#formulario_atenciones #fecha').val(array[7]);
-					$('#formulario_atenciones #fecha_nac').val(array[8]);
-					$('#formulario_atenciones #antecedentes').val(array[9]);
-					$('#formulario_atenciones #historia_clinica').val(array[10]);
-					$('#formulario_atenciones #exame_fisico').val(array[11]);
-					$('#formulario_atenciones #diagnostico').val(array[12]);					
-					$('#formulario_atenciones #seguimiento_read').val(array[13]);
+            $('#formulario_atenciones')[0].reset();
 
-					$('#formulario_atenciones #servicio_id').val(array[14]);
-					$('#formulario_atenciones #servicio_id').selectpicker('refresh');				
+            var url = '<?php echo SERVERURL; ?>php/atencion_pacientes/editar.php';
 
-					$('#formulario_atenciones #edad').val(array[15]);
-					$('#formulario_atenciones #preclinica').val(array[16]);						
+            $.ajax({
+                type: 'POST',
+                url: url,
+                dataType: 'json',
+                data: {
+                    pacientes_id: pacientes_id,
+                    agenda_id: agenda_id
+                },
+                success: function(response) {
 
-					$("#formulario_atenciones #fecha").attr('readonly', true);
+                    if (!response.ok) {
+                        swal({
+                            title: "Error",
+                            text: response.mensaje || "No se pudo cargar la información de la atención.",
+                            icon: "error",
+                            dangerMode: true,
+                            closeOnEsc: false,
+                            closeOnClickOutside: false
+                        });
+                        return false;
+                    }
 
-					$("#edi_atencion").attr('disabled', false);	
-					$("#formulario_atenciones #label_servicio").show();
-					$('#formulario_atenciones #consultorio_').hide();
-					$('#formulario_atenciones .nav-tabs li:eq(0) a').tab('show');	
-					
-					//DESHABILITAR OBJETOS
-					$('#formulario_atenciones #paciente_consulta').attr('disabled', true);					
-					
-					$('#formulario_atenciones').attr({ 'data-form': 'save' }); 
-					$('#formulario_atenciones').attr({ 'action': '<?php echo SERVERURL; ?>php/atencion_pacientes/agregarRegistro.php' });						
-					
-					inicializarContadores(limites); // Iniciar el contador de caracteres con los límites
-                    inicializarSpeechRecognition(limites); // Inicializar reconocimiento de voz con los límites
+                    var datos = response.data;
 
-					FormAtencionMedica();
+                    $('#reg_atencion').hide();
+                    $('#edi_atencion').show();
 
-					return false;
-				}
-			});
-			return false;
- 	   }else{
-			swal({
-				title: "Error", 
-				text: "Lo sentimos, este registro ya existe, no se puede agregar nuevamente su atención",
-				icon: "error", 
-				dangerMode: true,
-				closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-				closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-			});				
-	   }
-	}else{
-		swal({
-			title: "Acceso Denegado", 
-			text: "No tiene permisos para ejecutar esta acción",
-			icon: "error", 
-			dangerMode: true,
-			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-		});		   
-	}		
+                    $('#formulario_atenciones #pro').val('Registro');
+                    $('#formulario_atenciones #agenda_id').val(agenda_id);
+
+                    $('#formulario_atenciones #identidad').val(datos.identidad);
+                    $('#formulario_atenciones #nombre').val(datos.paciente);
+                    $('#formulario_atenciones #edad').val(datos.edad_anos);
+                    $('#formulario_atenciones #procedencia').val(datos.localidad);
+
+                    $('#formulario_atenciones #pacientes_id').val(datos.pacientes_id);
+                    $('#formulario_atenciones #pacientes_id').selectpicker('refresh');
+
+                    $('#formulario_atenciones #paciente_consulta').val(datos.pacientes_id);
+                    $('#formulario_atenciones #paciente_consulta').selectpicker('refresh');
+
+                    $('#formulario_atenciones #fecha').val(datos.fecha_cita);
+                    $('#formulario_atenciones #fecha_nac').val(datos.fecha_nacimiento);
+
+                    $('#formulario_atenciones #antecedentes').val(datos.antecedentes);
+                    $('#formulario_atenciones #historia_clinica').val(datos.historia_clinica);
+                    $('#formulario_atenciones #exame_fisico').val(datos.examen_fisico);
+                    $('#formulario_atenciones #diagnostico').val(datos.diagnostico);
+                    $('#formulario_atenciones #seguimiento_read').val(datos.seguimiento);
+
+                    /*
+                        Consultorio / Servicio:
+                        Primero carga las opciones del select y luego selecciona el servicio.
+                    */
+                    getServicioAtencion(datos.agenda_id, datos.servicio_id);
+
+                    $('#formulario_atenciones #edad').val(datos.edad_completa);
+                    $('#formulario_atenciones #preclinica').val(datos.preclinica);
+
+                    $("#formulario_atenciones #fecha").attr('readonly', true);
+
+                    $("#edi_atencion").attr('disabled', false);
+
+                    $("#formulario_atenciones #label_servicio").show();
+                    $('#formulario_atenciones #consultorio_').hide();
+
+                    $('#formulario_atenciones .nav-tabs li:eq(0) a').tab('show');
+
+                    $('#formulario_atenciones #paciente_consulta').attr('disabled', true);
+                    $('#formulario_atenciones #paciente_consulta').selectpicker('refresh');
+
+                    $('#formulario_atenciones').attr({
+                        'data-form': 'save'
+                    });
+
+                    $('#formulario_atenciones').attr({
+                        'action': '<?php echo SERVERURL; ?>php/atencion_pacientes/agregarRegistro.php'
+                    });
+
+                    inicializarContadores(limites);
+                    inicializarSpeechRecognition(limites);
+
+                    FormAtencionMedica();
+
+                    return false;
+                },
+                error: function(xhr) {
+                    console.log("Error editarRegistro:", xhr.responseText);
+
+                    swal({
+                        title: "Error",
+                        text: "No se pudo cargar la información de la atención.",
+                        icon: "error",
+                        dangerMode: true,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    });
+                }
+            });
+
+            return false;
+
+        } else {
+            swal({
+                title: "Error",
+                text: "Lo sentimos, este registro ya existe, no se puede agregar nuevamente su atención",
+                icon: "error",
+                dangerMode: true,
+                closeOnEsc: false,
+                closeOnClickOutside: false
+            });
+        }
+
+    } else {
+        swal({
+            title: "Acceso Denegado",
+            text: "No tiene permisos para ejecutar esta acción",
+            icon: "error",
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+    }
 }
 
 //INICIO FUNCION AUSENCIA DE USUARIOS
@@ -1138,20 +1186,36 @@ function getPacientes(){
 //FIN FUNCION PARA OBTENER LOS PACIENTES
 
 //INICIO PARA OBTENER EL SERVICIO DEL FORMULARIO DE PACIENTES
-function getServicioAtencion(agenda_id){
+function getServicioAtencion(agenda_id = '', servicioSeleccionado = '') {
     var url = '<?php echo SERVERURL; ?>php/atencion_pacientes/servicios.php';
-	
-	var servicio_id;
-	$.ajax({
-	    type:'POST',
-		data:'agenda_id='+agenda_id,
-		url:url,
-		async: false,
-		success:function(data){	
-          servicio_id = data;			  		  		  			  
-		}
-	});
-	return servicio_id;		
+
+    $.ajax({
+        type: 'POST',
+        url: url,
+        async: true,
+        data: {
+            agenda_id: agenda_id
+        },
+        success: function(data) {
+
+            $('#formulario_atenciones #servicio_id').html("");
+            $('#formulario_atenciones #servicio_id').html(data);
+
+            if (servicioSeleccionado !== "" && servicioSeleccionado !== null && servicioSeleccionado !== undefined) {
+                $('#formulario_atenciones #servicio_id').val(servicioSeleccionado);
+            }
+
+            $('#formulario_atenciones #servicio_id').selectpicker('refresh');
+        },
+        error: function(xhr) {
+            console.log("Error getServicioAtencion:", xhr.responseText);
+
+            $('#formulario_atenciones #servicio_id').html("");
+            $('#formulario_atenciones #servicio_id').selectpicker('refresh');
+        }
+    });
+
+    return false;
 }
 //FIN PARA OBTENER EL SERVICIO DEL FORMULARIO DE PACIENTES
 
@@ -1321,8 +1385,135 @@ $('#form_main #nueva_factura').on('click', function(e) {
 
 var accion = false;
 
+function limpiarFormularioFacturacionCompleto(mantenerProfesional = true) {
+    var profesionalActual = '';
+
+    if (mantenerProfesional) {
+        profesionalActual = getColaborador_id();
+    }
+
+    if ($('#formulario_facturacion').length) {
+        $('#formulario_facturacion')[0].reset();
+    }
+
+    // Limpiar hidden principales
+    $('#formulario_facturacion #facturas_id').val('');
+    $('#formulario_facturacion #proforma_id').val('');
+    $('#formulario_facturacion #notes').val('');
+
+    // Quitar input hidden usado cuando bloqueamos tipo factura
+    $('#formulario_facturacion #tipo_factura_bloqueado').remove();
+
+    // Habilitar radios de tipo factura
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('disabled', false);
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('checked', false);
+
+    // Dejar Contado marcado por defecto
+    $('#formulario_facturacion #factura_contado').prop('checked', true);
+
+    // Limpiar selectpicker
+    if ($('#formulario_facturacion #pacientes_id').length) {
+        $('#formulario_facturacion #pacientes_id').val('');
+        $('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+    }
+
+    if ($('#formulario_facturacion #servicio_id').length) {
+        $('#formulario_facturacion #servicio_id').val('');
+        $('#formulario_facturacion #servicio_id').selectpicker('refresh');
+    }
+
+    if ($('#formulario_facturacion #aseguradora_id').length) {
+        $('#formulario_facturacion #aseguradora_id').val('');
+        $('#formulario_facturacion #aseguradora_id').selectpicker('refresh');
+    }
+
+    if ($('#formulario_facturacion #fact_empresas_id').length) {
+        $('#formulario_facturacion #fact_empresas_id').val('');
+        $('#formulario_facturacion #fact_empresas_id').selectpicker('refresh');
+    }
+
+    // Profesional se conserva si viene desde atención médica
+    if ($('#formulario_facturacion #colaborador_id').length) {
+        if (mantenerProfesional) {
+            $('#formulario_facturacion #colaborador_id').val(profesionalActual);
+        } else {
+            $('#formulario_facturacion #colaborador_id').val('');
+        }
+
+        $('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+    }
+
+    // Fecha actual
+    if ($('#formulario_facturacion #fecha').length) {
+        var hoy = new Date();
+        var mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        var dia = String(hoy.getDate()).padStart(2, '0');
+        var fechaActual = hoy.getFullYear() + '-' + mes + '-' + dia;
+
+        $('#formulario_facturacion #fecha').val(fechaActual);
+        $('#formulario_facturacion #fecha').attr('readonly', true);
+    }
+
+    // Limpiar tabla de productos
+    if ($('#formulario_facturacion #invoiceItem tbody').length) {
+        $('#formulario_facturacion #invoiceItem tbody').empty();
+    }
+
+    // Si tienes función limpiarTabla(), la llamamos también
+    if (typeof limpiarTabla === 'function') {
+        limpiarTabla();
+    }
+
+    // Limpiar totales principales
+    $('#formulario_facturacion #subTotal').val('');
+    $('#formulario_facturacion #taxAmount').val('');
+    $('#formulario_facturacion #taxDescuento').val('');
+    $('#formulario_facturacion #totalAftertax').val('');
+
+    // Limpiar totales footer
+    $('#formulario_facturacion #subTotalFooter').val('');
+    $('#formulario_facturacion #taxAmountFooter').val('');
+    $('#formulario_facturacion #taxDescuentoFooter').val('');
+    $('#formulario_facturacion #totalAftertaxFooter').val('');
+
+    // Por si los inputs del footer están fuera del formulario
+    $('#subTotalFooter').val('');
+    $('#taxAmountFooter').val('');
+    $('#taxDescuentoFooter').val('');
+    $('#totalAftertaxFooter').val('');
+
+    // Limpiar cualquier campo dinámico residual
+    $('#formulario_facturacion input[id^="productoID_"]').val('');
+    $('#formulario_facturacion input[id^="productName_"]').val('');
+    $('#formulario_facturacion input[id^="quantity_"]').val('');
+    $('#formulario_facturacion input[id^="price_"]').val('');
+    $('#formulario_facturacion input[id^="discount_"]').val('');
+    $('#formulario_facturacion input[id^="total_"]').val('');
+    $('#formulario_facturacion input[id^="valor_isv_"]').val('');
+    $('#formulario_facturacion input[id^="isv_"]').val('');
+
+    // Botones en estado inicial
+    $('#formulario_facturacion #validar').hide();
+    $('#formulario_facturacion #guardar').show();
+    $('#formulario_facturacion #guardar1').hide();
+    $('#formulario_facturacion #editar').hide();
+    $('#formulario_facturacion #eliminar').hide();
+
+    $('#formulario_facturacion #validar').attr('disabled', false);
+    $('#formulario_facturacion #guardar').attr('disabled', false);
+    $('#formulario_facturacion #guardar1').attr('disabled', false);
+    $('#formulario_facturacion #addRows').attr('disabled', false);
+    $('#formulario_facturacion #removeRows').attr('disabled', false);
+
+    // Recalcular si existe la función
+    if (typeof calculateTotal === 'function') {
+        calculateTotal();
+    }
+}
+
 function formFactura() {
-    $('#formulario_facturacion')[0].reset();
+    limpiarFormularioFacturacionCompleto(true);
+
     $('#main_facturacion').hide();
     $('.recetaMedica').hide();
     $('#facturacion').show();
@@ -1332,23 +1523,26 @@ function formFactura() {
     $('#acciones_factura').addClass("active");
     $('#label_acciones_factura').html("Factura");
 
-    // Actualizar el breadcrumb
     actualizarBreadcrumb("Atenciones Médicas / Factura");
 
     $('#formulario_facturacion #fecha').attr('readonly', true);
+
     $('#formulario_facturacion #colaborador_id').val(getColaborador_id());
     $('#formulario_facturacion #colaborador_id').selectpicker('refresh');
 
     $('#formulario_facturacion').attr({
         'data-form': 'save'
     });
+
     $('#formulario_facturacion').attr({
         'action': '<?php echo SERVERURL; ?>php/facturacion/addPreFactura.php'
     });
-    limpiarTabla();
+
     $('.footer').hide();
     $('.footer1').show();
+
     $('#formulario_facturacion #validar').hide();
+    $('#formulario_facturacion #guardar').show();
     $('#formulario_facturacion #guardar1').hide();
 
     accion = true;
@@ -1372,39 +1566,6 @@ function FormAtencionMedica() {
 }
 
 var accion = false;
-
-function formFactura() {
-    $('#formulario_facturacion')[0].reset();
-    $('#main_facturacion').hide();
-    $('.recetaMedica').hide();
-    $('#facturacion').show();
-
-    $('#label_acciones_volver').html("Volver");
-    $('#acciones_atras').removeClass("active");
-    $('#acciones_factura').addClass("active");
-    $('#label_acciones_factura').html("Factura");
-
-    // Actualizar el breadcrumb
-    actualizarBreadcrumb("Atenciones Médicas / Factura");
-
-    $('#formulario_facturacion #fecha').attr('readonly', true);
-    $('#formulario_facturacion #colaborador_id').val(getColaborador_id());
-    $('#formulario_facturacion #colaborador_id').selectpicker('refresh');
-
-    $('#formulario_facturacion').attr({
-        'data-form': 'save'
-    });
-    $('#formulario_facturacion').attr({
-        'action': '<?php echo SERVERURL; ?>php/facturacion/addPreFactura.php'
-    });
-    limpiarTabla();
-    $('.footer').hide();
-    $('.footer1').show();
-    $('#formulario_facturacion #validar').hide();
-    $('#formulario_facturacion #guardar1').hide();    
-
-    accion = true;
-}
 
 function FormAtencionMedica() {
     $('#main_facturacion').hide();

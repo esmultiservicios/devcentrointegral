@@ -1,228 +1,569 @@
 <?php
-session_start();   
+// addFacturaporUsuarioGuardar.php
+session_start();
+header('Content-Type: application/json; charset=utf-8');
+
 include "../funtions.php";
-	
-//CONEXION A DB
-$mysqli = connect_mysqli(); 
 
-$facturas_id = $_POST['facturas_id'];
-$pacientes_id = $_POST['pacientes_id'];
-$fecha = $_POST['fecha'];
-$colaborador_id = $_POST['colaborador_id'];
-$empresa_id = $_SESSION['empresa_id'];
-$servicio_id = $_POST['servicio_id'];
-$notes = cleanStringStrtolower($_POST['notes']);
-$usuario = $_SESSION['colaborador_id'];
-$fecha_registro = date("Y-m-d H:i:s");
+/* ============================================================
+   CONEXIÓN
+============================================================ */
+
+$mysqli = connect_mysqli();
+$mysqli->set_charset("utf8mb4");
+
+/* ============================================================
+   FUNCIONES AUXILIARES
+============================================================ */
+
+function responder($titulo, $mensaje, $icono, $boton, $formulario = "", $accion = "", $tipoTabla = "", $modal = "", $facturas_id = "", $tipo_factura = 0) {
+    echo json_encode(array(
+        0 => $titulo,
+        1 => $mensaje,
+        2 => $icono,
+        3 => $boton,
+        4 => $formulario,
+        5 => $accion,
+        6 => $tipoTabla,
+        7 => $modal,
+        8 => $facturas_id,
+        9 => $tipo_factura
+    ));
+    exit;
+}
+
+function post_int($key, $default = 0) {
+    if (!isset($_POST[$key]) || $_POST[$key] === "") {
+        return $default;
+    }
+
+    return (int)$_POST[$key];
+}
+
+function post_float_array($array, $i, $default = 0) {
+    if (!isset($array[$i]) || $array[$i] === "") {
+        return $default;
+    }
+
+    return (float)$array[$i];
+}
+
+function post_int_array($array, $i, $default = 0) {
+    if (!isset($array[$i]) || $array[$i] === "") {
+        return $default;
+    }
+
+    return (int)$array[$i];
+}
+
+function post_string_array($array, $i, $default = "") {
+    if (!isset($array[$i])) {
+        return $default;
+    }
+
+    return trim($array[$i]);
+}
+
+function correlativo_local($mysqli, $campo, $tabla) {
+    $permitidos = array(
+        "facturas_detalle" => "facturas_detalle_id"
+    );
+
+    if (!isset($permitidos[$tabla]) || $permitidos[$tabla] !== $campo) {
+        throw new Exception("Correlativo no permitido.");
+    }
+
+    $sql = "SELECT IFNULL(MAX($campo), 0) + 1 AS siguiente FROM $tabla";
+    $result = $mysqli->query($sql);
+
+    if (!$result) {
+        throw new Exception("Error generando correlativo: " . $mysqli->error);
+    }
+
+    $row = $result->fetch_assoc();
+
+    return (int)$row['siguiente'];
+}
+
+function bind_params_ref($stmt, $types, $params) {
+    if ($types === "" || count($params) === 0) {
+        return;
+    }
+
+    $refs = array();
+    $refs[] = $types;
+
+    foreach ($params as $key => $value) {
+        $refs[] = &$params[$key];
+    }
+
+    call_user_func_array(array($stmt, "bind_param"), $refs);
+}
+
+function consultar_uno($mysqli, $sql, $types = "", $params = array()) {
+    $stmt = $mysqli->prepare($sql);
+
+    if (!$stmt) {
+        throw new Exception("Error preparando consulta: " . $mysqli->error);
+    }
+
+    if ($types !== "" && count($params) > 0) {
+        bind_params_ref($stmt, $types, $params);
+    }
+
+    if (!$stmt->execute()) {
+        throw new Exception("Error ejecutando consulta: " . $stmt->error);
+    }
+
+    $result = $stmt->get_result();
+    $row = null;
+
+    if ($result && $result->num_rows > 0) {
+        $row = $result->fetch_assoc();
+    }
+
+    $stmt->close();
+
+    return $row;
+}
+
+function ejecutar_sql($mysqli, $sql, $types = "", $params = array()) {
+    $stmt = $mysqli->prepare($sql);
+
+    if (!$stmt) {
+        throw new Exception("Error preparando operación: " . $mysqli->error);
+    }
+
+    if ($types !== "" && count($params) > 0) {
+        bind_params_ref($stmt, $types, $params);
+    }
+
+    if (!$stmt->execute()) {
+        throw new Exception("Error ejecutando operación: " . $stmt->error);
+    }
+
+    $stmt->close();
+
+    return true;
+}
+
+/* ============================================================
+   VALIDAR SESIÓN
+============================================================ */
+
+if (!isset($_SESSION['empresa_id']) || !isset($_SESSION['colaborador_id'])) {
+    responder(
+        "Error",
+        "La sesión ha expirado. Por favor vuelva a iniciar sesión.",
+        "error",
+        "btn-danger"
+    );
+}
+
+/* ============================================================
+   RECIBIR DATOS
+============================================================ */
+
+$facturas_id = post_int("facturas_id");
+$pacientes_id = post_int("pacientes_id");
+$colaborador_id = post_int("colaborador_id");
+$servicio_id = post_int("servicio_id");
+
+$fecha = isset($_POST['fecha']) && $_POST['fecha'] !== "" ? $_POST['fecha'] : date("Y-m-d");
+
+$empresa_id = (int)$_SESSION['empresa_id'];
+$usuario = (int)$_SESSION['colaborador_id'];
+
+$notes = isset($_POST['notes']) ? cleanStringStrtolower($_POST['notes']) : "";
+
 $activo = 1;
-$estado = 1;//ESTADO FACTURA BORRADOR
-
-if(isset($_POST['aseguradora_id'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-	if($_POST['aseguradora_id'] == ""){
-		$aseguradora_id = 0;
-	}else{
-		$aseguradora_id = $_POST['aseguradora_id'];
-	}
-}else{
-	$aseguradora_id = 0;
-}
-
-if(isset($_POST['fact_empresas_id'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-	if($_POST['fact_empresas_id'] == ""){
-		$fact_empresas_id = 0;
-	}else{
-		$fact_empresas_id = $_POST['fact_empresas_id'];
-	}
-}else{
-	$fact_empresas_id = 0;
-}
-
-if(isset($_POST['facturas_activo'])){//COMPRUEBO SI LA VARIABLE ESTA DIFINIDA
-	if($_POST['facturas_activo'] == ""){
-		$tipo_factura = 2;
-		$tipo = "FacturacionCredito";
-	}else{
-		$tipo_factura = $_POST['facturas_activo'];
-		$tipo = "Facturacion1";
-	}
-}else{
-	$tipo_factura = 2;
-	$tipo = "FacturacionCredito";
-}
-
-//CONSULTAR DATOS DE LA SECUENCIA DE FACTURACION
-$query_secuencia = "SELECT secuencia_facturacion_id, prefijo, siguiente AS 'numero', rango_final, fecha_limite, incremento, relleno
-   FROM secuencia_facturacion
-   WHERE activo = '$activo' AND empresa_id = '$empresa_id'";
-$result = $mysqli->query($query_secuencia) or die($mysqli->error);
-$consulta2 = $result->fetch_assoc();
-
-$secuencia_facturacion_id = "";
+$estado = 1; // Borrador
 $numero = 0;
+$cierre = 2;
 
-if($result->num_rows>0){
-	$secuencia_facturacion_id = $consulta2['secuencia_facturacion_id'];		
+$aseguradora_id = post_int("aseguradora_id");
+$fact_empresas_id = post_int("fact_empresas_id");
+
+/*
+    tipo_factura:
+    1 = Contado
+    2 = Crédito
+    3 = Proforma
+*/
+$tipo_factura = post_int("facturas_activo", 1);
+
+if (!in_array($tipo_factura, array(1, 2, 3))) {
+    $tipo_factura = 1;
 }
 
-//OBTENEMOS EL TAMAÑO DE LA TABLA
-if(isset($_POST['productName'])){	
-	if($_POST['productName'][0] != "" && $_POST['quantity'][0] && $_POST['price'][0]){
-		$tamano_tabla = count( $_POST['productName']);
-	}else{
-		$tamano_tabla = 0;
-	}
-}else{
-	$tamano_tabla = 0;
+$proforma_id = null;
+
+if (isset($_POST['proforma_id']) && $_POST['proforma_id'] !== "") {
+    $proforma_id = (int)$_POST['proforma_id'];
 }
 
-if($pacientes_id != "" && $colaborador_id != "" && $servicio_id != ""){
-	if($tamano_tabla >0){
-		//ACTUALIZAMOS LA FACTURA
-		$update = "UPDATE facturas
-			SET 
-				number = '$numero',
-				secuencia_facturacion_id = '$secuencia_facturacion_id',
-				estado = '$estado',
-				notas = '$notes',
-				fact_empresas_id = '$fact_empresas_id'			
-			WHERE facturas_id = '$facturas_id'";
-		$query = $mysqli->query($update);
+/* ============================================================
+   TIPO DE TABLA / RESPUESTA AJAX
+============================================================ */
 
-		if($query){	
-			$total_valor = 0;
-			$descuentos = 0;
-			$isv_neto = 0;
-			$total_despues_isv = 0;
-			$isv_valor = 0;
-			
-			for ($i = 0; $i < count( $_POST['productName']); $i++){//INICIO DEL CICLO
-				$facturas_detalle_id = correlativo("facturas_detalle_id","facturas_detalle");
-				$productoID = $_POST['productoID'][$i];
-				$productName = $_POST['productName'][$i];
-				$quantity = $_POST['quantity'][$i];
-				$price = $_POST['price'][$i];
+$tipo = "Facturacion1";
 
-				if($_POST['discount'][$i] != "" || $_POST['discount'][$i] != null){
-					$discount = $_POST['discount'][$i];
-				}	
-									
-				$total = $_POST['total'][$i];
-
-				if($_POST['valor_isv'][$i] != "" || $_POST['valor_isv'][$i] != null){
-					$isv_valor = $_POST['valor_isv'][$i];
-				}
-				
-				if($productoID != "" && $productName != "" && $quantity != "" && $price != "" && $total != ""){					
-					//OBTENER EL ISV
-					$query_isv = "SELECT nombre
-						FROM isv";
-					$result_isv = $mysqli->query($query_isv) or die($mysqli->error);
-					
-					$porcentajeISV = 0;
-					
-					if($result_isv->num_rows>0){
-						$consulta_isv_valor = $result_isv->fetch_assoc();
-						$porcentajeISV = $consulta_isv_valor["nombre"];						
-					}
-				
-					//CONSULTAMOS EL ISV ACTIVO EN EL PRODUCTO
-					$query_isv_activo = "SELECT isv
-						FROM productos
-						WHERE productos_id  = '$productoID'";
-					$result_productos_isv_activo = $mysqli->query($query_isv_activo) or die($mysqli->error);
-					$aplica_isv = 0;
-					
-					if($result_productos_isv_activo->num_rows>0){
-						$consulta_aplica_isv_productos = $result_productos_isv_activo->fetch_assoc();
-						$aplica_isv = $consulta_aplica_isv_productos["isv"];						
-					}
-
-					$porcentaje_isv = 0;
-					
-					if($aplica_isv == 1){
-						$porcentaje_isv = ($porcentajeISV / 100);
-						$isv_valor = $price * $quantity * $porcentaje_isv;
-					}					
-					
-					//VERIFICAMOS SI NO EXISTE LA FACTURA, DE NO EXISTIR LA ACTUALIZAMOS
-					$query_factura_detalle = "SELECT facturas_id
-						FROM facturas_detalle
-						WHERE facturas_id = '$facturas_id' AND productos_id = '$productoID'";
-					$result_factura_detalle = $mysqli->query($query_factura_detalle) or die($mysqli->error);	
-
-					if($result_factura_detalle->num_rows>0){
-						//ACTUALIZAMOS EL DETALLE DE LA FACTURA
-						$update_factura_detalle = "UPDATE facturas_detalle
-							SET 
-								cantidad = '$quantity',
-								precio = '$price',
-								isv_valor = '$isv_valor',
-								descuento = '$discount'
-							WHERE facturas_id = '$facturas_id' AND productos_id = '$productoID'";
-						$mysqli->query($update_factura_detalle);				
-					}else{
-						$facturas_detalle_id = correlativo("facturas_detalle_id","facturas_detalle");
-						$insert_detalle = "INSERT INTO facturas_detalle 
-							VALUES('$facturas_detalle_id','$facturas_id','$productoID','$quantity','$price','$isv_valor','$discount')";
-						$mysqli->query($insert_detalle);
-					}
-
-					$total_valor += ($price * $quantity);
-					$descuentos += $discount;
-					$isv_neto += $isv_valor;
-				}
-			}//FIN DEL CICLO
-
-			$total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
-			
-			//ACTUALIZAMOS EL IMPORTE DE LA FACTURA
-			$update = "UPDATE facturas
-				SET
-					importe = '$total_despues_isv'
-				WHERE facturas_id = '$facturas_id'";
-			$mysqli->query($update);
-					
-			$datos = array(
-				0 => "Almacenado", 
-				1 => "Registro Almacenado Correctamente", 
-				2 => "success",
-				3 => "btn-primary",
-				4 => "formulario_facturacion",
-				5 => "Registro",
-				6 => $tipo,//FUNCION DE LA TABLA QUE LLAMAREMOS PARA QUE ACTUALICE (DATATABLE BOOSTRAP)
-				7 => "", //Modals Para Cierre Automatico
-				8 => $facturas_id, //Modals Para Cierre Automatico		
-			);
-		}else{//NO SE PUEDO ALMACENAR ESTE REGISTRO
-			$datos = array(
-				0 => "Error", 
-				1 => "No se puedo almacenar este registro, los datos son incorrectos por favor corregir", 
-				2 => "error",
-				3 => "btn-danger",
-				4 => "",
-				5 => "",			
-			);
-		}	
-	}else{
-			$datos = array(
-				0 => "Error", 
-				1 => "Lo sentimos, debe agregar por lo menos una línea en los detalles de la factura", 
-				2 => "error",
-				3 => "btn-danger",
-				4 => "",
-				5 => "",			
-			);	
-	}
-}else{
-	$datos = array(
-		0 => "Error", 
-		1 => "Lo sentimos, el Paciente, Profesional o Servicio no pueden quedar en blanco, por favor corregir", 
-		2 => "error",
-		3 => "btn-danger",
-		4 => "",
-		5 => "",			
-	);		
+if ($tipo_factura == 2) {
+    $tipo = "FacturacionCredito";
 }
 
-echo json_encode($datos);
-?>
+if ($tipo_factura == 3) {
+    $tipo = "Proforma";
+}
+
+/* ============================================================
+   VALIDACIONES PRINCIPALES
+============================================================ */
+
+if ($facturas_id <= 0) {
+    responder(
+        "Error",
+        "No se recibió el ID de la factura que desea actualizar.",
+        "error",
+        "btn-danger"
+    );
+}
+
+if ($pacientes_id <= 0 || $colaborador_id <= 0 || $servicio_id <= 0) {
+    responder(
+        "Error",
+        "Lo sentimos, el Paciente, Profesional o Servicio no pueden quedar en blanco, por favor corregir.",
+        "error",
+        "btn-danger"
+    );
+}
+
+if (!isset($_POST['productName']) || !is_array($_POST['productName'])) {
+    responder(
+        "Error",
+        "Lo sentimos, debe agregar por lo menos una línea en los detalles de la factura.",
+        "error",
+        "btn-danger"
+    );
+}
+
+$productNameArray = $_POST['productName'];
+$productoIDArray = isset($_POST['productoID']) ? $_POST['productoID'] : array();
+$quantityArray = isset($_POST['quantity']) ? $_POST['quantity'] : array();
+$priceArray = isset($_POST['price']) ? $_POST['price'] : array();
+$discountArray = isset($_POST['discount']) ? $_POST['discount'] : array();
+$totalArray = isset($_POST['total']) ? $_POST['total'] : array();
+
+$detalleValido = false;
+
+for ($i = 0; $i < count($productNameArray); $i++) {
+    $productoIDTmp = post_int_array($productoIDArray, $i);
+    $productNameTmp = post_string_array($productNameArray, $i);
+    $quantityTmp = post_float_array($quantityArray, $i);
+    $priceTmp = post_float_array($priceArray, $i);
+    $totalTmp = post_float_array($totalArray, $i);
+
+    if ($productoIDTmp > 0 && $productNameTmp !== "" && $quantityTmp > 0 && $priceTmp >= 0 && $totalTmp >= 0) {
+        $detalleValido = true;
+        break;
+    }
+}
+
+if (!$detalleValido) {
+    responder(
+        "Error",
+        "Lo sentimos, debe agregar por lo menos una línea válida en los detalles de la factura.",
+        "error",
+        "btn-danger"
+    );
+}
+
+/* ============================================================
+   PROCESO PRINCIPAL
+============================================================ */
+
+$tablas_bloqueadas = false;
+
+try {
+
+    /*
+        Este PHP solo GUARDA:
+        - No genera número fiscal.
+        - No consume secuencia.
+        - No cobra.
+        - No descuenta inventario.
+    */
+    $mysqli->query("
+        LOCK TABLES
+            facturas WRITE,
+            facturas_detalle WRITE,
+            secuencia_facturacion READ,
+            productos READ,
+            isv READ
+    ");
+
+    $tablas_bloqueadas = true;
+
+    /* ============================================================
+       VALIDAR QUE LA FACTURA EXISTA
+    ============================================================ */
+
+    $facturaActual = consultar_uno(
+        $mysqli,
+        "SELECT facturas_id, tipo_factura, estado, number
+        FROM facturas
+        WHERE facturas_id = ?
+        LIMIT 1",
+        "i",
+        array($facturas_id)
+    );
+
+    if (!$facturaActual) {
+        throw new Exception("La factura indicada no existe.");
+    }
+
+    /* ============================================================
+       CONSULTAR SECUENCIA ACTIVA COMO REFERENCIA
+    ============================================================ */
+
+    $secuencia_facturacion_id = 0;
+
+    $secuencia = consultar_uno(
+        $mysqli,
+        "SELECT 
+            secuencia_facturacion_id,
+            prefijo,
+            siguiente AS numero,
+            rango_final,
+            fecha_limite,
+            incremento,
+            relleno
+        FROM secuencia_facturacion
+        WHERE activo = ? AND empresa_id = ?
+        LIMIT 1",
+        "ii",
+        array($activo, $empresa_id)
+    );
+
+    if ($secuencia) {
+        $secuencia_facturacion_id = (int)$secuencia['secuencia_facturacion_id'];
+    }
+
+    $numero = 0;
+    $estado = 1; // Borrador
+
+    /* ============================================================
+       ACTUALIZAR CABECERA
+    ============================================================ */
+
+    ejecutar_sql(
+        $mysqli,
+        "UPDATE facturas
+        SET
+            number = ?,
+            secuencia_facturacion_id = ?,
+            tipo_factura = ?,
+            pacientes_id = ?,
+            colaborador_id = ?,
+            servicio_id = ?,
+            estado = ?,
+            notas = ?,
+            fecha = ?,
+            cierre = ?,
+            fact_empresas_id = ?,
+            usuario = ?,
+            empresa_id = ?,
+            aseguradora_id = ?,
+            proforma_id = ?
+        WHERE facturas_id = ?",
+        "iiiiiiissiiiiiii",
+        array(
+            $numero,
+            $secuencia_facturacion_id,
+            $tipo_factura,
+            $pacientes_id,
+            $colaborador_id,
+            $servicio_id,
+            $estado,
+            $notes,
+            $fecha,
+            $cierre,
+            $fact_empresas_id,
+            $usuario,
+            $empresa_id,
+            $aseguradora_id,
+            $proforma_id,
+            $facturas_id
+        )
+    );
+
+    /* ============================================================
+       LIMPIAR DETALLE ACTUAL
+    ============================================================ */
+
+    ejecutar_sql(
+        $mysqli,
+        "DELETE FROM facturas_detalle
+        WHERE facturas_id = ?",
+        "i",
+        array($facturas_id)
+    );
+
+    /* ============================================================
+       OBTENER PORCENTAJE ISV
+    ============================================================ */
+
+    $porcentajeISV = 0;
+
+    $rowISV = consultar_uno(
+        $mysqli,
+        "SELECT nombre FROM isv LIMIT 1"
+    );
+
+    if ($rowISV) {
+        $porcentajeISV = (float)$rowISV['nombre'];
+    }
+
+    /* ============================================================
+       INSERTAR DETALLE NUEVO
+    ============================================================ */
+
+    $total_valor = 0;
+    $descuentos = 0;
+    $isv_neto = 0;
+
+    for ($i = 0; $i < count($productNameArray); $i++) {
+
+        $productoID = post_int_array($productoIDArray, $i);
+        $productName = post_string_array($productNameArray, $i);
+        $quantity = post_float_array($quantityArray, $i);
+        $price = post_float_array($priceArray, $i);
+        $discount = post_float_array($discountArray, $i);
+        $total = post_float_array($totalArray, $i);
+
+        if ($productoID <= 0 || $productName === "" || $quantity <= 0 || $price < 0 || $total < 0) {
+            continue;
+        }
+
+        /* ========================================================
+           CONSULTAR SI EL PRODUCTO APLICA ISV
+        ======================================================== */
+
+        $aplica_isv = 0;
+
+        $rowProductoISV = consultar_uno(
+            $mysqli,
+            "SELECT isv
+            FROM productos
+            WHERE productos_id = ?
+            LIMIT 1",
+            "i",
+            array($productoID)
+        );
+
+        if ($rowProductoISV) {
+            $aplica_isv = (int)$rowProductoISV['isv'];
+        }
+
+        $isv_valor = 0;
+
+        if ($aplica_isv == 1) {
+            $isv_valor = ($price * $quantity) * ($porcentajeISV / 100);
+        }
+
+        /* ========================================================
+           INSERTAR DETALLE
+        ======================================================== */
+
+        $facturas_detalle_id = correlativo_local($mysqli, "facturas_detalle_id", "facturas_detalle");
+
+        ejecutar_sql(
+            $mysqli,
+            "INSERT INTO facturas_detalle (
+                facturas_detalle_id,
+                facturas_id,
+                productos_id,
+                cantidad,
+                precio,
+                isv_valor,
+                descuento
+            ) VALUES (?, ?, ?, ?, ?, ?, ?)",
+            "iiidddd",
+            array(
+                $facturas_detalle_id,
+                $facturas_id,
+                $productoID,
+                $quantity,
+                $price,
+                $isv_valor,
+                $discount
+            )
+        );
+
+        $total_valor += ($price * $quantity);
+        $descuentos += $discount;
+        $isv_neto += $isv_valor;
+    }
+
+    $total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
+
+    /* ============================================================
+       ACTUALIZAR IMPORTE
+    ============================================================ */
+
+    ejecutar_sql(
+        $mysqli,
+        "UPDATE facturas
+        SET importe = ?
+        WHERE facturas_id = ?",
+        "di",
+        array($total_despues_isv, $facturas_id)
+    );
+
+    $mysqli->query("UNLOCK TABLES");
+    $tablas_bloqueadas = false;
+
+    /* ============================================================
+       RESPUESTA
+    ============================================================ */
+
+    $mensaje = "Registro almacenado correctamente.";
+
+    if ($tipo_factura == 1) {
+        $mensaje = "Factura de contado guardada correctamente.";
+    }
+
+    if ($tipo_factura == 2) {
+        $mensaje = "Factura al crédito guardada correctamente.";
+    }
+
+    if ($tipo_factura == 3) {
+        $mensaje = "Proforma guardada correctamente. No se generó pago ni secuencia fiscal.";
+    }
+
+    responder(
+        "Almacenado",
+        $mensaje,
+        "success",
+        "btn-primary",
+        "formulario_facturacion",
+        "Registro",
+        $tipo,
+        "",
+        $facturas_id,
+        $tipo_factura
+    );
+
+} catch (Exception $e) {
+
+    if ($tablas_bloqueadas) {
+        $mysqli->query("UNLOCK TABLES");
+    }
+
+    responder(
+        "Error",
+        "No se pudo almacenar este registro. " . $e->getMessage(),
+        "error",
+        "btn-danger"
+    );
+}

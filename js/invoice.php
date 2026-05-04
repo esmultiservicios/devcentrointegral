@@ -360,4 +360,14 @@ $("#reg_DescuentoFacturacion").on("click", function(e){
 	}
 });
 //FIN DESCUENTO PRODUCTO EN FACTURACION
+
+// CONTADO / CRÉDITO
+$(document).on('change', '#facturas_activo', function () {
+    $('#label_facturas_activo').text(this.checked ? 'Contado' : 'Crédito');
+});
+
+// PROFORMA
+$(document).on('change', '#factura_proforma', function () {
+    $('#label_factura_proforma').text(this.checked ? 'Sí' : 'No');
+});
 </script>

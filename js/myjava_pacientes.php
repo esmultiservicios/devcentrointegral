@@ -1175,8 +1175,8 @@ $('#form_main #limpiar').on('click', function(e) {
     getStatus();
 });
 
-var listar_pacientes = function(){
-	var estado = "";
+var listar_pacientes = function () {
+    var estado = "";
     var paciente = "";
 
     if ($('#form_main #estado').val() == "" || $('#form_main #estado').val() == null) {
@@ -1190,132 +1190,234 @@ var listar_pacientes = function(){
     } else {
         paciente = $('#form_main #tipo').val();
     }
-	
-	var table_pacientes  = $("#dataTablePacientesMain").DataTable({
-		"destroy":true,	
-		"ajax":{
-			"method":"POST",
-			"url": "<?php echo SERVERURL; ?>php/pacientes/llenarDataTablePacientes.php",
-            "data": function(d) {
+
+    var table_pacientes = $("#dataTablePacientesMain").DataTable({
+        destroy: true,
+        bDestroy: true,
+        stateSave: true,
+        lengthMenu: lengthMenu20,
+        language: idioma_español,
+        dom: dom,
+
+        ajax: {
+            method: "POST",
+            url: "<?php echo SERVERURL; ?>php/pacientes/llenarDataTablePacientes.php",
+            dataType: "json",
+            data: function (d) {
                 d.estado = estado;
                 d.paciente = paciente;
-            }		
-		},		
-		"columns":[
-			{"data": "paciente"},
-			{
-				"data": "expediente",
-				"render": function(data, type, row) {
-					return '<a href="#" class="showExpedienteLink">' + data + '</a>';
-				}
-			},
-			{"data": "identidad"},
-			{"data": "edad"},			
-			{"data": "telefono1"},
-			{"data": "identidad"},
-			{"data": "localidad"},			
-			{
-				"data": null,
-				"defaultContent": 
-					'<div class="btn-group">' +
-						'<button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
-							'<i class="fas fa-cog"></i>' +
-						'</button>' +
-						'<div class="dropdown-menu">' +
-							'<a class="dropdown-item showExpediente" href="#"><i class="fas fa-eye fa-lg"></i> Información del Paciente</a>' +
-							'<a class="dropdown-item addExpediente" href="#"><i class="fas fa-plus fa-lg"></i> Agregar Expediente</a>' +
-							'<a class="dropdown-item addIdentidad" href="#"><i class="fas fa-edit fa-lg"></i> Editar Identidad Paciente</a>' +
-							'<a class="dropdown-item editar" href="#"><i class="fas fa-user-edit fa-lg"></i> Editar Paciente</a>' +
-							'<a class="dropdown-item delete" href="#"><i class="fas fa-trash fa-lg"></i> Eliminar Paciente</a>' +
-						'</div>' +
-					'</div>'
-			}
-		],		
-        "lengthMenu": lengthMenu20,
-		"stateSave": true,
-		"bDestroy": true,		
-		"language": idioma_español,//esta se encuenta en el archivo main.js
-		"dom": dom,			
-		"buttons":[		
-			{
-				text:      '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
-				titleAttr: 'Actualizar Pacientes',
-				className: 'btn btn-info',
-				action: 	function(){
-					listar_pacientes();
-				}
-			},		
-			{
-				text:      '<i class="fas fa-user-plus fa-lg"></i> Crear Pacientes',
-				titleAttr: 'Agregar Pacientes',
-				className: 'btn btn-primary',
-				action: 	function(){
-					addPacientes();
-				}
-			},	
-			{
-				text:      '<i class="fas fa-user-plus fa-lg"></i> Crear Profesion',
-				titleAttr: 'Agregar Pacientes',
-				className: 'btn btn-primary',
-				action: 	function(){
-					addProfesion();
-				}
-			},		
-			{
-				extend:    'excelHtml5',
-				text:      '<i class="fas fa-file-excel fa-lg"></i> Excel',
-				titleAttr: 'Excel',
-				title: 'Reporte Pacientes',
-				className: 'btn btn-success',
-				exportOptions: {
+            },
+            dataSrc: function (json) {
+                if (!json || !json.data) {
+                    return [];
+                }
+
+                return json.data;
+            },
+            error: function (xhr) {
+                console.log("Error al cargar pacientes:", xhr.responseText);
+            }
+        },
+
+        columns: [
+            {
+                data: "paciente",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">Sin nombre</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: "expediente",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        data = "TEMP";
+                    }
+
+                    return '<a href="#" class="showExpedienteLink" style="text-decoration:none;">' + data + '</a>';
+                }
+            },
+            {
+                data: "identidad",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">No registrada</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: "edad",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">Sin fecha</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: "telefono1",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">No registrado</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: "email",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">No registrado</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: "localidad",
+                render: function (data, type, row) {
+                    if (data == null || data == "") {
+                        return '<span class="text-muted">No registrada</span>';
+                    }
+
+                    return data;
+                }
+            },
+            {
+                data: null,
+                className: "text-center",
+                orderable: false,
+                render: function (data, type, row) {
+                    var pacientes_id = row.pacientes_id || 0;
+                    var expediente = row.expediente_ || 0;
+
+                    return '' +
+                        '<div class="dropdown">' +
+                            '<button class="btn btn-sm btn-primary dropdown-toggle px-3" type="button" id="dropdownPaciente' + pacientes_id + '" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">' +
+                                '<i class="fas fa-cog"></i> Opciones' +
+                            '</button>' +
+
+                            '<div class="dropdown-menu dropdown-menu-right shadow" aria-labelledby="dropdownPaciente' + pacientes_id + '">' +
+
+                                '<a class="dropdown-item showExpediente" href="#">' +
+                                    '<i class="fas fa-eye text-info mr-2"></i> Información del Paciente' +
+                                '</a>' +
+
+                                '<a class="dropdown-item addExpediente" href="#">' +
+                                    '<i class="fas fa-plus text-success mr-2"></i> Agregar Expediente' +
+                                '</a>' +
+
+                                '<a class="dropdown-item addIdentidad" href="#">' +
+                                    '<i class="fas fa-edit text-warning mr-2"></i> Editar Identidad Paciente' +
+                                '</a>' +
+
+                                '<a class="dropdown-item editar" href="#">' +
+                                    '<i class="fas fa-user-edit text-primary mr-2"></i> Editar Paciente' +
+                                '</a>' +
+
+                                '<div class="dropdown-divider"></div>' +
+
+                                '<a class="dropdown-item delete text-danger" href="#">' +
+                                    '<i class="fas fa-trash mr-2"></i> Eliminar Paciente' +
+                                '</a>' +
+
+                            '</div>' +
+                        '</div>';
+                }
+            }
+        ],
+
+        buttons: [
+            {
+                text: '<i class="fas fa-sync-alt fa-lg"></i> Actualizar',
+                titleAttr: 'Actualizar Pacientes',
+                className: 'btn btn-info',
+                action: function () {
+                    listar_pacientes();
+                }
+            },
+            {
+                text: '<i class="fas fa-user-plus fa-lg"></i> Crear Pacientes',
+                titleAttr: 'Agregar Pacientes',
+                className: 'btn btn-primary',
+                action: function () {
+                    addPacientes();
+                }
+            },
+            {
+                text: '<i class="fas fa-user-plus fa-lg"></i> Crear Profesion',
+                titleAttr: 'Agregar Profesión',
+                className: 'btn btn-primary',
+                action: function () {
+                    addProfesion();
+                }
+            },
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fas fa-file-excel fa-lg"></i> Excel',
+                titleAttr: 'Excel',
+                title: 'Reporte Pacientes',
+                className: 'btn btn-success',
+                exportOptions: {
                     columns: [0, 1, 2, 3, 4, 5, 6]
-                },				
-			},
-			{
-				extend: 'pdf',
-				orientation: 'landscape',
-				text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
-				titleAttr: 'PDF',
-				title: 'Reporte Pacientes',
-				className: 'btn btn-danger',
-				exportOptions: {
-					modifier: {
-						page: 'current' // Solo exporta las filas visibles en la página actual
-					},
-					columns: [0, 1, 2, 3, 4, 5, 6] // Define las columnas a exportar
-				},
-				customize: function(doc) {
-					// Asegúrate de que `imagen` contenga la cadena base64 de la imagen
-					doc.content.splice(1, 0, {
-						margin: [0, 0, 0, 12],
-						alignment: 'left',
-						image: imagen, // Usando la variable que ya tiene la imagen base64
-						width: 170, // Ajusta el tamaño si es necesario
-						height: 45 // Ajusta el tamaño si es necesario
-					});
-				}
-			},
-			{
-				extend: 'print',
-				text: '<i class="fas fa-print fa-lg"></i> Imprimir',  // Correcta colocación del icono
-				titleAttr: 'Imprimir',
-				title: 'Reporte Pacientes',
-				className: 'btn btn-secondary',
-				exportOptions: {
+                }
+            },
+            {
+                extend: 'pdf',
+                orientation: 'landscape',
+                text: '<i class="fas fa-file-pdf fa-lg"></i> PDF',
+                titleAttr: 'PDF',
+                title: 'Reporte Pacientes',
+                className: 'btn btn-danger',
+                exportOptions: {
+                    modifier: {
+                        page: 'current'
+                    },
                     columns: [0, 1, 2, 3, 4, 5, 6]
                 },
-			}
-		]		
-	});	 
-	table_pacientes.search('').draw();
-	$('#buscar').focus();
-	
-	show_expediente_link_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
-	show_expediente_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
-	add_expediente_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
-	add_identidad_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
-	edit_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
-	delete_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+                customize: function (doc) {
+                    doc.content.splice(1, 0, {
+                        margin: [0, 0, 0, 12],
+                        alignment: 'left',
+                        image: imagen,
+                        width: 170,
+                        height: 45
+                    });
+                }
+            },
+            {
+                extend: 'print',
+                text: '<i class="fas fa-print fa-lg"></i> Imprimir',
+                titleAttr: 'Imprimir',
+                title: 'Reporte Pacientes',
+                className: 'btn btn-secondary',
+                exportOptions: {
+                    columns: [0, 1, 2, 3, 4, 5, 6]
+                }
+            }
+        ],
+
+        drawCallback: function () {
+            $('.dropdown-toggle').dropdown();
+        }
+    });
+
+    table_pacientes.search('').draw();
+    $('#buscar').focus();
+
+    show_expediente_link_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+    show_expediente_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+    add_expediente_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+    add_identidad_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+    edit_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
+    delete_paciente_dataTable("#dataTablePacientesMain tbody", table_pacientes);
 }
 
 var show_expediente_link_paciente_dataTable = function(tbody, table){

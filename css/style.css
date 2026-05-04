@@ -490,3 +490,228 @@ Se debe agregar unos codigos que estan en myjava_facturacion.php inician con Men
         max-height: 60px; /* Ajusta la altura máxima para pantallas más grandes */
     }
 }
+
+label.required::after {
+    content: " *";
+    color: red;
+    font-weight: bold;
+}
+
+.priority {
+    color: red;
+    font-weight: bold;
+}
+
+/*INICIO ESTILO PARA LA SECUENCIA DE FACTURACION*/
+.modal-secuencia-content {
+	border: 0;
+	border-radius: 10px;
+	overflow: hidden;
+	box-shadow: 0 15px 45px rgba(0, 0, 0, 0.22);
+}
+
+.modal-secuencia-header {
+	background: #ffffff;
+	border-bottom: 1px solid #e5e8ec;
+	padding: 18px 24px;
+}
+
+.modal-secuencia-header .modal-title {
+	font-weight: 700;
+	color: #252b33;
+}
+
+.modal-secuencia-header small {
+	font-size: 13px;
+}
+
+.card-secuencia {
+	border: 1px solid #e3e7ec;
+	border-radius: 8px;
+	box-shadow: 0 2px 8px rgba(20, 40, 70, 0.04);
+}
+
+.card-secuencia-title {
+	background: #f7f9fb;
+	color: #2f3843;
+	font-weight: 700;
+	font-size: 14px;
+	border-bottom: 1px solid #e3e7ec;
+	padding: 11px 15px;
+}
+
+.label-form {
+	font-size: 14px;
+	font-weight: 600;
+	color: #2e3440;
+	margin-bottom: 6px;
+}
+
+.form-control {
+	border-radius: 5px;
+	border-color: #ccd4dd;
+}
+
+.form-control:focus {
+	border-color: #6aa8ff;
+	box-shadow: 0 0 0 0.14rem rgba(0, 123, 255, 0.16);
+}
+
+.input-group-text {
+	background: #eef2f6;
+	border-color: #ccd4dd;
+	color: #4b5663;
+	min-width: 42px;
+	justify-content: center;
+}
+
+.form-text {
+	font-size: 12px;
+	line-height: 1.35;
+}
+
+.modal-secuencia-footer {
+	background: #f8fafc;
+	border-top: 1px solid #e5e8ec;
+	padding: 15px 24px;
+}
+
+#alertaSecuenciaFacturas {
+	border-radius: 8px;
+	border-left: 5px solid #f0ad4e;
+}
+
+/* ==========================
+   CAMPOS BLOQUEADOS
+========================== */
+.campo-bloqueado input,
+.campo-bloqueado textarea {
+	background-color: #f1f3f5 !important;
+	cursor: not-allowed;
+}
+
+.campo-bloqueado .input-group-text {
+	background-color: #e9ecef !important;
+	color: #7a838c !important;
+	cursor: not-allowed;
+}
+
+.bootstrap-select.disabled .dropdown-toggle,
+.bootstrap-select > .disabled {
+	background-color: #f1f3f5 !important;
+	cursor: not-allowed !important;
+}
+
+/* ==========================
+   RADIO BUTTON ESTADO
+========================== */
+.estado-radio-group {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 10px;
+	width: 100%;
+}
+
+.estado-option {
+	position: relative;
+	display: block;
+	margin: 0;
+	cursor: pointer;
+	user-select: none;
+}
+
+.estado-option input {
+	position: absolute;
+	opacity: 0;
+	width: 0;
+	height: 0;
+	pointer-events: none;
+}
+
+.estado-option span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 100%;
+	min-height: 38px;
+	padding: 8px 12px;
+	border: 1px solid #ccd4dd;
+	border-radius: 6px;
+	background: #ffffff;
+	color: #495057;
+	font-size: 14px;
+	font-weight: 600;
+	transition: all 0.18s ease;
+}
+
+.estado-option span i {
+	font-size: 15px;
+}
+
+.estado-option:hover span {
+	background: #f8fafc;
+	border-color: #9fb6cc;
+}
+
+.estado-activo input:checked + span {
+	background: #e9f8ef;
+	border-color: #28a745;
+	color: #1e7e34;
+	box-shadow: 0 0 0 0.12rem rgba(40, 167, 69, 0.12);
+}
+
+.estado-inactivo input:checked + span {
+	background: #fdecec;
+	border-color: #dc3545;
+	color: #b02a37;
+	box-shadow: 0 0 0 0.12rem rgba(220, 53, 69, 0.12);
+}
+
+.estado-option input:disabled + span {
+	background: #f1f3f5 !important;
+	border-color: #d6dbe0 !important;
+	color: #8a939c !important;
+	cursor: not-allowed;
+	box-shadow: none !important;
+}
+
+.estado-option input:disabled + span i {
+	color: #8a939c !important;
+}
+
+/* ==========================
+   RADIO BUTTON BLOQUEADO
+========================== */
+.estado-radio-group.estado-bloqueado .estado-option {
+	cursor: not-allowed;
+}
+
+.estado-radio-group.estado-bloqueado .estado-option span {
+	background: #f1f3f5 !important;
+	border-color: #d6dbe0 !important;
+	color: #8a939c !important;
+	cursor: not-allowed;
+}
+
+/* ==========================
+   MODAL RESPONSIVE
+========================== */
+.modal-xl {
+	max-width: 1140px;
+}
+
+@media (max-width: 768px) {
+	.modal-secuencia-header {
+		padding: 15px;
+	}
+
+	.modal-secuencia-footer {
+		padding: 12px 15px;
+	}
+
+	.estado-radio-group {
+		grid-template-columns: 1fr;
+	}
+}
+/*FIN ESTILO PARA LA SECUENCIA DE FACTURACION*/

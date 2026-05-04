@@ -59,100 +59,326 @@ function getColaboradorConsulta(){
 }
 //FIN OBTENER COLABORADOR CONSULTA
 
+
 //INICIO FUNCION COBRAR
-function pay(facturas_id){
-	if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6){
-		$('#formulario_facturacion')[0].reset();
-		$("#formulario_facturacion #invoiceItem > tbody").empty();//limpia solo los registros del body
-		var url = '<?php echo SERVERURL; ?>php/facturacion/editarFactura.php';
-			$.ajax({
-			type:'POST',
-			url:url,
-			data:'facturas_id='+facturas_id,
-			success: function(valores){
-				var datos = eval(valores);
-				$('#formulario_facturacion #facturas_id').val(facturas_id);
+function limpiarFormularioFacturaAntesDeCargar() {
+    if ($('#formulario_facturacion').length) {
+        $('#formulario_facturacion')[0].reset();
+    }
 
-				$('#formulario_facturacion #pacientes_id').val(datos[0]);
-				$('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+    /*
+        Limpiar filas dinámicas de productos.
+    */
+    if ($("#formulario_facturacion #invoiceItem > tbody").length) {
+        $("#formulario_facturacion #invoiceItem > tbody").empty();
+    }
 
-				$('#formulario_facturacion #colaborador_id').val(datos[3]);
-				$('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+    /*
+        Quitar bloqueo anterior de tipo factura.
+    */
+    $('#formulario_facturacion #tipo_factura_bloqueado').remove();
 
-				$('#formulario_facturacion #servicio_id').val(datos[5]);
-				$('#formulario_facturacion #servicio_id').selectpicker('refresh');
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('disabled', false);
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('checked', false);
 
-				$('#formulario_facturacion #notes').val(datos[6]);
+    /*
+        IDs y campos ocultos.
+    */
+    $('#formulario_facturacion #facturas_id').val('');
+    $('#formulario_facturacion #proforma_id').val('');
+    $('#formulario_facturacion #notes').val('');
 
-				$('#formulario_facturacion #fecha').attr("readonly", true);
-				$('#formulario_facturacion #validar').attr("disabled", false);
-				$('#formulario_facturacion #addRows').attr("disabled", false);
-				$('#formulario_facturacion #removeRows').attr("disabled", false);
-				$('#formulario_facturacion #validar').show();
-				$('#formulario_facturacion #editar').hide();
-				$('#formulario_facturacion #eliminar').hide();
+    /*
+        Totales principales.
+    */
+    $('#formulario_facturacion #subTotal').val('');
+    $('#formulario_facturacion #taxAmount').val('');
+    $('#formulario_facturacion #taxDescuento').val('');
+    $('#formulario_facturacion #totalAftertax').val('');
 
-				$('#formulario_facturacion #validar').show();
-			    $('#formulario_facturacion #guardar').show();
-			    $('#formulario_facturacion #guardar1').hide();
+    /*
+        Totales footer dentro del form.
+    */
+    $('#formulario_facturacion #subTotalFooter').val('');
+    $('#formulario_facturacion #taxAmountFooter').val('');
+    $('#formulario_facturacion #taxDescuentoFooter').val('');
+    $('#formulario_facturacion #totalAftertaxFooter').val('');
 
-				$('#main_facturacion').hide();
-				$('#label_acciones_factura').html("Factura");
-				$('#facturacion').show();
+    /*
+        Totales footer por ID directo, por si están fuera del form.
+    */
+    $('#subTotalFooter').val('');
+    $('#taxAmountFooter').val('');
+    $('#taxDescuentoFooter').val('');
+    $('#totalAftertaxFooter').val('');
 
-				$('.footer').hide();
-				$('.footer1').show();
+    /*
+        Limpiar cualquier input dinámico de productos.
+    */
+    $('#formulario_facturacion input[id^="productoID_"]').val('');
+    $('#formulario_facturacion input[id^="productName_"]').val('');
+    $('#formulario_facturacion input[id^="quantity_"]').val('');
+    $('#formulario_facturacion input[id^="price_"]').val('');
+    $('#formulario_facturacion input[id^="discount_"]').val('');
+    $('#formulario_facturacion input[id^="total_"]').val('');
+    $('#formulario_facturacion input[id^="valor_isv_"]').val('');
+    $('#formulario_facturacion input[id^="isv_"]').val('');
 
-				return false;
-			}
-		});
+    /*
+        Selects principales.
+    */
+    if ($('#formulario_facturacion #pacientes_id').length) {
+        $('#formulario_facturacion #pacientes_id').val('');
+        $('#formulario_facturacion #pacientes_id').prop('disabled', false);
+        $('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+    }
 
-		var url = '<?php echo SERVERURL; ?>php/facturacion/editarFacturaDetalles.php';
-		var isv_valor = 0.0;
+    if ($('#formulario_facturacion #servicio_id').length) {
+        $('#formulario_facturacion #servicio_id').val('');
+        $('#formulario_facturacion #servicio_id').prop('disabled', false);
+        $('#formulario_facturacion #servicio_id').selectpicker('refresh');
+    }
 
-		$.ajax({
-			type:'POST',
-			url:url,
-			data:'facturas_id='+facturas_id,
-			success:function(data){
-				var datos = eval(data);
-				for(var fila=0; fila < datos.length; fila++){
-					var facturas_detalle_id = datos[fila]["facturas_detalle_id"];
-					var productoID = datos[fila]["productos_id"];
-					var productName = datos[fila]["producto"];
-					var quantity = datos[fila]["cantidad"];
-					var price = datos[fila]["precio"];
-					var discount = datos[fila]["descuento"];
-					var isv = datos[fila]["isv_valor"];
-					var producto_isv = datos[fila]["producto_isv"];
-					isv_valor = parseFloat(isv_valor) + parseFloat(datos[fila]["isv_valor"]);
-					llenarTablaFactura(fila);
-					$('#formulario_facturacion #invoiceItem #facturas_detalle_id_'+ fila).val(facturas_detalle_id);
-					$('#formulario_facturacion #invoiceItem #productoID_'+ fila).val(productoID);
-					$('#formulario_facturacion #invoiceItem #productName_'+ fila).val(productName);
-					$('#formulario_facturacion #invoiceItem #quantity_'+ fila).val(quantity);
-					$('#formulario_facturacion #invoiceItem #price_'+ fila).val(price);
-					$('#formulario_facturacion #invoiceItem #discount_'+ fila).val(discount);
-					$('#formulario_facturacion #invoiceItem #valor_isv_'+ fila).val(isv);
-					$('#formulario_facturacion #invoiceItem #isv_'+ fila).val(data.producto_isv);
-				}
-				$('#formulario_facturacion #taxAmount').val(isv_valor);
-				calculateTotal();
-			}
-		});
-		return false;
-	}else{
-		swal({
-			title: "Acceso Denegado",
-			text: "No tiene permisos para ejecutar esta acción",
-			icon: "error",
-			dangerMode: true,
-			closeOnEsc: false, // Desactiva el cierre con la tecla Esc
-			closeOnClickOutside: false // Desactiva el cierre al hacer clic fuera
-		});
-	}
+    if ($('#formulario_facturacion #colaborador_id').length) {
+        $('#formulario_facturacion #colaborador_id').val('');
+        $('#formulario_facturacion #colaborador_id').prop('disabled', false);
+        $('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+    }
 
-	//MOSTRAMOS EL FORMULARIO PARA EL METODO DE PAGO
+    if ($('#formulario_facturacion #aseguradora_id').length) {
+        $('#formulario_facturacion #aseguradora_id').val('');
+        $('#formulario_facturacion #aseguradora_id').prop('disabled', false);
+        $('#formulario_facturacion #aseguradora_id').selectpicker('refresh');
+    }
+
+    if ($('#formulario_facturacion #fact_empresas_id').length) {
+        $('#formulario_facturacion #fact_empresas_id').val('');
+        $('#formulario_facturacion #fact_empresas_id').prop('disabled', false);
+        $('#formulario_facturacion #fact_empresas_id').selectpicker('refresh');
+    }
+
+    /*
+        Fecha actual.
+    */
+    if ($('#formulario_facturacion #fecha').length) {
+        var hoy = new Date();
+        var mes = String(hoy.getMonth() + 1).padStart(2, '0');
+        var dia = String(hoy.getDate()).padStart(2, '0');
+        var fechaActual = hoy.getFullYear() + '-' + mes + '-' + dia;
+
+        $('#formulario_facturacion #fecha').val(fechaActual);
+        $('#formulario_facturacion #fecha').attr('disabled', false);
+        $('#formulario_facturacion #fecha').attr('readonly', false);
+    }
+
+    /*
+        Botones.
+    */
+    $('#formulario_facturacion #validar').show();
+    $('#formulario_facturacion #guardar').hide();
+    $('#formulario_facturacion #guardar1').show();
+    $('#formulario_facturacion #editar').hide();
+    $('#formulario_facturacion #eliminar').hide();
+
+    $('#formulario_facturacion #validar').attr('disabled', false);
+    $('#formulario_facturacion #guardar').attr('disabled', false);
+    $('#formulario_facturacion #guardar1').attr('disabled', false);
+    $('#formulario_facturacion #addRows').attr('disabled', false);
+    $('#formulario_facturacion #removeRows').attr('disabled', false);
+
+    /*
+        Refrescar todos los selectpicker del formulario.
+    */
+    $('#formulario_facturacion select.selectpicker').selectpicker('refresh');
+
+    /*
+        Recalcular en cero.
+    */
+    if (typeof calculateTotal === 'function') {
+        calculateTotal();
+    }
+}
+
+function bloquearTipoFacturaFormulario(tipo_factura) {
+    tipo_factura = parseInt(tipo_factura || 1);
+
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('checked', false);
+    $('#formulario_facturacion input[name="facturas_activo"][value="' + tipo_factura + '"]').prop('checked', true);
+
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('disabled', true);
+
+    $('#formulario_facturacion #tipo_factura_bloqueado').remove();
+
+    $('#formulario_facturacion').append(
+        '<input type="hidden" id="tipo_factura_bloqueado" name="facturas_activo" value="' + tipo_factura + '">'
+    );
+
+    if (tipo_factura === 1) {
+        $('.breadcrumb').html('<a href="#">Facturación</a> / Factura');
+    } else if (tipo_factura === 2) {
+        $('.breadcrumb').html('<a href="#">Facturación</a> / Factura al Crédito');
+    } else if (tipo_factura === 3) {
+        $('.breadcrumb').html('<a href="#">Facturación</a> / Prefactura / Proforma');
+    }
+}
+
+function pay(facturas_id) {
+    if (getUsuarioSistema() == 1 || getUsuarioSistema() == 2 || getUsuarioSistema() == 5 || getUsuarioSistema() == 6) {
+
+        limpiarFormularioFacturaAntesDeCargar();
+
+        var urlFactura = '<?php echo SERVERURL; ?>php/facturacion/editarFactura.php';
+
+        $.ajax({
+            type: 'POST',
+            url: urlFactura,
+            dataType: 'json',
+            data: {
+                facturas_id: facturas_id
+            },
+            success: function(response) {
+
+                if (!response.ok) {
+                    swal({
+                        title: "Error",
+                        text: response.mensaje || "No se pudo cargar la factura",
+                        icon: "error",
+                        dangerMode: true,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    });
+                    return false;
+                }
+
+                var data = response.data;
+
+                $('#formulario_facturacion #facturas_id').val(data.facturas_id);
+
+                $('#formulario_facturacion #pacientes_id').val(data.pacientes_id);
+                $('#formulario_facturacion #pacientes_id').selectpicker('refresh');
+
+                $('#formulario_facturacion #colaborador_id').val(data.colaborador_id);
+                $('#formulario_facturacion #colaborador_id').selectpicker('refresh');
+
+                $('#formulario_facturacion #servicio_id').val(data.servicio_id);
+                $('#formulario_facturacion #servicio_id').selectpicker('refresh');
+
+                $('#formulario_facturacion #notes').val(data.notas);
+
+                bloquearTipoFacturaFormulario(data.tipo_factura);
+
+                $('#formulario_facturacion #fecha').attr("readonly", true);
+                $('#formulario_facturacion #validar').attr("disabled", false);
+                $('#formulario_facturacion #addRows').attr("disabled", false);
+                $('#formulario_facturacion #removeRows').attr("disabled", false);
+
+                $('#formulario_facturacion #validar').show();
+                $('#formulario_facturacion #editar').hide();
+                $('#formulario_facturacion #eliminar').hide();
+
+                $('#formulario_facturacion #guardar').show();
+                $('#formulario_facturacion #guardar1').hide();
+
+                $('#main_facturacion').hide();
+                $('#facturacion').show();
+
+                $('.footer').hide();
+                $('.footer1').show();
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+
+                swal({
+                    title: "Error",
+                    text: "No se pudo cargar la información de la factura",
+                    icon: "error",
+                    dangerMode: true,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false
+                });
+            }
+        });
+
+        var urlDetalle = '<?php echo SERVERURL; ?>php/facturacion/editarFacturaDetalles.php';
+        var isv_valor = 0.0;
+
+        $.ajax({
+            type: 'POST',
+            url: urlDetalle,
+            dataType: 'json',
+            data: {
+                facturas_id: facturas_id
+            },
+            success: function(response) {
+
+                if (!response.ok) {
+                    swal({
+                        title: "Error",
+                        text: response.mensaje || "No se pudo cargar el detalle de la factura",
+                        icon: "error",
+                        dangerMode: true,
+                        closeOnEsc: false,
+                        closeOnClickOutside: false
+                    });
+                    return false;
+                }
+
+                var datos = response.data;
+
+                for (var fila = 0; fila < datos.length; fila++) {
+
+                    var facturas_detalle_id = datos[fila].facturas_detalle_id;
+                    var productoID = datos[fila].productos_id;
+                    var productName = datos[fila].producto;
+                    var quantity = datos[fila].cantidad;
+                    var price = datos[fila].precio;
+                    var discount = datos[fila].descuento;
+                    var isv = datos[fila].isv_valor;
+                    var producto_isv = datos[fila].producto_isv;
+
+                    isv_valor = parseFloat(isv_valor) + parseFloat(isv || 0);
+
+                    llenarTablaFactura(fila);
+
+                    $('#formulario_facturacion #invoiceItem #facturas_detalle_id_' + fila).val(facturas_detalle_id);
+                    $('#formulario_facturacion #invoiceItem #productoID_' + fila).val(productoID);
+                    $('#formulario_facturacion #invoiceItem #productName_' + fila).val(productName);
+                    $('#formulario_facturacion #invoiceItem #quantity_' + fila).val(quantity);
+                    $('#formulario_facturacion #invoiceItem #price_' + fila).val(price);
+                    $('#formulario_facturacion #invoiceItem #discount_' + fila).val(discount);
+                    $('#formulario_facturacion #invoiceItem #valor_isv_' + fila).val(isv);
+                    $('#formulario_facturacion #invoiceItem #isv_' + fila).val(producto_isv);
+                }
+
+                $('#formulario_facturacion #taxAmount').val(isv_valor);
+                calculateTotal();
+            },
+            error: function(xhr) {
+                console.log(xhr.responseText);
+
+                swal({
+                    title: "Error",
+                    text: "No se pudo cargar el detalle de la factura",
+                    icon: "error",
+                    dangerMode: true,
+                    closeOnEsc: false,
+                    closeOnClickOutside: false
+                });
+            }
+        });
+
+        return false;
+
+    } else {
+        swal({
+            title: "Acceso Denegado",
+            text: "No tiene permisos para ejecutar esta acción",
+            icon: "error",
+            dangerMode: true,
+            closeOnEsc: false,
+            closeOnClickOutside: false
+        });
+    }
 }
 //FIN FUNCION COBRAR
 
@@ -174,35 +400,56 @@ function funciones(){
 }
 //FIN FUNCION PARA OBTENER LAS FUNCIONES
 
-//INICIO PAGINACION DE REGISTROS
-function pagination(partida){
-	var url = '<?php echo SERVERURL; ?>php/facturacion/paginar.php';
+// INICIO PAGINACION DE REGISTROS
+function pagination(partida) {
+    var url = '<?php echo SERVERURL; ?>php/facturacion/paginar.php';
 
-	var fechai = $('#form_main #fecha_b').val();
-  var fechaf = $('#form_main #fecha_f').val();
-  var dato =  $('#form_main #bs_regis').val()
-  var clientes = $('#form_main #clientes').val();
-  var profesional = $('#form_main #profesional').val();
-  var estado = '';
+    var fechai = $('#form_main #fecha_b').val();
+    var fechaf = $('#form_main #fecha_f').val();
+    var dato = $('#form_main #bs_regis').val();
+    var clientes = $('#form_main #clientes').val();
+    var profesional = $('#form_main #profesional').val();
+    var estado = '';
 
-  if($('#form_main #estado').val() == ""){
-    estado = 1;
-  }else{
-    estado = $('#form_main #estado').val();
-  }
+    if ($('#form_main #estado').val() == "") {
+        estado = 1;
+    } else {
+        estado = $('#form_main #estado').val();
+    }
 
-	$.ajax({
-		type:'POST',
-		url:url,
-		async: true,
-		data:'partida='+partida+'&fechai='+fechai+'&fechaf='+fechaf+'&dato='+dato+'&clientes='+clientes+'&profesional='+profesional+'&estado='+estado,
-		success:function(data){
-			var array = eval(data);
-			$('#agrega-registros').html(array[0]);
-			$('#pagination').html(array[1]);
-		}
-	});
-	return false;
+    $.ajax({
+        type: 'POST',
+        url: url,
+        async: true,
+        dataType: 'json',
+        data: {
+            partida: partida,
+            fechai: fechai,
+            fechaf: fechaf,
+            dato: dato,
+            clientes: clientes,
+            profesional: profesional,
+            estado: estado
+        },
+        success: function (array) {
+            $('#agrega-registros').html(array[0]);
+            $('#pagination').html(array[1]);
+
+            if ($('[data-toggle="tooltip"]').length) {
+                $('[data-toggle="tooltip"]').tooltip();
+            }
+        },
+        error: function (xhr) {
+            console.log("Error paginación:", xhr.responseText);
+
+            $('#agrega-registros').html(
+                '<div class="alert alert-danger">No se pudo cargar la información.</div>'
+            );
+            $('#pagination').html('');
+        }
+    });
+
+    return false;
 }
 //FIN PAGINACION DE REGISTROS
 
@@ -432,22 +679,78 @@ function modal_pagos(){
 	});
 }
 
-function formFactura(){
-	 $('#formulario_facturacion')[0].reset();
-	 $('#main_facturacion').hide();
-	 $('#facturacion').show();
-	 $('#label_acciones_volver').html("Facturación");
-	 $('#acciones_atras').removeClass("active");
-	 $('#acciones_factura').addClass("active");
-	 $('#label_acciones_factura').html("Factura");
-	 $('#formulario_facturacion #fecha').attr('disabled', false);
-	 limpiarTabla();
-	 $('.footer').hide();
-     $('.footer1').show();
-	 cleanFooterValueBill();
-	 $('#formulario_facturacion #validar').show();
-	 $('#formulario_facturacion #guardar').hide();
-	 $('#formulario_facturacion #guardar1').show();;
+function formFactura() {
+    /*
+        Limpia completamente el formulario antes de abrirlo.
+        Esto evita que se quede pegado el paciente, servicio,
+        tipo de factura, detalle o totales de una factura anterior.
+    */
+    limpiarFormularioFacturaAntesDeCargar();
+
+    $('#main_facturacion').hide();
+    $('#facturacion').show();
+
+    $('#label_acciones_volver').html("Facturación");
+    $('#acciones_atras').removeClass("active");
+    $('#acciones_factura').addClass("active");
+    $('#label_acciones_factura').html("Factura");
+
+    $('.breadcrumb').html('<a href="#">Facturación</a> / Factura');
+
+    $('#formulario_facturacion #fecha').attr('disabled', false);
+    $('#formulario_facturacion #fecha').attr('readonly', false);
+
+    /*
+        Tipo de factura inicial.
+        Aquí lo dejamos en contado por defecto,
+        pero sin bloquearlo para que el usuario pueda cambiar a crédito o proforma.
+    */
+    $('#formulario_facturacion #tipo_factura_bloqueado').remove();
+
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('disabled', false);
+    $('#formulario_facturacion input[name="facturas_activo"]').prop('checked', false);
+    $('#formulario_facturacion input[name="facturas_activo"][value="1"]').prop('checked', true);
+
+    /*
+        Limpiar tabla y totales.
+    */
+    limpiarTabla();
+    cleanFooterValueBill();
+
+    /*
+        Mostrar footer correcto.
+    */
+    $('.footer').hide();
+    $('.footer1').show();
+
+    /*
+        Estado de botones para nueva factura.
+    */
+    $('#formulario_facturacion #validar').show();
+    $('#formulario_facturacion #guardar').hide();
+    $('#formulario_facturacion #guardar1').show();
+
+    $('#formulario_facturacion #validar').attr('disabled', false);
+    $('#formulario_facturacion #guardar').attr('disabled', false);
+    $('#formulario_facturacion #guardar1').attr('disabled', false);
+    $('#formulario_facturacion #addRows').attr('disabled', false);
+    $('#formulario_facturacion #removeRows').attr('disabled', false);
+
+    /*
+        Configurar acción del formulario.
+        Este es el flujo de prefactura temporal.
+    */
+    $('#formulario_facturacion').attr({
+        'data-form': 'save',
+        'action': '<?php echo SERVERURL; ?>php/facturacion/addPreFactura.php'
+    });
+
+    /*
+        Refrescar selectpicker después de limpiar.
+    */
+    $('#formulario_facturacion select.selectpicker').selectpicker('refresh');
+
+    accion = true;
 }
 
 $(document).ready(function() {
