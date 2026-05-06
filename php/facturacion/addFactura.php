@@ -144,9 +144,39 @@ function ejecutar_sql($mysqli, $sql, $types = "", $params = array()) {
         throw new Exception("Error ejecutando operación: " . $stmt->error);
     }
 
+    $affected_rows = $stmt->affected_rows;
     $stmt->close();
 
-    return true;
+    return $affected_rows;
+}
+
+function numero_documento_existe($mysqli, $empresa_id, $secuencia_facturacion_id, $numero, $facturas_id_actual = 0) {
+    if ($facturas_id_actual > 0) {
+        return consultar_uno(
+            $mysqli,
+            "SELECT facturas_id
+            FROM facturas
+            WHERE empresa_id = ?
+              AND secuencia_facturacion_id = ?
+              AND number = ?
+              AND facturas_id <> ?
+            LIMIT 1",
+            "iiii",
+            array($empresa_id, $secuencia_facturacion_id, $numero, $facturas_id_actual)
+        );
+    }
+
+    return consultar_uno(
+        $mysqli,
+        "SELECT facturas_id
+        FROM facturas
+        WHERE empresa_id = ?
+          AND secuencia_facturacion_id = ?
+          AND number = ?
+        LIMIT 1",
+        "iii",
+        array($empresa_id, $secuencia_facturacion_id, $numero)
+    );
 }
 
 /* ============================================================
@@ -168,6 +198,8 @@ if (!isset($_SESSION['colaborador_id']) || !isset($_SESSION['empresa_id'])) {
 
 $pacientes_id = post_int("pacientes_id");
 $facturas_id = post_int("facturas_id");
+$facturas_id_original = $facturas_id;
+
 $colaborador_id = post_int("colaborador_id");
 $servicio_id = post_int("servicio_id");
 
@@ -199,8 +231,8 @@ if (!in_array($tipo_factura, array(1, 2, 3))) {
 
 /*
    documento_id:
-   1 = Factura Electrónica
-   4 = Proforma
+   1 = Factura Electrónica: contado y crédito usan esta misma secuencia.
+   4 = Proforma: usa su propia secuencia.
 */
 $documento_id = 1;
 
@@ -218,15 +250,6 @@ if (isset($_POST['proforma_id']) && $_POST['proforma_id'] !== "") {
    TIPO DE RESPUESTA PARA TU JS
 ============================================================ */
 
-/*
-   IMPORTANTE:
-   Contado  => Facturacion
-   Crédito  => FacturacionCredito
-   Proforma => Facturacion1
-
-   Para Proforma usamos Facturacion1 porque después de generar
-   debe volver al listado y refrescar pagination(1).
-*/
 $tipo = "Facturacion";
 
 if ($tipo_factura == 2) {
@@ -295,12 +318,15 @@ if (!$detalleValido) {
 ============================================================ */
 
 $tablas_bloqueadas = false;
+$factura_insertada_nueva = false;
+$documento_movimiento = "";
+$inventario_revertir = array();
 
 try {
 
     /*
-       MyISAM no maneja transacciones reales.
-       LOCK TABLES evita que varios usuarios consuman la misma secuencia.
+       Se conserva tu lógica actual con LOCK TABLES.
+       Esto protege la secuencia aunque haya varios usuarios facturando.
     */
     $mysqli->query("
         LOCK TABLES
@@ -312,6 +338,10 @@ try {
             categoria_producto READ,
             isv READ
     ");
+
+    if ($mysqli->error) {
+        throw new Exception("No se pudieron bloquear las tablas: " . $mysqli->error);
+    }
 
     $tablas_bloqueadas = true;
 
@@ -351,10 +381,18 @@ try {
     $numero_secuencia = (int)$secuencia['numero'];
     $rango_final = (int)$secuencia['rango_final'];
     $fecha_limite = $secuencia['fecha_limite'];
-    $incremento = (int)$secuencia['incremento'];
 
-    if ($incremento <= 0) {
-        $incremento = 1;
+    /*
+       IMPORTANTE:
+       Contado y crédito usan documento_id = 1.
+       Proforma usa documento_id = 4.
+       No se busca otro número.
+       Se usa exactamente el número que dice secuencia_facturacion.siguiente.
+    */
+    $incremento = 1;
+
+    if ($numero_secuencia <= 0) {
+        throw new Exception("La secuencia activa tiene un número inválido.");
     }
 
     if ($rango_final > 0 && $numero_secuencia > $rango_final) {
@@ -395,22 +433,113 @@ try {
     }
 
     /* ============================================================
-       ESTADO FINAL AL GENERAR DOCUMENTO
-       1 = Borrador
-       2 = Procesada / Pagada según tu flujo actual
-       3 = Cancelada
-       4 = Crédito
-       5 = Proforma
+       VALIDAR QUE EL NÚMERO EXACTO NO EXISTA
+       No se brinca al siguiente.
     ============================================================ */
 
-    $estado_factura = 2; // Contado generado/procesado
+    $numeroExistente = numero_documento_existe(
+        $mysqli,
+        $empresa_id,
+        $secuencia_facturacion_id,
+        $numero_secuencia,
+        $facturas_id
+    );
+
+    if ($numeroExistente) {
+        throw new Exception("El número fiscal " . $numero_secuencia . " ya existe. Revise la secuencia antes de continuar.");
+    }
+
+    /* ============================================================
+       OBTENER PORCENTAJE ISV
+    ============================================================ */
+
+    $porcentajeISV = 0;
+
+    $rowISV = consultar_uno(
+        $mysqli,
+        "SELECT nombre FROM isv LIMIT 1"
+    );
+
+    if ($rowISV) {
+        $porcentajeISV = (float)$rowISV['nombre'];
+    }
+
+    /* ============================================================
+       PREVALIDAR PRODUCTOS ANTES DE CONSUMIR SECUENCIA
+    ============================================================ */
+
+    $detalleProcesar = array();
+
+    for ($i = 0; $i < count($productNameArray); $i++) {
+
+        $productoID = post_int_array($productoIDArray, $i);
+        $productName = post_string_array($productNameArray, $i);
+        $quantity = post_float_array($quantityArray, $i);
+        $price = post_float_array($priceArray, $i);
+        $discount = post_float_array($discountArray, $i);
+        $total = post_float_array($totalArray, $i);
+
+        if ($productoID <= 0 || $productName === "" || $quantity <= 0 || $price < 0 || $total < 0) {
+            continue;
+        }
+
+        $rowProducto = consultar_uno(
+            $mysqli,
+            "SELECT 
+                productos.productos_id,
+                productos.isv,
+                productos.cantidad,
+                categoria_producto.nombre AS categoria
+            FROM productos
+            INNER JOIN categoria_producto
+                ON productos.categoria_producto_id = categoria_producto.categoria_producto_id
+            WHERE productos.productos_id = ?
+            LIMIT 1",
+            "i",
+            array($productoID)
+        );
+
+        if (!$rowProducto) {
+            throw new Exception("No existe el producto con código " . $productoID . ".");
+        }
+
+        $aplica_isv = (int)$rowProducto['isv'];
+        $cantidad_actual = (float)$rowProducto['cantidad'];
+        $categoria_producto = $rowProducto['categoria'];
+
+        $isv_valor = 0;
+
+        if ($aplica_isv == 1) {
+            $isv_valor = ($price * $quantity) * ($porcentajeISV / 100);
+        }
+
+        $detalleProcesar[] = array(
+            "productos_id" => $productoID,
+            "cantidad" => $quantity,
+            "precio" => $price,
+            "descuento" => $discount,
+            "isv_valor" => $isv_valor,
+            "categoria" => $categoria_producto,
+            "cantidad_actual" => $cantidad_actual
+        );
+    }
+
+    if (count($detalleProcesar) <= 0) {
+        throw new Exception("No se encontró ningún detalle válido para procesar.");
+    }
+
+    /* ============================================================
+       ESTADO FINAL AL GENERAR DOCUMENTO
+    ============================================================ */
+
+    $estado_factura = 2;
 
     if ($tipo_factura == 2) {
-        $estado_factura = 4; // Crédito
+        $estado_factura = 4;
     }
 
     if ($tipo_factura == 3) {
-        $estado_factura = 5; // Proforma generada
+        $estado_factura = 5;
     }
 
     /* ============================================================
@@ -420,6 +549,7 @@ try {
     if ($facturas_id <= 0) {
 
         $facturas_id = correlativo_local($mysqli, "facturas_id", "facturas");
+        $factura_insertada_nueva = true;
 
         ejecutar_sql(
             $mysqli,
@@ -511,21 +641,6 @@ try {
     }
 
     /* ============================================================
-       CONSUMIR SECUENCIA
-    ============================================================ */
-
-    $numero_siguiente = $numero_secuencia + $incremento;
-
-    ejecutar_sql(
-        $mysqli,
-        "UPDATE secuencia_facturacion
-        SET siguiente = ?
-        WHERE secuencia_facturacion_id = ?",
-        "ii",
-        array($numero_siguiente, $secuencia_facturacion_id)
-    );
-
-    /* ============================================================
        LIMPIAR DETALLE ACTUAL
     ============================================================ */
 
@@ -538,70 +653,21 @@ try {
     );
 
     /* ============================================================
-       OBTENER PORCENTAJE ISV
-    ============================================================ */
-
-    $porcentajeISV = 0;
-
-    $rowISV = consultar_uno(
-        $mysqli,
-        "SELECT nombre FROM isv LIMIT 1"
-    );
-
-    if ($rowISV) {
-        $porcentajeISV = (float)$rowISV['nombre'];
-    }
-
-    /* ============================================================
-       INSERTAR DETALLE
+       INSERTAR DETALLE E INVENTARIO
     ============================================================ */
 
     $total_valor = 0;
     $descuentos = 0;
     $isv_neto = 0;
 
-    for ($i = 0; $i < count($productNameArray); $i++) {
+    foreach ($detalleProcesar as $detalle) {
 
-        $productoID = post_int_array($productoIDArray, $i);
-        $productName = post_string_array($productNameArray, $i);
-        $quantity = post_float_array($quantityArray, $i);
-        $price = post_float_array($priceArray, $i);
-        $discount = post_float_array($discountArray, $i);
-        $total = post_float_array($totalArray, $i);
-
-        if ($productoID <= 0 || $productName === "" || $quantity <= 0 || $price < 0 || $total < 0) {
-            continue;
-        }
-
-        /* ========================================================
-           CONSULTAR SI EL PRODUCTO APLICA ISV
-        ======================================================== */
-
-        $aplica_isv = 0;
-
-        $rowProductoISV = consultar_uno(
-            $mysqli,
-            "SELECT isv
-            FROM productos
-            WHERE productos_id = ?
-            LIMIT 1",
-            "i",
-            array($productoID)
-        );
-
-        if ($rowProductoISV) {
-            $aplica_isv = (int)$rowProductoISV['isv'];
-        }
-
-        $isv_valor = 0;
-
-        if ($aplica_isv == 1) {
-            $isv_valor = ($price * $quantity) * ($porcentajeISV / 100);
-        }
-
-        /* ========================================================
-           INSERTAR DETALLE
-        ======================================================== */
+        $productoID = (int)$detalle['productos_id'];
+        $quantity = (float)$detalle['cantidad'];
+        $price = (float)$detalle['precio'];
+        $discount = (float)$detalle['descuento'];
+        $isv_valor = (float)$detalle['isv_valor'];
+        $categoria_producto = $detalle['categoria'];
 
         $facturas_detalle_id = correlativo_local($mysqli, "facturas_detalle_id", "facturas_detalle");
 
@@ -628,117 +694,98 @@ try {
             )
         );
 
-        /* ========================================================
-           INVENTARIO
+        /*
            Proforma NO descuenta inventario.
-        ======================================================== */
+           Contado y crédito SÍ descuentan inventario.
+        */
+        if ($tipo_factura != 3 && $categoria_producto == "Producto") {
 
-        if ($tipo_factura != 3) {
+            $documento_movimiento = "Factura " . $facturas_id;
 
-            $rowCategoria = consultar_uno(
+            $movimientoExistente = consultar_uno(
                 $mysqli,
-                "SELECT categoria_producto.nombre AS categoria
-                FROM productos
-                INNER JOIN categoria_producto
-                    ON productos.categoria_producto_id = categoria_producto.categoria_producto_id
-                WHERE productos.productos_id = ?
-                GROUP BY productos.productos_id
+                "SELECT movimientos_id
+                FROM movimientos
+                WHERE productos_id = ? AND documento = ?
                 LIMIT 1",
-                "i",
-                array($productoID)
+                "is",
+                array($productoID, $documento_movimiento)
             );
 
-            $categoria_producto = "";
+            if (!$movimientoExistente) {
 
-            if ($rowCategoria) {
-                $categoria_producto = $rowCategoria['categoria'];
-            }
-
-            if ($categoria_producto == "Producto") {
-
-                $documento = "Factura " . $facturas_id;
-
-                $movimientoExistente = consultar_uno(
+                $rowProductoCantidad = consultar_uno(
                     $mysqli,
-                    "SELECT movimientos_id
-                    FROM movimientos
-                    WHERE productos_id = ? AND documento = ?
+                    "SELECT cantidad
+                    FROM productos
+                    WHERE productos_id = ?
                     LIMIT 1",
-                    "is",
-                    array($productoID, $documento)
+                    "i",
+                    array($productoID)
                 );
 
-                if (!$movimientoExistente) {
-
-                    $rowProductoCantidad = consultar_uno(
-                        $mysqli,
-                        "SELECT cantidad
-                        FROM productos
-                        WHERE productos_id = ?
-                        LIMIT 1",
-                        "i",
-                        array($productoID)
-                    );
-
-                    $cantidad_productos = 0;
-
-                    if ($rowProductoCantidad) {
-                        $cantidad_productos = (float)$rowProductoCantidad['cantidad'];
-                    }
-
-                    $nueva_cantidad = $cantidad_productos - $quantity;
-
-                    ejecutar_sql(
-                        $mysqli,
-                        "UPDATE productos
-                        SET cantidad = ?
-                        WHERE productos_id = ?",
-                        "di",
-                        array($nueva_cantidad, $productoID)
-                    );
-
-                    $rowMovimiento = consultar_uno(
-                        $mysqli,
-                        "SELECT saldo
-                        FROM movimientos
-                        WHERE productos_id = ?
-                        ORDER BY movimientos_id DESC
-                        LIMIT 1",
-                        "i",
-                        array($productoID)
-                    );
-
-                    $saldo_productos = 0;
-
-                    if ($rowMovimiento) {
-                        $saldo_productos = (float)$rowMovimiento['saldo'];
-                    }
-
-                    $saldo = $saldo_productos - $quantity;
-
-                    $cantidad_entrada = 0;
-                    $cantidad_salida = $quantity;
-
-                    $movimientos_id = correlativo_local($mysqli, "movimientos_id", "movimientos");
-                    $comentario_movimientos = "Salida por Facturación";
-
-                    ejecutar_sql(
-                        $mysqli,
-                        "INSERT INTO movimientos
-                        VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
-                        "iisdddss",
-                        array(
-                            $movimientos_id,
-                            $productoID,
-                            $documento,
-                            $cantidad_entrada,
-                            $cantidad_salida,
-                            $saldo,
-                            $fecha_registro,
-                            $comentario_movimientos
-                        )
-                    );
+                if (!$rowProductoCantidad) {
+                    throw new Exception("No se encontró inventario para el producto " . $productoID . ".");
                 }
+
+                $cantidad_productos = (float)$rowProductoCantidad['cantidad'];
+                $nueva_cantidad = $cantidad_productos - $quantity;
+
+                $inventario_revertir[] = array(
+                    "productos_id" => $productoID,
+                    "cantidad_anterior" => $cantidad_productos
+                );
+
+                ejecutar_sql(
+                    $mysqli,
+                    "UPDATE productos
+                    SET cantidad = ?
+                    WHERE productos_id = ?",
+                    "di",
+                    array($nueva_cantidad, $productoID)
+                );
+
+                $rowMovimiento = consultar_uno(
+                    $mysqli,
+                    "SELECT saldo
+                    FROM movimientos
+                    WHERE productos_id = ?
+                    ORDER BY movimientos_id DESC
+                    LIMIT 1",
+                    "i",
+                    array($productoID)
+                );
+
+                $saldo_productos = 0;
+
+                if ($rowMovimiento) {
+                    $saldo_productos = (float)$rowMovimiento['saldo'];
+                }
+
+                $saldo = $saldo_productos - $quantity;
+
+                $cantidad_entrada = 0;
+                $cantidad_salida = $quantity;
+
+                $movimientos_id = correlativo_local($mysqli, "movimientos_id", "movimientos");
+                $comentario_movimientos = "Salida por Facturación";
+
+                ejecutar_sql(
+                    $mysqli,
+                    "INSERT INTO movimientos
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+                    "iisdddss",
+                    array(
+                        $movimientos_id,
+                        $productoID,
+                        $documento_movimiento,
+                        $cantidad_entrada,
+                        $cantidad_salida,
+                        $saldo,
+                        $fecha_registro,
+                        $comentario_movimientos
+                    )
+                );
             }
         }
 
@@ -746,6 +793,10 @@ try {
         $descuentos += $discount;
         $isv_neto += $isv_valor;
     }
+
+    /* ============================================================
+       ACTUALIZAR IMPORTE FINAL
+    ============================================================ */
 
     $total_despues_isv = ($total_valor + $isv_neto) - $descuentos;
 
@@ -757,6 +808,33 @@ try {
         "di",
         array($total_despues_isv, $facturas_id)
     );
+
+    /* ============================================================
+       CONSUMIR SECUENCIA AL FINAL
+       Solo aquí se avanza el correlativo.
+       Si algo falló antes, no se consume.
+    ============================================================ */
+
+    $numero_siguiente = $numero_secuencia + 1;
+
+    $filasSecuencia = ejecutar_sql(
+        $mysqli,
+        "UPDATE secuencia_facturacion
+        SET siguiente = ?,
+            incremento = 1
+        WHERE secuencia_facturacion_id = ?
+          AND siguiente = ?",
+        "iii",
+        array(
+            $numero_siguiente,
+            $secuencia_facturacion_id,
+            $numero_secuencia
+        )
+    );
+
+    if ($filasSecuencia <= 0) {
+        throw new Exception("La secuencia fue modificada antes de finalizar. No se consumió el número.");
+    }
 
     $mysqli->query("UNLOCK TABLES");
     $tablas_bloqueadas = false;
@@ -794,7 +872,36 @@ try {
 
 } catch (Exception $e) {
 
+    /*
+       Limpieza manual básica porque no estamos cambiando tablas ni usando transacciones.
+       Si falló una factura nueva antes de consumir secuencia, se elimina para no dejar
+       documentos incompletos con número fiscal.
+    */
     if ($tablas_bloqueadas) {
+
+        if ($factura_insertada_nueva && $facturas_id > 0) {
+
+            if ($documento_movimiento !== "") {
+                $mysqli->query("DELETE FROM movimientos WHERE documento = '" . $mysqli->real_escape_string($documento_movimiento) . "'");
+            } else {
+                $mysqli->query("DELETE FROM movimientos WHERE documento = 'Factura " . (int)$facturas_id . "'");
+            }
+
+            for ($r = 0; $r < count($inventario_revertir); $r++) {
+                $prod_id_revertir = (int)$inventario_revertir[$r]['productos_id'];
+                $cantidad_anterior = (float)$inventario_revertir[$r]['cantidad_anterior'];
+
+                $mysqli->query("
+                    UPDATE productos
+                    SET cantidad = " . $cantidad_anterior . "
+                    WHERE productos_id = " . $prod_id_revertir . "
+                ");
+            }
+
+            $mysqli->query("DELETE FROM facturas_detalle WHERE facturas_id = " . (int)$facturas_id);
+            $mysqli->query("DELETE FROM facturas WHERE facturas_id = " . (int)$facturas_id);
+        }
+
         $mysqli->query("UNLOCK TABLES");
     }
 
